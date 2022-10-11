@@ -5,8 +5,12 @@ module.exports = {
       common: "src/common",
       components: "src/components",
       constants: "src/constants",
+      contexts: "src/contexts",
+      reducers: "src/reducers",
+      neetoui: "@bigbinary/neetoui",
+      neetoicons: "@bigbinary/neeto-icons",
       utils: "src/utils",
-      images: "src/images",
+      lib: "src/lib",
     },
   },
 };
