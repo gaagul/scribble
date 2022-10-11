@@ -5,6 +5,8 @@ class Article < ApplicationRecord
   validates :slug, uniqueness: true
   validate :slug_not_changed
 
+  belongs_to :category
+
   before_create :set_slug
 
   private
