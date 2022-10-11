@@ -3,6 +3,6 @@
 json.categories @categories do | category |
   json.extract! category,
     :id,
-    :name
+    :title
   json.count category.articles.count
 end
