@@ -8,6 +8,7 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import SideMenuBar from "./SideMenu";
+import Table from "./Table";
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -104,6 +105,7 @@ const Articles = () => {
             </Typography>
           }
         />
+        <Table />
       </Container>
     </div>
   );
