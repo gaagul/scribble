@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Textarea, ActionDropdown } from "neetoui";
+import { Textarea, ActionDropdown, Button } from "neetoui";
 import { Input, Select } from "neetoui/formik";
 
 import articlesApi from "apis/articles";
@@ -22,7 +22,13 @@ const Form = ({ article, isEdit, categories }) => {
           user: "Oliver Smith",
         });
       } else {
-        await articlesApi.acreate(values);
+        await articlesApi.create({
+          title: values.title,
+          body: values.body,
+          category_id: values.category.value,
+          status: articleStatus,
+          user: "Oliver Smith",
+        });
       }
     } catch (err) {
       logger.error(err);
@@ -39,13 +45,13 @@ const Form = ({ article, isEdit, categories }) => {
     >
       {({ isSubmitting }) => (
         <FormikForm className="w-fill">
-          <div className="flex">
+          <div className="m-4 flex">
             <Input required label="Article Title" name="title" />
             <Select
               isSearchable
               required
               label="Category"
-              name="categoryId"
+              name="category"
               placeholder="Select a Category"
               options={categories.map(category => ({
                 value: category.id,
@@ -54,25 +60,28 @@ const Form = ({ article, isEdit, categories }) => {
             />
           </div>
           <Textarea label="Article Body" name="body" rows="20" />
-          <ActionDropdown
-            disabled={isSubmitting}
-            label="Save Draft"
-            loading={isSubmitting}
-            type="submit"
-            onClick={() => setSubmitted(true)}
-          >
-            <Menu>
-              <MenuItem.Button
-                type="submit"
-                onClick={() => {
-                  setArticleStatus("published");
-                  setSubmitted(true);
-                }}
-              >
-                Publish
-              </MenuItem.Button>
-            </Menu>
-          </ActionDropdown>
+          <div className="m-2 flex">
+            <ActionDropdown
+              disabled={isSubmitting}
+              label="Save Draft"
+              loading={isSubmitting}
+              type="submit"
+              onClick={() => setSubmitted(true)}
+            >
+              <Menu>
+                <MenuItem.Button
+                  type="submit"
+                  onClick={() => {
+                    setArticleStatus("published");
+                    setSubmitted(true);
+                  }}
+                >
+                  Publish
+                </MenuItem.Button>
+              </Menu>
+            </ActionDropdown>
+            <Button label="Cancel" style="text" to="/" />
+          </div>
         </FormikForm>
       )}
     </Formik>
