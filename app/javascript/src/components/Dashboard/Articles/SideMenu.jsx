@@ -18,7 +18,7 @@ const SideMenuBar = ({
     <MenuBar showMenu title="Articles">
       <MenuBar.Block
         active={activeStatus === "all"}
-        count={count.all_count}
+        count={count.allCount}
         label="All"
         onClick={() => {
           setActiveStatus("all");
@@ -26,7 +26,7 @@ const SideMenuBar = ({
       />
       <MenuBar.Block
         active={activeStatus === "draft"}
-        count={count.draft_count}
+        count={count.draftCount}
         label="Draft"
         onClick={() => {
           setActiveStatus("draft");
@@ -34,7 +34,7 @@ const SideMenuBar = ({
       />
       <MenuBar.Block
         active={activeStatus === "published"}
-        count={count.published_count}
+        count={count.publishedCount}
         label="Published"
         onClick={() => {
           setActiveStatus("published");

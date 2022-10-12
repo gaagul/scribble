@@ -11,7 +11,7 @@ import SideMenuBar from "./SideMenu";
 import Table from "./Table";
 
 const Articles = () => {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState({});
   const [categories, setCategories] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ const Articles = () => {
         data: { articles },
       } = await articlesApi.list();
       setArticles(articles);
-      setFilteredArticles(articles);
+      setFilteredArticles(articles.all);
     } catch (error) {
       logger.error(error);
     }
@@ -65,7 +65,7 @@ const Articles = () => {
     );
   }
 
-  if (either(isNil, isEmpty)(filteredArticles)) {
+  if (either(isNil, isEmpty)(articles)) {
     return (
       <Container>
         <h1 className="text-center text-xl leading-5">
@@ -84,9 +84,9 @@ const Articles = () => {
         setActiveCategoryId={setActiveCategoryId}
         setActiveStatus={setActiveStatus}
         count={{
-          draft_count: articles.draft_count,
-          published_count: articles.published_count,
-          all_count: articles.draft_count + articles.published_count,
+          draftCount: articles.draft_count,
+          publishedCount: articles.published_count,
+          allCount: articles.draft_count + articles.published_count,
         }}
       />
       <Container>
@@ -105,7 +105,7 @@ const Articles = () => {
             </Typography>
           }
         />
-        <Table />
+        <Table filteredArticles={filteredArticles} />
       </Container>
     </div>
   );
