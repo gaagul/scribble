@@ -3,7 +3,7 @@ import React from "react";
 import { Delete, Edit } from "neetoicons";
 import { Button, Typography } from "neetoui";
 
-export const buildColumnData = () => [
+export const buildColumnData = destroyArticle => [
   {
     title: "TITLE",
     dataIndex: "title",
@@ -43,11 +43,15 @@ export const buildColumnData = () => [
           className="mr-2"
           icon={Edit}
           style="secondary"
+          to={`/article/${record.slug}/edit`}
+        />
+        <Button
+          icon={Delete}
+          style="secondary"
           onClick={() => {
-            history.push(`/article/${record.slug}/edit`);
+            destroyArticle(record.slug);
           }}
         />
-        <Button icon={Delete} style="secondary" />
       </div>
     ),
   },
