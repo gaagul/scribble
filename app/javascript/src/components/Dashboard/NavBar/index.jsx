@@ -13,12 +13,13 @@ const NavBar = () => (
         <div className="flex px-2 lg:px-0">
           <div className="hidden lg:flex">
             <Link
+              to="/"
               className="mr-3 inline-flex items-center px-1 pt-1
       text-sm font-semibold leading-5"
             >
               Scribble
             </Link>
-            <NavItem name="Articles" path="/" />
+            <NavItem name="Articles" path="/articles" />
             <NavItem name="Settings" path="/settings" />
           </div>
         </div>

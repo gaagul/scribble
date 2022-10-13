@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { Plus, Search } from "neetoicons";
-import { Typography } from "neetoui";
+import { Plus, Search, Check, Close } from "neetoicons";
+import { Typography, Button, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
 const SideMenuBar = ({
@@ -11,8 +11,12 @@ const SideMenuBar = ({
   setActiveStatus,
   activeCategoryId,
   setActiveCategoryId,
+  createCategory,
+  newCategoryTitle,
+  setNewCategoryTitle,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+  const [isInputCollapsed, setIsInputCollapsed] = useState(true);
 
   return (
     <MenuBar showMenu title="Articles">
@@ -44,6 +48,8 @@ const SideMenuBar = ({
         iconProps={[
           {
             icon: Plus,
+            onClick: () =>
+              setIsInputCollapsed(isInputCollapsed => !isInputCollapsed),
           },
           {
             icon: Search,
@@ -65,6 +71,33 @@ const SideMenuBar = ({
         collapse={isSearchCollapsed}
         onCollapse={() => setIsSearchCollapsed(true)}
       />
+      {!isInputCollapsed && (
+        <div className="mb-4 flex">
+          <Input
+            placeholder="Add New Category"
+            type="search"
+            value={newCategoryTitle}
+            onChange={e => setNewCategoryTitle(e.target.value)}
+          />
+          <Button
+            icon={Check}
+            size="large"
+            style="text"
+            onClick={() => {
+              createCategory();
+              setIsInputCollapsed(true);
+            }}
+          />
+          <Button
+            icon={Close}
+            size="large"
+            style="text"
+            onClick={() => {
+              setIsInputCollapsed(true);
+            }}
+          />
+        </div>
+      )}
       {categories.map(category => (
         <MenuBar.Block
           active={category.id === activeCategoryId}

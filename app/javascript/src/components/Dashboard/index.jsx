@@ -3,9 +3,9 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import Articles from "./Articles";
+import CreateArticle from "./Articles/Pane/Create";
+import EditArticle from "./Articles/Pane/Edit";
 import NavBar from "./NavBar";
-import CreateArticle from "./Pane/Create";
-import EditArticle from "./Pane/Edit";
 
 const Dashboard = () => (
   <div className=" h-screen w-full">
