@@ -11,8 +11,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    respond_with_json({ article: @article })
-  end
+   end
 
   def create
     article = Article.new(article_params)

@@ -53,6 +53,15 @@ const Articles = () => {
     }
   };
 
+  const destroyArticle = async slug => {
+    try {
+      await articlesApi.destroy(slug);
+      fetchArticlesAndCategories();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchArticlesAndCategories();
   }, []);
@@ -91,8 +100,14 @@ const Articles = () => {
       />
       <Container>
         <Header
-          actionBlock={<Button icon="ri-add-line" label="Add New Article" />}
           title=""
+          actionBlock={
+            <Button
+              icon="ri-add-line"
+              label="Add New Article"
+              to="/article/create"
+            />
+          }
           searchProps={{
             onChange: () => {},
             value: "",
@@ -105,7 +120,10 @@ const Articles = () => {
             </Typography>
           }
         />
-        <Table filteredArticles={filteredArticles} />
+        <Table
+          destroyArticle={destroyArticle}
+          filteredArticles={filteredArticles}
+        />
       </Container>
     </div>
   );

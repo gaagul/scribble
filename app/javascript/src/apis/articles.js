@@ -2,7 +2,7 @@ import axios from "axios";
 
 const list = () => axios.get("/articles");
 
-const show = slug => axios.get(`/article/${slug}`);
+const show = slug => axios.get(`/articles/${slug}`);
 
 const create = payload =>
   axios.post("/articles", {
@@ -10,11 +10,11 @@ const create = payload =>
   });
 
 const update = (slug, payload) =>
-  axios.post(`/articles/${slug}`, {
+  axios.put(`/articles/${slug}`, {
     article: payload,
   });
 
-const destroy = slug => axios.delete(`/article/${slug}`);
+const destroy = slug => axios.delete(`/articles/${slug}`);
 
 const articlesApi = {
   list,
