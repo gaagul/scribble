@@ -13,6 +13,7 @@ import Table from "./Table";
 const Articles = () => {
   const [articles, setArticles] = useState({});
   const [categories, setCategories] = useState([]);
+  const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategoryId, setActiveCategoryId] = useState(0);
@@ -62,6 +63,17 @@ const Articles = () => {
     }
   };
 
+  const createCategory = async () => {
+    try {
+      await categoriesApi.create({ title: newCategoryTitle });
+      await fetchCategories();
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setNewCategoryTitle(null);
+    }
+  };
+
   useEffect(() => {
     fetchArticlesAndCategories();
   }, []);
@@ -90,8 +102,11 @@ const Articles = () => {
         activeCategoryId={activeCategoryId}
         activeStatus={activeStatus}
         categories={categories}
+        createCategory={createCategory}
+        newCategoryTitle={newCategoryTitle}
         setActiveCategoryId={setActiveCategoryId}
         setActiveStatus={setActiveStatus}
+        setNewCategoryTitle={setNewCategoryTitle}
         count={{
           draftCount: articles.draft_count,
           publishedCount: articles.published_count,
