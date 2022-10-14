@@ -12,7 +12,7 @@ import Table from "./Table";
 
 const Articles = () => {
   const [articles, setArticles] = useState({});
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState({});
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,7 +70,7 @@ const Articles = () => {
     } catch (error) {
       logger.error(error);
     } finally {
-      setNewCategoryTitle(null);
+      setNewCategoryTitle("");
     }
   };
 

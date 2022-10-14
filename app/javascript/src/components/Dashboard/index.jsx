@@ -6,6 +6,7 @@ import Articles from "./Articles";
 import CreateArticle from "./Articles/Pane/Create";
 import EditArticle from "./Articles/Pane/Edit";
 import NavBar from "./NavBar";
+import Settings from "./Settings";
 
 const Dashboard = () => (
   <div className=" h-screen w-full">
@@ -24,8 +25,8 @@ const Dashboard = () => (
         key="EDIT_ARTICLE_PATH"
         path="/article/:slug/edit"
       />
-      <Route exact component={() => <h1>Settings Page</h1>} path="/settings" />
-      <Redirect from="/" to="/articles" />
+      <Route component={Settings} path="/settings" />
+      <Redirect exact from="/" to="/articles" />
     </Switch>
   </div>
 );
