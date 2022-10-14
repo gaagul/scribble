@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Dropdown, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
-import { Container } from "neetoui/layouts";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
@@ -65,7 +64,7 @@ const Form = ({ article, isEdit }) => {
   }
 
   return (
-    <Container>
+    <div className="justify-center">
       <Formik
         validateOnBlur={submitted}
         validateOnChange={submitted}
@@ -78,8 +77,8 @@ const Form = ({ article, isEdit }) => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <FormikForm className="max-w-xxl mt-5">
-            <div className="flex gap-4">
+          <FormikForm className="mx-auto mt-5 max-w-xl">
+            <div className="grid grid-cols-2 space-x-5">
               <Input required label="Article Title" name="title" />
               <Select
                 isSearchable
@@ -95,14 +94,14 @@ const Form = ({ article, isEdit }) => {
             </div>
             <Textarea
               required
-              className="max-w-xl"
+              className=""
               label="Article Body"
               name="body"
               rows="20"
             />
             <div className="m-2 flex">
               <div className="flex space-x-5">
-                <div className="flex">
+                <div className="flex space-x-1">
                   <Button
                     disabled={isSubmitting}
                     loading={isSubmitting}
@@ -129,7 +128,7 @@ const Form = ({ article, isEdit }) => {
           </FormikForm>
         )}
       </Formik>
-    </Container>
+    </div>
   );
 };
 export default Form;
