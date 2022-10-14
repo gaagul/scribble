@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Dropdown, Button, PageLoader } from "neetoui";
-import { Input, Select, Textarea } from "neetoui/formik";
+import { Dropdown, PageLoader } from "neetoui";
+import { Input, Select, Textarea, Button } from "neetoui/formik";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
