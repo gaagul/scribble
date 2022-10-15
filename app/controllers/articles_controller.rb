@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-   end
+  end
 
   def create
     article = Article.new(article_params)
