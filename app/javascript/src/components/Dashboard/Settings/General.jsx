@@ -1,20 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Input, Typography, Checkbox, Button } from "neetoui";
+import { Typography, Button, PageLoader } from "neetoui";
+import { Input, Checkbox } from "neetoui/formik";
+
+import organizationsApi from "apis/organizations";
 
 const General = () => {
-  const [isPasswordProtected, setIsPasswordProtected] = useState(true);
-  const [password, setPassword] = useState("");
-  // const [loading, setLoading] = useState(false);
+  const [organization, setOrganization] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  // if (loading) {
-  //   return (
-  //     <div className="h-screen w-screen">
-  //       <PageLoader />
-  //     </div>
-  //   );
-  // }
+  const fetchOrg = async () => {
+    try {
+      const {
+        data: { organization },
+      } = await organizationsApi.get();
+      setOrganization(organization);
+      setLoading(false);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const handleSubmit = async values => {
+    try {
+      if (values.isPasswordProtected) {
+        await organizationsApi.update(organization.id, {
+          title: values.title,
+          is_password_enabled: values.isPasswordProtected,
+          password: values.password,
+        });
+      } else {
+        await organizationsApi.update(organization.id, {
+          title: values.title,
+          is_password_enabled: false,
+        });
+        fetchOrg();
+      }
+    } catch (err) {
+      logger.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrg();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-screen">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto mt-10 space-y-5">
@@ -22,43 +60,35 @@ const General = () => {
       <Typography style="body2">
         Configure general attributes of Scribble.
       </Typography>
-      <Formik>
-        {() => (
+      <Formik
+        initialValues={{
+          title: organization.title,
+          isPasswordProtected: organization.is_password_enabled,
+          password: organization.password,
+        }}
+        onSubmit={handleSubmit}
+      >
+        {({ values, resetForm }) => (
           <FormikForm className="max-w-sm">
-            <Input
-              required
-              helpText="Customize the site name which is used to show the site name in Open Graph Tags."
-              label="Site Name"
-              name="siteName"
-            />
+            <Input required label="Article Title" name="title" />
             <Checkbox
-              checked={isPasswordProtected}
-              className="mt-5"
-              id="passwordCheckbox"
+              className="mt-3"
               label="Password Protect Knowledge Base"
-              onChange={() => {
-                setIsPasswordProtected(
-                  isPasswordProtected => !isPasswordProtected
-                );
-              }}
+              name="isPasswordProtected"
             />
             <hr className="mt-4" />
-            {isPasswordProtected && (
-              <Input
-                className="mt-4"
-                label="Password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
+            {values.isPasswordProtected && (
+              <Input className="mt-4" label="Password" name="password" />
             )}
             <div className="mt-3 max-w-xs space-x-1">
               <Button label="Save Changes" style="primary" type="submit" />
-              {isPasswordProtected && (
+              {values.isPasswordProtected && (
                 <Button
                   label="Cancel"
                   style="text"
-                  onClick={() => setIsPasswordProtected(false)}
+                  onClick={() => {
+                    resetForm();
+                  }}
                 />
               )}
             </div>

@@ -3,6 +3,6 @@
 class Organization < ApplicationRecord
   has_secure_password
 
-  validates :title, prsence: true
-  validates :password, length: { minimum: 6 }, if: -> { password.present? }
+  validates :title, presence: true
+  validates :password, length: { minimum: 6 }, if: -> { is_password_enabled && password.present? }
 end
