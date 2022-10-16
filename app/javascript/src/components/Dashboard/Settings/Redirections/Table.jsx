@@ -9,7 +9,7 @@ const Table = ({ redirections, fetchRedirections }) => {
   const LOCALE = {
     emptyText: "No redirections added yet",
   };
-  const [rowId, setRowId] = useState(1);
+  const [rowId, setRowId] = useState();
   const [editRedirection, setEditRedirection] = useState({
     id: "",
     from: "",
