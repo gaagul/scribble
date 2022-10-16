@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       resources :articles, except: %i[new edit], param: :slug
       resources :organizations, only: %i[index update]
       resources :redirections, except: %i[new edit]
+      namespace :eui do
+        resources :articles, only: %i[index show], param: :slug
+        resources :categories, only: %i[index]
+      end
     end
 
   root "home#index"
