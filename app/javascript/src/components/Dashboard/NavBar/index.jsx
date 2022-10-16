@@ -24,7 +24,12 @@ const NavBar = () => (
           </div>
         </div>
         <div className="flex items-center justify-end">
-          <Button icon={ExternalLink} label="Preview" style="secondary" />
+          <Button
+            icon={ExternalLink}
+            label="Preview"
+            style="secondary"
+            to="/eui/"
+          />
         </div>
       </div>
     </div>
