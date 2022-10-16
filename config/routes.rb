@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :categories, except: %i[new edit]
       resources :articles, except: %i[new edit], param: :slug
       resources :organizations, only: %i[index update]
+      resources :redirections, except: %i[new edit]
     end
 
   root "home#index"
