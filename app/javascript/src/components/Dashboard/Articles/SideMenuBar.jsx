@@ -4,6 +4,8 @@ import { Plus, Search, Check, Close } from "neetoicons";
 import { Typography, Button, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
+import { searchWithTitle } from "./utils";
+
 const SideMenuBar = ({
   categories,
   count,
@@ -17,6 +19,7 @@ const SideMenuBar = ({
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [isInputCollapsed, setIsInputCollapsed] = useState(true);
+  const [searchCategory, setSearchCategory] = useState("");
 
   return (
     <MenuBar showMenu title="Articles">
@@ -69,7 +72,11 @@ const SideMenuBar = ({
       </MenuBar.SubTitle>
       <MenuBar.Search
         collapse={isSearchCollapsed}
+        value={searchCategory}
         onCollapse={() => setIsSearchCollapsed(true)}
+        onChange={e => {
+          setSearchCategory(e.target.value);
+        }}
       />
       {!isInputCollapsed && (
         <div className="mb-4 flex">
@@ -98,7 +105,7 @@ const SideMenuBar = ({
           />
         </div>
       )}
-      {categories.map(category => (
+      {searchWithTitle(categories, searchCategory).map(category => (
         <MenuBar.Block
           active={category.id === activeCategoryId}
           count={category.count}

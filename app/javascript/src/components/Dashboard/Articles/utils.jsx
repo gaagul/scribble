@@ -56,3 +56,28 @@ export const buildColumnData = destroyArticle => [
     ),
   },
 ];
+
+export const searchWithTitle = (data, input) =>
+  data.filter(item => {
+    if (input !== "") {
+      return item?.title?.toLowerCase()?.includes(input?.toLowerCase());
+    }
+
+    return item;
+  });
+
+export const filter = (articles, activeCategoryId, activeStatus) => {
+  if (activeStatus !== "all" && activeCategoryId !== 0) {
+    return articles.filter(
+      article =>
+        article.status === activeStatus &&
+        article.category.id === activeCategoryId
+    );
+  } else if (activeStatus === "all" && activeCategoryId !== 0) {
+    return articles.filter(article => article.category.id === activeCategoryId);
+  } else if (activeStatus !== "all" && activeCategoryId === 0) {
+    return articles.filter(article => article.status === activeStatus);
+  }
+
+  return articles;
+};

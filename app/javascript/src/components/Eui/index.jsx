@@ -58,7 +58,7 @@ const Eui = () => {
                     key={article.id}
                     style="body2"
                     onClick={() => {
-                      history.push(`/eui/${article.slug}`);
+                      history.push(`/public/${article.slug}`);
                     }}
                   >
                     {article.title}

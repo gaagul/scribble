@@ -7,7 +7,7 @@ import { isNil, isEmpty, either } from "ramda";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import SideMenuBar from "./SideMenu";
+import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 
 const Articles = () => {
@@ -18,6 +18,7 @@ const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [activeCategoryId, setActiveCategoryId] = useState(0);
   const [activeStatus, setActiveStatus] = useState("all");
+  const [searchTitle, setSearchTitle] = useState("");
 
   const fetchArticles = async () => {
     try {
@@ -124,8 +125,10 @@ const Articles = () => {
             />
           }
           searchProps={{
-            onChange: () => {},
-            value: "",
+            onChange: e => {
+              setSearchTitle(e.target.value);
+            },
+            value: searchTitle,
           }}
         />
         <SubHeader
@@ -136,8 +139,11 @@ const Articles = () => {
           }
         />
         <Table
+          activeCategoryId={activeCategoryId}
+          activeStatus={activeStatus}
           destroyArticle={destroyArticle}
           filteredArticles={filteredArticles}
+          searchTitle={searchTitle}
         />
       </Container>
     </div>
