@@ -72,7 +72,7 @@ const Eui = () => {
       </nav>
       <div className="flex">
         <MenuBar showMenu>
-          <Accordion defaultActiveKey={category}>
+          <Accordion defaultActiveKey={category - 1}>
             {categories?.length ? (
               categories.map(category => (
                 <Accordion.Item

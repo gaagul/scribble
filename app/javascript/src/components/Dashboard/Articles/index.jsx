@@ -133,7 +133,7 @@ const Articles = () => {
         <SubHeader
           leftActionBlock={
             <Typography component="h4" style="h4">
-              {articles.draft_count + articles.published_count} Articles
+              Articles
             </Typography>
           }
         />

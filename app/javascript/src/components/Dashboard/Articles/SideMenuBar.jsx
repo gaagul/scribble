@@ -73,9 +73,13 @@ const SideMenuBar = ({
       <MenuBar.Search
         collapse={isSearchCollapsed}
         value={searchCategory}
-        onCollapse={() => setIsSearchCollapsed(true)}
         onChange={e => {
           setSearchCategory(e.target.value);
+        }}
+        onCollapse={() => {
+          setSearchCategory("");
+          setActiveCategoryId(0);
+          setIsSearchCollapsed(true);
         }}
       />
       {!isInputCollapsed && (
@@ -112,7 +116,11 @@ const SideMenuBar = ({
           key={category.id}
           label={category.title}
           onClick={() => {
-            setActiveCategoryId(category.id);
+            if (activeCategoryId === category.id) {
+              setActiveCategoryId(0);
+            } else {
+              setActiveCategoryId(category.id);
+            }
           }}
         />
       ))}
