@@ -43,7 +43,6 @@ const Article = ({ slug, setCategory }) => {
           </Typography>
           <div className="mt-2 flex flex-row space-x-5">
             <Tag color="blue" label={article.categoryTitle} />
-
             <Label>{article.date}</Label>
           </div>
           <Typography className="mt-4" style="body2">
