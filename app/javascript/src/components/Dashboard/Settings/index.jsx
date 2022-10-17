@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
 
 import Categories from "./Categories";
 import General from "./General";
@@ -17,6 +17,7 @@ const Settings = () => {
         <Route exact component={General} path={`${path}/general`} />
         <Route exact component={Categories} path={`${path}/categories`} />
         <Route exact component={Redirections} path={`${path}/redirection`} />
+        <Redirect exact from={`${path}`} to={`${path}/general`} />
       </Switch>
     </div>
   );
