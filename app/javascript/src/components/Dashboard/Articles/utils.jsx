@@ -49,7 +49,11 @@ export const buildColumnData = destroyArticle => [
           icon={Delete}
           style="secondary"
           onClick={() => {
-            destroyArticle(record.slug);
+            if (
+              window.confirm(`Do you really want to Delete ${record.title}`)
+            ) {
+              destroyArticle(record.slug);
+            }
           }}
         />
       </div>
