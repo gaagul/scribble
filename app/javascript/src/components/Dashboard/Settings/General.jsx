@@ -70,7 +70,7 @@ const General = () => {
       >
         {({ values, resetForm }) => (
           <FormikForm className="max-w-sm">
-            <Input required label="Article Title" name="title" />
+            <Input required label="Site Name" name="title" />
             <Checkbox
               className="mt-3"
               label="Password Protect Knowledge Base"

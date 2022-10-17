@@ -9,7 +9,7 @@ const Table = ({ redirections, fetchRedirections }) => {
   const LOCALE = {
     emptyText: "No redirections added yet",
   };
-  const [rowId, setRowId] = useState(1);
+  const [rowId, setRowId] = useState(0);
   const [editRedirection, setEditRedirection] = useState({
     id: "",
     from: "",
@@ -40,7 +40,7 @@ const Table = ({ redirections, fetchRedirections }) => {
 
   const columns = [
     {
-      title: "From Path",
+      title: "FROM PATH",
       dataIndex: "from",
       key: "from",
       render: (text, record) => {
@@ -63,7 +63,7 @@ const Table = ({ redirections, fetchRedirections }) => {
       },
     },
     {
-      title: "To Path",
+      title: "TO PATH",
       dataIndex: "to",
       key: "to",
       render: (text, record) => {
@@ -86,7 +86,7 @@ const Table = ({ redirections, fetchRedirections }) => {
       },
     },
     {
-      title: "",
+      title: "ACTIONS",
       dataIndex: "action",
       key: "action",
       width: 100,
