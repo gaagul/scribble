@@ -7,10 +7,10 @@ import { useParams, useHistory, Redirect } from "react-router-dom";
 
 import euiApi from "apis/eui";
 import organizationsApi from "apis/organizations";
-
 import Article from "./Article";
 
 const Eui = () => {
+
   const [category, setCategory] = useState();
   const [organization, setOrganization] = useState({});
   const [categories, setCategories] = useState({});
