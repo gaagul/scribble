@@ -6,11 +6,13 @@ import { isNil } from "ramda";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 
 import euiApi from "apis/eui";
+import organizationsApi from "apis/organizations";
 
 import Article from "./Article";
 
 const Eui = () => {
   const [category, setCategory] = useState();
+  const [organization, setOrganization] = useState({});
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
@@ -24,13 +26,33 @@ const Eui = () => {
       setCategories(categories);
     } catch (error) {
       logger.error(error);
+    }
+  };
+
+  const fetchOrganization = async () => {
+    try {
+      const {
+        data: { organization },
+      } = await organizationsApi.get();
+      setOrganization(organization);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([fetchOrganization(), fetchCategories()]);
+    } catch (error) {
+      logger.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    loadData();
   }, []);
 
   if (loading) {
@@ -45,7 +67,7 @@ const Eui = () => {
     <>
       <nav className="border max-w-7xl sticky top-0 mx-auto flex h-20 bg-white px-4">
         <Typography className="m-auto" style="h3">
-          Spinkart
+          {organization.title}
         </Typography>
       </nav>
       <div className="flex">
