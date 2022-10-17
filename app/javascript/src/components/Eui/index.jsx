@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Typography, Accordion, PageLoader } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 import { isNil } from "ramda";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Redirect } from "react-router-dom";
 
 import euiApi from "apis/eui";
 
 import Article from "./Article";
 
 const Eui = () => {
+  const [category, setCategory] = useState();
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
@@ -25,12 +26,6 @@ const Eui = () => {
       logger.error(error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleNill = () => {
-    if (isNil(slug)) {
-      history.push(`/public/${categories[0].articles[0].slug}`);
     }
   };
 
@@ -55,12 +50,11 @@ const Eui = () => {
       </nav>
       <div className="flex">
         <MenuBar showMenu>
-          <Accordion defaultActiveKey={0}>
+          <Accordion defaultActiveKey={category}>
             {categories?.length ? (
               categories.map(category => (
                 <Accordion.Item
                   className="border-b-2"
-                  // isOpen={category.title === selectedArticle.category}
                   key={category.id}
                   title={category.title}
                 >
@@ -83,7 +77,11 @@ const Eui = () => {
             )}
           </Accordion>
         </MenuBar>
-        {isNil(slug) ? handleNill : <Article slug={slug} />}
+        {isNil(slug) ? (
+          <Redirect exact from="/public" to="/public/article-2" />
+        ) : (
+          <Article setCategory={setCategory} slug={slug} />
+        )}
       </div>
     </>
   );

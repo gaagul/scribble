@@ -5,7 +5,7 @@ import { Container } from "neetoui/layouts";
 
 import euiApi from "apis/eui";
 
-const Article = ({ slug }) => {
+const Article = ({ slug, setCategory }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
   const fetchArticle = async () => {
@@ -14,6 +14,7 @@ const Article = ({ slug }) => {
         data: { article },
       } = await euiApi.show(slug);
       setArticle(article);
+      setCategory(article.category);
     } catch (error) {
       logger.error(error);
     } finally {
