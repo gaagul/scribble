@@ -5,7 +5,7 @@ import { Container } from "neetoui/layouts";
 
 import euiApi from "apis/eui";
 
-const Article = ({ slug, setSelectedArticle }) => {
+const Article = ({ slug, setCategory }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
   const fetchArticle = async () => {
@@ -14,7 +14,7 @@ const Article = ({ slug, setSelectedArticle }) => {
         data: { article },
       } = await euiApi.show(slug);
       setArticle(article);
-      setSelectedArticle(article);
+      setCategory(article.category);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -42,7 +42,8 @@ const Article = ({ slug, setSelectedArticle }) => {
             {article.title}
           </Typography>
           <div className="mt-2 flex flex-row space-x-5">
-            <Tag color="blue" label={article.category} />
+            <Tag color="blue" label={article.categoryTitle} />
+
             <Label>{article.date}</Label>
           </div>
           <Typography className="mt-4" style="body2">

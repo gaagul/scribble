@@ -47,7 +47,6 @@ const Articles = () => {
     try {
       setLoading(true);
       await Promise.all([fetchArticles(), fetchCategories()]);
-      setLoading(false);
     } catch (error) {
       logger.error(error);
     } finally {
