@@ -11,7 +11,8 @@ import organizationsApi from "apis/organizations";
 import Article from "./Article";
 
 const Eui = () => {
-  const [category, setCategory] = useState();
+  const [initialArticle, setInitialArticle] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState(0);
   const [organization, setOrganization] = useState({});
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ const Eui = () => {
         data: { categories },
       } = await euiApi.listCategories();
       setCategories(categories);
+      setInitialArticle(categories[0].articles[0]);
     } catch (error) {
       logger.error(error);
     }
@@ -72,7 +74,7 @@ const Eui = () => {
       </nav>
       <div className="flex">
         <MenuBar showMenu>
-          <Accordion defaultActiveKey={category - 1}>
+          <Accordion defaultActiveKey={selectedCategory - 1}>
             {categories?.length ? (
               categories.map(category => (
                 <Accordion.Item
@@ -100,9 +102,13 @@ const Eui = () => {
           </Accordion>
         </MenuBar>
         {isNil(slug) ? (
-          <Redirect exact from="/public" to="/public/article-2" />
+          <Redirect
+            exact
+            from="/public"
+            to={`/public/${initialArticle.slug}`}
+          />
         ) : (
-          <Article setCategory={setCategory} slug={slug} />
+          <Article setCategory={setSelectedCategory} slug={slug} />
         )}
       </div>
     </>
