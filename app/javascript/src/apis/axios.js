@@ -35,7 +35,7 @@ const handleSuccessResponse = response => {
 
 const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
-    setToLocalStorage({ authToken: null, email: null, userId: null });
+    setToLocalStorage({ authToken: null });
     setTimeout(() => (window.location.href = "/"), 2000);
   }
 
