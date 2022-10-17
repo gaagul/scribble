@@ -1,6 +1,6 @@
+import { Toastr } from "@bigbinary/neetoui";
 import axios from "axios";
 
-import Toastr from "components/Common/Toastr";
 import { setToLocalStorage, getFromLocalStorage } from "utils/storage";
 
 const DEFAULT_ERROR_NOTIFICATION = "Something went wrong!";
@@ -36,14 +36,14 @@ const handleSuccessResponse = response => {
 const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
     setToLocalStorage({ authToken: null });
-    setTimeout(() => (window.location.href = "/"), 2000);
+    setTimeout(() => (window.location.href = "/public"), 2000);
   }
 
   Toastr.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
   if (axiosErrorObject.response?.status === 423) {
-    window.location.href = "/";
+    window.location.href = "/public";
   }
 
   return Promise.reject(axiosErrorObject);
@@ -55,4 +55,8 @@ const registerIntercepts = () => {
   );
 };
 
-export { setAuthHeaders, registerIntercepts };
+const resetAuthTokens = () => {
+  delete axios.defaults.headers["X-Auth-Token"];
+};
+
+export { setAuthHeaders, registerIntercepts, resetAuthTokens };

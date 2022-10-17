@@ -1,24 +1,7 @@
-const setToLocalStorage = (key, value) => {
-  if (value !== null) {
-    localStorage.setItem(key, JSON.stringify(value));
-  } else localStorage.removeItem(key);
+const setToLocalStorage = ({ authToken }) => {
+  localStorage.setItem("authToken", JSON.stringify(authToken));
 };
 
-const getFromLocalStorage = key => {
-  let response = "";
-  try {
-    const value = localStorage.getItem(key);
-    response = value ? JSON.parse(value) : "";
-  } catch (error) {
-    logger.error(error);
-    response = "";
-  }
+const getFromLocalStorage = key => JSON.parse(localStorage.getItem(key));
 
-  return response;
-};
-
-const clearLocalStorageCredentials = () => {
-  setToLocalStorage("authToken", null);
-};
-
-export { setToLocalStorage, getFromLocalStorage, clearLocalStorageCredentials };
+export { setToLocalStorage, getFromLocalStorage };

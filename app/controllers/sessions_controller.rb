@@ -2,8 +2,7 @@
 
 class SessionsController < ApplicationController
   def create
-    @organization = Organization.first
-    unless @organization.authenticate(login_params[:password])
+    unless current_organization.authenticate(login_params[:password])
       respond_with_error("Incorrect credentials, try again.", :unauthorized)
     end
   end
@@ -11,6 +10,6 @@ class SessionsController < ApplicationController
   private
 
     def login_params
-      params.require(:login).permit(:password)
-    end
+      params.permit(:password)
+   end
 end

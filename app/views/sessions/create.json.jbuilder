@@ -1,3 +1,4 @@
-json.extract! @organization,
-  :title
+json.extract! @_current_organization,
+  :id,
+  :title,
   :authentication_token

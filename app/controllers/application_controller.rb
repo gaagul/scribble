@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  before_action :current_organization
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_error
   rescue_from ActiveRecord::RecordNotUnique, with: :handle_record_not_unique
   rescue_from ActionController::ParameterMissing, with: :handle_api_error
 
   private
+
+    def current_organization
+      @_current_organization ||= Organization.first
+    end
 
     def handle_validation_error(exception)
       respond_with_error(exception)
