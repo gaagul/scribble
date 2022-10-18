@@ -15,7 +15,7 @@ const Articles = () => {
   const [articles, setArticles] = useState({});
   const [categories, setCategories] = useState({});
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
-  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [allArticles, setAllArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategoryId, setActiveCategoryId] = useState(0);
   const [activeStatus, setActiveStatus] = useState("all");
@@ -35,7 +35,7 @@ const Articles = () => {
         data: { articles },
       } = await articlesApi.list();
       setArticles(articles);
-      setFilteredArticles(articles.all);
+      setAllArticles(articles.all);
     } catch (error) {
       logger.error(error);
     }
@@ -95,16 +95,6 @@ const Articles = () => {
     );
   }
 
-  if (either(isNil, isEmpty)(articles)) {
-    return (
-      <Container>
-        <h1 className="text-center text-xl leading-5">
-          You have no Articles to read 😔
-        </h1>
-      </Container>
-    );
-  }
-
   return (
     <div className="flex">
       <SideMenuBar
@@ -129,21 +119,31 @@ const Articles = () => {
           setColumnVisibility={setColumnVisibility}
           setSearchTitle={setSearchTitle}
         />
-        <SubHeader
-          leftActionBlock={
-            <Typography component="h4" style="h4">
-              Articles
-            </Typography>
-          }
-        />
-        <Table
-          activeCategoryId={activeCategoryId}
-          activeStatus={activeStatus}
-          columnVisibility={columnVisibility}
-          destroyArticle={destroyArticle}
-          filteredArticles={filteredArticles}
-          searchTitle={searchTitle}
-        />
+        {either(isNil, isEmpty)(allArticles) ? (
+          <div className="mx-auto my-56">
+            <h1 className="text-center text-xl leading-5">
+              You have no Articles to read 😔
+            </h1>
+          </div>
+        ) : (
+          <>
+            <SubHeader
+              leftActionBlock={
+                <Typography component="h4" style="h4">
+                  Articles
+                </Typography>
+              }
+            />
+            <Table
+              activeCategoryId={activeCategoryId}
+              activeStatus={activeStatus}
+              columnVisibility={columnVisibility}
+              destroyArticle={destroyArticle}
+              filteredArticles={allArticles}
+              searchTitle={searchTitle}
+            />
+          </>
+        )}
       </Container>
     </div>
   );

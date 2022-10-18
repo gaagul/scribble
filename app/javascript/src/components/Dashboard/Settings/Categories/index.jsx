@@ -62,7 +62,7 @@ const Categories = () => {
           icon={Plus}
           iconPosition="left"
           label="Add New Category"
-          style="text"
+          style="Link"
           onClick={() => setIsAdding(true)}
         />
       )}
