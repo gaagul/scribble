@@ -124,7 +124,7 @@ const Form = ({ article, isEdit }) => {
                     </li>
                   </Dropdown>
                 </div>
-                <Button label="Cancel" style="text" />
+                <Button label="Cancel" style="text" to="/" />
               </div>
             </div>
           </FormikForm>
