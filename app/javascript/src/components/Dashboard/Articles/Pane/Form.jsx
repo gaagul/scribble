@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Dropdown, PageLoader } from "neetoui";
-import { Input, Select, Textarea, Button } from "neetoui/formik";
+import { Dropdown, PageLoader, Button } from "neetoui";
+import { Input, Select, Textarea } from "neetoui/formik";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
+
+import { ARTICLE_FORM_VALIDATION_SCHEMA } from "./constants";
 
 const Form = ({ article, isEdit }) => {
   const [loading, setLoading] = useState(true);
@@ -68,12 +70,12 @@ const Form = ({ article, isEdit }) => {
       <Formik
         validateOnBlur={submitted}
         validateOnChange={submitted}
+        validationSchema={ARTICLE_FORM_VALIDATION_SCHEMA}
         initialValues={{
           body: article.body,
           category: article.category.id,
           title: article.title,
         }}
-        // validationSchema={}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
@@ -122,7 +124,7 @@ const Form = ({ article, isEdit }) => {
                     </li>
                   </Dropdown>
                 </div>
-                <Button label="Cancel" style="text" to="/" />
+                <Button label="Cancel" style="text" />
               </div>
             </div>
           </FormikForm>

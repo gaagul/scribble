@@ -2,7 +2,7 @@ import React from "react";
 
 import { Table as NeetoTable } from "neetoui";
 
-import { searchWithTitle, buildColumnData, filter } from "./utils";
+import { buildColumnData, filterAndSearch } from "./utils";
 
 const Table = ({
   filteredArticles,
@@ -14,13 +14,12 @@ const Table = ({
 }) => (
   <NeetoTable
     columnData={buildColumnData(destroyArticle, columnVisibility)}
-    rowData={filter(
-      searchWithTitle(filteredArticles, searchTitle),
+    rowData={filterAndSearch(
+      filteredArticles,
       activeCategoryId,
-      activeStatus
+      activeStatus,
+      searchTitle
     )}
-    onRowClick={() => {}}
-    onRowSelect={() => {}}
   />
 );
 export default Table;

@@ -92,3 +92,10 @@ export const filter = (articles, activeCategoryId, activeStatus) => {
 
   return articles;
 };
+
+export const filterAndSearch = (
+  articles,
+  activeCategoryId,
+  activeStatus,
+  input
+) => searchWithTitle(filter(articles, activeCategoryId, activeStatus), input);
