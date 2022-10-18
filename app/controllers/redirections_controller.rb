@@ -8,12 +8,12 @@ class RedirectionsController < ApplicationController
   end
 
   def create
-    Redirection.create!(redirection_params)
+    Redirection.create!(from: "/#{redirection_params[:from]}", to: "/#{redirection_params[:to]}")
     respond_with_success(t("successfully_created", entity: "Redirection"))
   end
 
   def update
-    @redirection.update!(redirection_params)
+    @redirection.update!(from: "/#{redirection_params[:from]}", to: "/#{redirection_params[:to]}")
     respond_with_success(t("successfully_updated", entity: "Redirection"))
   end
 
