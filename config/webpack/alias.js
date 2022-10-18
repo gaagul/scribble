@@ -1,16 +1,16 @@
+const path = require("path");
+
 module.exports = {
   resolve: {
     alias: {
       apis: "src/apis",
+      lib: "src/lib",
       common: "src/common",
+      utils: "src/utils",
       components: "src/components",
-      constants: "src/constants",
-      contexts: "src/contexts",
-      reducers: "src/reducers",
       neetoui: "@bigbinary/neetoui",
       neetoicons: "@bigbinary/neeto-icons",
-      utils: "src/utils",
-      lib: "src/lib",
+      images: path.resolve(__dirname, "../", "../", "app/assets/images"),
     },
   },
 };

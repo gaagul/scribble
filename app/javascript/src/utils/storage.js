@@ -1,18 +1,7 @@
-function setToLocalStorage({ authToken }) {
+const setToLocalStorage = ({ authToken }) => {
   localStorage.setItem("authToken", JSON.stringify(authToken));
-}
-
-const getFromLocalStorage = key => {
-  let response = "";
-  try {
-    const value = localStorage.getItem(key);
-    response = value ? JSON.parse(value) : "";
-  } catch (error) {
-    logger.error(error);
-    response = "";
-  }
-
-  return response;
 };
+
+const getFromLocalStorage = key => JSON.parse(localStorage.getItem(key));
 
 export { setToLocalStorage, getFromLocalStorage };
