@@ -9,10 +9,11 @@ const Table = ({
   destroyArticle,
   searchTitle,
   activeStatus,
+  columnVisibility,
   activeCategoryId,
 }) => (
   <NeetoTable
-    columnData={buildColumnData(destroyArticle)}
+    columnData={buildColumnData(destroyArticle, columnVisibility)}
     rowData={filter(
       searchWithTitle(filteredArticles, searchTitle),
       activeCategoryId,

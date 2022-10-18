@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, PageLoader, Typography } from "neetoui";
-import { Container, Header, SubHeader } from "neetoui/layouts";
+import { PageLoader, Typography } from "neetoui";
+import { Container, SubHeader } from "neetoui/layouts";
 import { isNil, isEmpty, either } from "ramda";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
+import DashboardHeader from "./DashboardHeader";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 
@@ -19,6 +20,14 @@ const Articles = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(0);
   const [activeStatus, setActiveStatus] = useState("all");
   const [searchTitle, setSearchTitle] = useState("");
+  const [columnVisibility, setColumnVisibility] = useState({
+    title: true,
+    date: true,
+    author: true,
+    category: true,
+    status: true,
+    action: true,
+  });
 
   const fetchArticles = async () => {
     try {
@@ -114,21 +123,11 @@ const Articles = () => {
         }}
       />
       <Container>
-        <Header
-          title=""
-          actionBlock={
-            <Button
-              icon="ri-add-line"
-              label="Add New Article"
-              to="/article/create"
-            />
-          }
-          searchProps={{
-            onChange: e => {
-              setSearchTitle(e.target.value);
-            },
-            value: searchTitle,
-          }}
+        <DashboardHeader
+          columnVisibility={columnVisibility}
+          searchTitle={searchTitle}
+          setColumnVisibility={setColumnVisibility}
+          setSearchTitle={setSearchTitle}
         />
         <SubHeader
           leftActionBlock={
@@ -140,6 +139,7 @@ const Articles = () => {
         <Table
           activeCategoryId={activeCategoryId}
           activeStatus={activeStatus}
+          columnVisibility={columnVisibility}
           destroyArticle={destroyArticle}
           filteredArticles={filteredArticles}
           searchTitle={searchTitle}

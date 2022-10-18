@@ -36,20 +36,18 @@ const Article = ({ slug, setCategory }) => {
 
   return (
     <Container>
-      {slug && (
-        <div className="mt-5">
-          <Typography className="mb-4" style="h2">
-            {article.title}
-          </Typography>
-          <div className="mt-2 flex flex-row space-x-5">
-            <Tag color="blue" label={article.categoryTitle} />
-            <Label>{article.date}</Label>
-          </div>
-          <Typography className="mt-4" style="body2">
-            {article.body}
-          </Typography>
+      <div className="mt-5">
+        <Typography className="mb-4" style="h2">
+          {article.title}
+        </Typography>
+        <div className="mt-2 flex flex-row space-x-5">
+          <Tag color="blue" label={article.categoryTitle} />
+          <Label>{article.date}</Label>
         </div>
-      )}
+        <Typography className="mt-4" style="body2">
+          {article.body}
+        </Typography>
+      </div>
     </Container>
   );
 };
