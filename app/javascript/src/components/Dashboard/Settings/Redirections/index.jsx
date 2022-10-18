@@ -7,7 +7,7 @@ import redirectionsApi from "apis/redirections";
 
 import Table from "./Table";
 
-const Redirection = () => {
+const Redirections = () => {
   const [redirections, setRedirections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -116,4 +116,4 @@ const Redirection = () => {
   );
 };
 
-export default Redirection;
+export default Redirections;

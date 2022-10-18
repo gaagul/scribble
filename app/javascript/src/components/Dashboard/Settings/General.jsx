@@ -82,7 +82,7 @@ const General = () => {
                 className="mt-4"
                 label="Password"
                 name="password"
-                placeHolder="*******"
+                placeholder="*******"
               />
             )}
             <div className="mt-3 max-w-xs space-x-1">

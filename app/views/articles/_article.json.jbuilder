@@ -10,5 +10,6 @@ json.body article.body
 json.category do
   json.extract! article.category,
     :id,
-    :title
+    :title,
+    :position
 end

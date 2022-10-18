@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
+  before_action :load_category!, only: %i[update destroy]
+
   def index
     @categories = Category.all
   end
@@ -23,7 +25,7 @@ class CategoriesController < ApplicationController
   private
 
     def category_params
-      params.require(:category).permit(:id, :title)
+      params.require(:category).permit(:id, :title, :position)
     end
 
     def load_category!
