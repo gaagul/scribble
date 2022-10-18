@@ -13,7 +13,7 @@ class RedirectionsController < ApplicationController
   end
 
   def update
-    @redirection.update!(from: "/#{redirection_params[:from]}", to: "/#{redirection_params[:to]}")
+    @redirection.update!(from: "#{redirection_params[:from]}", to: "#{redirection_params[:to]}")
     respond_with_success(t("successfully_updated", entity: "Redirection"))
   end
 
