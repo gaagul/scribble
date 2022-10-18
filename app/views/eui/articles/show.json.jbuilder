@@ -5,5 +5,5 @@ json.article do
     :body
   json.date @article.created_at.strftime("%B %d, %Y")
   json.categoryTitle @article.category.title
-  json.category @article.category.id
+  json.category @article.category.position
 end
