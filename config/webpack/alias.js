@@ -3,6 +3,7 @@ const path = require("path");
 module.exports = {
   resolve: {
     alias: {
+      constants: "src/constants",
       apis: "src/apis",
       lib: "src/lib",
       common: "src/common",

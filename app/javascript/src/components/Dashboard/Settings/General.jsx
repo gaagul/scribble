@@ -78,7 +78,12 @@ const General = () => {
             />
             <hr className="mt-4" />
             {values.isPasswordProtected && (
-              <Input className="mt-4" label="Password" name="password" />
+              <Input
+                className="mt-4"
+                label="Password"
+                name="password"
+                placeHolder="*******"
+              />
             )}
             <div className="mt-3 max-w-xs space-x-1">
               <Button label="Save Changes" style="primary" type="submit" />
