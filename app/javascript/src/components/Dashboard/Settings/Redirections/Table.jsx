@@ -47,7 +47,6 @@ const Table = ({ redirections, fetchRedirections }) => {
         if (record.id === rowId) {
           return (
             <Input
-              prefix="/"
               value={editRedirection.from}
               onChange={e => {
                 setEditRedirection(editRedirection => ({
@@ -70,7 +69,6 @@ const Table = ({ redirections, fetchRedirections }) => {
         if (rowId === record.id) {
           return (
             <Input
-              prefix="/"
               value={editRedirection.to}
               onChange={e => {
                 setEditRedirection(editRedirection => ({
