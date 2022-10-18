@@ -14,8 +14,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    article = Article.new(article_params)
-    article.save!
+    Article.create!(article_params)
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 

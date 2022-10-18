@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   before_action :load_category!, only: %i[update destroy]
 
   def index
-    @categories = Category.all
+    @categories = Category.all.order(position: :ASC)
   end
 
   def create
