@@ -31,6 +31,7 @@ const GuestLogin = () => {
       const response = await authApi.login({ password });
       setToLocalStorage({
         authToken: response.data.authentication_token,
+        authOrganization: response.data.title,
       });
       setAuthHeaders();
       window.location.href = "/public";

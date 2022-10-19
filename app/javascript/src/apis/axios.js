@@ -1,5 +1,5 @@
-import { Toastr } from "@bigbinary/neetoui";
 import axios from "axios";
+import { Toastr } from "neetoui";
 
 import { setToLocalStorage, getFromLocalStorage } from "utils/storage";
 
@@ -16,8 +16,10 @@ const setAuthHeaders = (setLoading = () => null) => {
       .getAttribute("content"),
   };
   const token = getFromLocalStorage("authToken");
-  if (token) {
+  const organization = getFromLocalStorage("authOrganization");
+  if (token && organization) {
     axios.defaults.headers["X-Auth-Token"] = token;
+    axios.defaults.headers["X-Auth-Organization"] = organization;
   }
   setLoading(false);
 };
@@ -35,7 +37,7 @@ const handleSuccessResponse = response => {
 
 const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
-    setToLocalStorage({ authToken: null });
+    setToLocalStorage({ authToken: null, organization: null });
     setTimeout(() => (window.location.href = "/public"), 2000);
   }
 
@@ -57,6 +59,7 @@ const registerIntercepts = () => {
 
 const resetAuthTokens = () => {
   delete axios.defaults.headers["X-Auth-Token"];
+  delete axios.defaults.headers["X-Auth-Organization"];
 };
 
 export { setAuthHeaders, registerIntercepts, resetAuthTokens };

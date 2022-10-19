@@ -83,6 +83,7 @@ const General = () => {
                 label="Password"
                 name="password"
                 placeholder="*******"
+                type="password"
               />
             )}
             <div className="mt-3 max-w-xs space-x-1">
