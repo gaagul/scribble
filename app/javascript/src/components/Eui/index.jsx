@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Typography, Accordion, PageLoader } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
-import { isNil } from "ramda";
-import { useParams, useHistory, Redirect } from "react-router-dom";
+import { useHistory, Switch, Route, Redirect } from "react-router-dom";
 
 import euiApi from "apis/eui";
 import organizationsApi from "apis/organizations";
@@ -16,7 +15,6 @@ const Eui = () => {
   const [organization, setOrganization] = useState({});
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
-  const { slug } = useParams();
   const history = useHistory();
 
   const fetchCategories = async () => {
@@ -101,15 +99,22 @@ const Eui = () => {
             )}
           </Accordion>
         </MenuBar>
-        {isNil(slug) ? (
+        <Switch>
+          <Route
+            exact
+            path="/public/:slug"
+            component={() => (
+              <Article
+                setCategory={category => setSelectedCategory(category)}
+              />
+            )}
+          />
           <Redirect
             exact
             from="/public"
             to={`/public/${initialArticle.slug}`}
           />
-        ) : (
-          <Article setCategory={setSelectedCategory} slug={slug} />
-        )}
+        </Switch>
       </div>
     </>
   );

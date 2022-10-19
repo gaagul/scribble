@@ -33,8 +33,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route component={Login} path="/login" />
-        <Route exact component={Eui} path="/public" />
-        <Route component={Eui} path="/public/:slug" />
+        <Route component={Eui} path="/public" />
         <Route component={Dashboard} path="/" />
       </Switch>
     </Router>
