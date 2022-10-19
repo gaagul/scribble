@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from "react";
 
 import { PageLoader } from "neetoui";
+import { either, isEmpty, isNil } from "ramda";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
+import organizationsApi from "apis/organizations";
 import { initializeLogger } from "common/logger";
+import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
+import { getFromLocalStorage } from "utils/storage";
 
 import Login from "./components/Authentication/Login";
 import Eui from "./components/Eui";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
+  const authToken = getFromLocalStorage("authToken");
+  const isLoggedIn = !either(isNil, isEmpty)(authToken);
+
+  const fetchOrganization = async () => {
+    try {
+      const {
+        data: { organization },
+      } = await organizationsApi.get();
+      setIsPasswordEnabled(organization.is_password_enabled);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   useEffect(() => {
     initializeLogger();
     registerIntercepts();
     setAuthHeaders(setLoading);
+    fetchOrganization();
   }, []);
 
   if (loading) {
@@ -33,7 +52,16 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route component={Login} path="/login" />
-        <Route component={Eui} path="/public" />
+        {isPasswordEnabled ? (
+          <PrivateRoute
+            component={Eui}
+            condition={isLoggedIn}
+            path="/public"
+            redirectRoute="/login"
+          />
+        ) : (
+          <Route component={Eui} path="/public" />
+        )}
         <Route component={Dashboard} path="/" />
       </Switch>
     </Router>
