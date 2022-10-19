@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import { PageLoader, Typography, Label, Tag } from "neetoui";
 import { Container } from "neetoui/layouts";
+import { useParams } from "react-router-dom";
 
 import euiApi from "apis/eui";
 
-const Article = ({ slug, setCategory }) => {
+const Article = ({ setCategory }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
+  const { slug } = useParams();
   const fetchArticle = async () => {
     try {
       const {
@@ -24,7 +26,7 @@ const Article = ({ slug, setCategory }) => {
 
   useEffect(() => {
     fetchArticle();
-  }, [slug]);
+  }, []);
 
   if (loading) {
     return (

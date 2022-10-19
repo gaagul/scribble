@@ -73,7 +73,10 @@ const Form = ({ article, isEdit }) => {
         validationSchema={ARTICLE_FORM_VALIDATION_SCHEMA}
         initialValues={{
           body: article.body,
-          category: article.category.id,
+          category: {
+            value: article.category.id,
+            label: article.category.title,
+          },
           title: article.title,
         }}
         onSubmit={handleSubmit}
