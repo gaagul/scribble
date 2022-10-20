@@ -6,8 +6,14 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_error
   rescue_from ActiveRecord::RecordNotUnique, with: :handle_record_not_unique
   rescue_from ActionController::ParameterMissing, with: :handle_api_error
+  before_action :current_organization
+  before_action :current_user
 
   private
+
+    def current_user
+      @_current_user ||= User.first
+    end
 
     def current_organization
       @_current_organization ||= Organization.first
