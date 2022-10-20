@@ -15,8 +15,8 @@ class ArticlesController < ApplicationController
 
   def create
     article = Article.new(article_params)
-    article.organization = @current_organization
-    article.user = @current_user
+    article.organization = current_organization
+    article.user = current_user
     article.save!
     respond_with_success(t("successfully_created", entity: "Article"))
   end
