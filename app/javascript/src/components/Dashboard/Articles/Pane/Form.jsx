@@ -41,7 +41,6 @@ const Form = ({ article, isEdit }) => {
           body: values.body,
           category_id: values.category.value,
           status: articleStatus,
-          author: "Oliver Smith",
         });
       } else {
         await articlesApi.create({
@@ -49,7 +48,6 @@ const Form = ({ article, isEdit }) => {
           body: values.body,
           category_id: values.category.value,
           status: articleStatus,
-          author: "Oliver Smith",
         });
       }
       history.push("/");
