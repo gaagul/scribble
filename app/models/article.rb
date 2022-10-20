@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  belongs_to :category
+  belongs_to :user
+  belongs_to :organization
+
   validates :title, presence: true
   validates :slug, uniqueness: true
   validate :slug_not_changed
-
-  belongs_to :category
 
   before_create :set_slug
 

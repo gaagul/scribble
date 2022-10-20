@@ -17,16 +17,18 @@ import Eui from "./components/Eui";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
+  const [isPasswordEnabled, setIsPasswordEnabled] = useState(true);
   const authToken = getFromLocalStorage("authToken");
   const isLoggedIn = !either(isNil, isEmpty)(authToken);
 
   const fetchOrganization = async () => {
     try {
+      setLoading(true);
       const {
         data: { organization },
       } = await organizationsApi.get();
       setIsPasswordEnabled(organization.is_password_enabled);
+      setLoading(false);
     } catch (error) {
       logger.error(error);
     }
@@ -51,7 +53,7 @@ const App = () => {
     <Router>
       <ToastContainer />
       <Switch>
-        <Route component={Login} path="/login" />
+        <Route exact component={Login} path="/login" />
         {isPasswordEnabled ? (
           <PrivateRoute
             component={Eui}

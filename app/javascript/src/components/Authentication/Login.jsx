@@ -31,13 +31,13 @@ const GuestLogin = () => {
       const response = await authApi.login({ password });
       setToLocalStorage({
         authToken: response.data.authentication_token,
+        authOrganization: response.data.title,
+        authUser: response.data.user,
       });
       setAuthHeaders();
       window.location.href = "/public";
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 

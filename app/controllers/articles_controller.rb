@@ -14,7 +14,10 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    Article.create!(article_params)
+    article = Article.new(article_params)
+    article.organization = @current_organization
+    article.user = @current_user
+    article.save!
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
@@ -35,6 +38,6 @@ class ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :author, :status, :category_id, :body)
+      params.require(:article).permit(:title, :status, :category_id, :body)
     end
 end
