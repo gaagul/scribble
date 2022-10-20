@@ -10,7 +10,8 @@
 Organization.destroy_all
 Article.destroy_all
 Category.delete_all
-Organization.create(title: "Spinkart", is_password_enabled: "true", password: "welcome")
+Organization.create(title: "Spinkart", is_password_enabled: "false", password: "welcome")
+User.create(name: "Oliver Smith", email: "oliver@example.com")
 Category.create!(
   [
     { title: "Getting Started" },
@@ -21,8 +22,9 @@ Article.create!(
   [
     {
       title: "Welcome to Scribble",
-      author: "Oliver Smith",
       category_id: 1,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -32,8 +34,9 @@ Article.create!(
     },
     {
       title: "Welcome to Scribble",
-      author: "Oliver Smith",
       category_id: 2,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
      incididunt ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -44,8 +47,9 @@ Article.create!(
     },
     {
       title: "Draft Article-1",
-      author: "Oliver Smith",
       category_id: 1,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
     ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -57,8 +61,9 @@ Article.create!(
     },
     {
       title: "Draft Article-2",
-      author: "Oliver Smith",
       category_id: 2,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -69,8 +74,9 @@ Article.create!(
     },
     {
       title: "Setting up",
-      author: "Oliver Smith",
       category_id: 3,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -81,8 +87,9 @@ Article.create!(
     },
     {
       title: "Writing an article",
-      author: "Oliver Smith",
       category_id: 4,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -94,8 +101,9 @@ Article.create!(
     },
     {
       title: "Redirections",
-      author: "Oliver Smith",
       category_id: 1,
+      user: User.first,
+      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

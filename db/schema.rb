@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_18_083527) do
+ActiveRecord::Schema.define(version: 2022_10_20_055429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,12 +22,15 @@ ActiveRecord::Schema.define(version: 2022_10_18_083527) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "body"
-    t.string "author"
     t.string "slug", null: false
     t.string "status"
     t.bigint "category_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "organization_id", null: false
     t.index ["category_id"], name: "index_articles_on_category_id"
+    t.index ["organization_id"], name: "index_articles_on_organization_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
+    t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -54,5 +57,14 @@ ActiveRecord::Schema.define(version: 2022_10_18_083527) do
     t.index ["from"], name: "index_redirections_on_from", unique: true
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "email", null: false
+  end
+
   add_foreign_key "articles", "categories"
+  add_foreign_key "articles", "organizations"
+  add_foreign_key "articles", "users"
 end

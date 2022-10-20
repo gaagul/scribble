@@ -1,6 +1,6 @@
 
 json.organization do
-  json.extract! @organization,
+  json.extract! @current_organization,
     :id,
     :title,
     :is_password_enabled,
