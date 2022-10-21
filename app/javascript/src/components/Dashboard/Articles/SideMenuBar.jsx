@@ -105,6 +105,7 @@ const SideMenuBar = ({
             style="text"
             onClick={() => {
               setIsInputCollapsed(true);
+              setNewCategoryTitle("");
             }}
           />
         </div>

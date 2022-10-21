@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Typography, Accordion, PageLoader } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
+import { isNil, isEmpty, either } from "ramda";
 import { useHistory, Switch, Route, Redirect } from "react-router-dom";
 
 import euiApi from "apis/eui";
@@ -71,50 +72,52 @@ const Eui = () => {
         </Typography>
       </nav>
       <div className="flex">
-        <MenuBar showMenu>
-          <Accordion defaultActiveKey={selectedCategory - 1}>
-            {categories?.length ? (
-              categories.map(category => (
-                <Accordion.Item
-                  className="border-b-2"
-                  key={category.id}
-                  title={category.title}
-                >
-                  {category.articles.map(article => (
-                    <Typography
-                      className="ml-2 mb-2 cursor-pointer"
-                      key={article.id}
-                      style="body2"
-                      onClick={() => {
-                        history.push(`/public/${article.slug}`);
-                      }}
-                    >
-                      {article.title}
-                    </Typography>
-                  ))}
-                </Accordion.Item>
-              ))
-            ) : (
-              <Accordion.Item title="No Data found" />
-            )}
-          </Accordion>
-        </MenuBar>
-        <Switch>
-          <Route
-            exact
-            path="/public/:slug"
-            component={() => (
-              <Article
-                setCategory={category => setSelectedCategory(category)}
+        {!either(isNil, isEmpty)(categories) ? (
+          <>
+            <MenuBar showMenu>
+              <Accordion defaultActiveKey={selectedCategory - 1}>
+                {categories.map(category => (
+                  <Accordion.Item
+                    className="border-b-2"
+                    key={category.id}
+                    title={category.title}
+                  >
+                    {category.articles.map(article => (
+                      <Typography
+                        className="ml-2 mb-2 cursor-pointer"
+                        key={article.id}
+                        style="body2"
+                        onClick={() => {
+                          history.push(`/public/${article.slug}`);
+                        }}
+                      >
+                        {article.title}
+                      </Typography>
+                    ))}
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            </MenuBar>
+            <Switch>
+              <Route
+                exact
+                path="/public/:slug"
+                component={() => (
+                  <Article
+                    setCategory={category => setSelectedCategory(category)}
+                  />
+                )}
               />
-            )}
-          />
-          <Redirect
-            exact
-            from="/public"
-            to={`/public/${initialArticle.slug}`}
-          />
-        </Switch>
+              <Redirect
+                exact
+                from="/public"
+                to={`/public/${initialArticle.slug}`}
+              />
+            </Switch>
+          </>
+        ) : (
+          <div>no articles published</div>
+        )}
       </div>
     </>
   );

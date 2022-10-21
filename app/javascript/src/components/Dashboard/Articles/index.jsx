@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { PageLoader, Typography } from "neetoui";
+import { PageLoader, Typography, Button } from "neetoui";
 import { Container, SubHeader } from "neetoui/layouts";
 import { isNil, isEmpty, either } from "ramda";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import DashboardHeader from "./DashboardHeader";
+import Header from "./Header";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 
@@ -113,17 +113,24 @@ const Articles = () => {
         }}
       />
       <Container>
-        <DashboardHeader
+        <Header
+          categories={categories}
           columnVisibility={columnVisibility}
           searchTitle={searchTitle}
           setColumnVisibility={setColumnVisibility}
           setSearchTitle={setSearchTitle}
         />
         {either(isNil, isEmpty)(allArticles) ? (
-          <div className="mx-auto my-56">
+          <div className="mx-auto my-56 ">
             <h1 className="text-center text-xl leading-5">
-              You have no Articles to read 😔
+              You have no articles to read
             </h1>
+            <Button
+              className="mt-6 ml-12"
+              disabled={either(isEmpty, isNil)(categories)}
+              label="Add new article"
+              to="/article/create"
+            />
           </div>
         ) : (
           <>
