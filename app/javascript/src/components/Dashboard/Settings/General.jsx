@@ -8,6 +8,7 @@ import organizationsApi from "apis/organizations";
 
 const General = () => {
   const [organization, setOrganization] = useState({});
+  const [editPassword, setEditPassword] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const fetchOrg = async () => {
@@ -22,9 +23,9 @@ const General = () => {
     }
   };
 
-  const handleSubmit = async values => {
+  const handleSubmit = async (values, onSubmitProps) => {
     try {
-      if (values.isPasswordProtected) {
+      if (editPassword) {
         await organizationsApi.update(organization.id, {
           title: values.title,
           is_password_enabled: values.isPasswordProtected,
@@ -33,12 +34,14 @@ const General = () => {
       } else {
         await organizationsApi.update(organization.id, {
           title: values.title,
-          is_password_enabled: false,
+          is_password_enabled: values.isPasswordProtected,
         });
         fetchOrg();
       }
     } catch (err) {
       logger.error(err);
+    } finally {
+      onSubmitProps.setSubmitting(false);
     }
   };
 
@@ -61,6 +64,7 @@ const General = () => {
         Configure general attributes of Scribble.
       </Typography>
       <Formik
+        enableReinitialize
         initialValues={{
           title: organization.title,
           isPasswordProtected: organization.is_password_enabled,
@@ -68,7 +72,7 @@ const General = () => {
         }}
         onSubmit={handleSubmit}
       >
-        {({ values, resetForm }) => (
+        {({ values, resetForm, dirty, isValid, isSubmitting }) => (
           <FormikForm className="max-w-sm">
             <Input required label="Site Name" name="title" />
             <Checkbox
@@ -78,26 +82,40 @@ const General = () => {
             />
             <hr className="mt-4" />
             {values.isPasswordProtected && (
-              <Input
-                className="mt-4"
-                label="Password"
-                name="password"
-                placeholder="*******"
-                type="password"
-              />
-            )}
-            <div className="mt-3 max-w-xs space-x-1">
-              <Button label="Save Changes" style="primary" type="submit" />
-              {values.isPasswordProtected && (
+              <div className="mt-4 flex items-center space-x-3">
+                <Input
+                  disabled={!editPassword}
+                  label="Password"
+                  name="password"
+                  placeholder="*******"
+                  type="password"
+                />
                 <Button
-                  label="Cancel"
+                  className="mt-5"
+                  label={editPassword ? "Cancel" : "Change Password"}
+                  size="small"
+                  style="link"
+                  onClick={() => setEditPassword(editPassword => !editPassword)}
+                />
+              </div>
+            )}
+            {dirty && isValid && (
+              <div className="mt-3 max-w-xs space-x-1">
+                <Button
+                  disabled={!dirty || isSubmitting}
+                  label="Save Changes"
+                  style="primary"
+                  type="submit"
+                />
+                <Button
+                  label="Reset"
                   style="text"
                   onClick={() => {
                     resetForm();
                   }}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </FormikForm>
         )}
       </Formik>
