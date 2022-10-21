@@ -137,9 +137,9 @@ const Articles = () => {
             <Table
               activeCategoryId={activeCategoryId}
               activeStatus={activeStatus}
+              allArticles={allArticles}
               columnVisibility={columnVisibility}
               destroyArticle={destroyArticle}
-              filteredArticles={allArticles}
               searchTitle={searchTitle}
             />
           </>

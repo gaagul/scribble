@@ -5,7 +5,7 @@ import { Table as NeetoTable } from "neetoui";
 import { buildColumnData, filterAndSearch } from "./utils";
 
 const Table = ({
-  filteredArticles,
+  allArticles,
   destroyArticle,
   searchTitle,
   activeStatus,
@@ -15,7 +15,7 @@ const Table = ({
   <NeetoTable
     columnData={buildColumnData(destroyArticle, columnVisibility)}
     rowData={filterAndSearch(
-      filteredArticles,
+      allArticles,
       activeCategoryId,
       activeStatus,
       searchTitle
