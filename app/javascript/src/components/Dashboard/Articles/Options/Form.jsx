@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Dropdown, PageLoader, Button } from "neetoui";
+import { PageLoader, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import { useHistory } from "react-router-dom";
 
@@ -13,7 +13,6 @@ import { ARTICLE_FORM_VALIDATION_SCHEMA } from "./constants";
 const Form = ({ article, isEdit }) => {
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
-  const [articleStatus, setArticleStatus] = useState("draft");
   const history = useHistory();
 
   const [categories, setCategories] = useState([]);
@@ -40,14 +39,14 @@ const Form = ({ article, isEdit }) => {
           title: values.title,
           body: values.body,
           category_id: values.category.value,
-          status: articleStatus,
+          status: values.status.value,
         });
       } else {
         await articlesApi.create({
           title: values.title,
           body: values.body,
           category_id: values.category.value,
-          status: articleStatus,
+          status: values.status.value,
         });
       }
       history.push("/");
@@ -70,16 +69,20 @@ const Form = ({ article, isEdit }) => {
         validateOnChange={submitted}
         validationSchema={ARTICLE_FORM_VALIDATION_SCHEMA}
         initialValues={{
+          title: article.title,
           body: article.body,
           category: {
             value: article.category.id,
             label: article.category.title,
           },
-          title: article.title,
+          status: {
+            value: article.status,
+            label: article.status,
+          },
         }}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, dirty }) => (
           <FormikForm className="mx-auto mt-5 max-w-xl">
             <div className="grid grid-cols-2 space-x-5">
               <Input required label="Article Title" name="title" />
@@ -106,26 +109,24 @@ const Form = ({ article, isEdit }) => {
               <div className="flex space-x-5">
                 <div className="flex space-x-1">
                   <Button
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !dirty}
+                    label="Save Changes"
                     loading={isSubmitting}
                     size="medium"
                     style="primary"
                     type="submit"
-                    label={
-                      articleStatus === "draft"
-                        ? "Save Draft"
-                        : "Publish Article"
-                    }
                     onClick={() => setSubmitted(true)}
                   />
-                  <Dropdown position="bottom-end">
-                    <li onClick={() => setArticleStatus("draft")}>Draft</li>
-                    <li onClick={() => setArticleStatus("published")}>
-                      Publish
-                    </li>
-                  </Dropdown>
+                  <Select
+                    required
+                    name="status"
+                    options={[
+                      { label: "Draft", value: "Draft" },
+                      { label: "Publish", value: "Published" },
+                    ]}
+                  />
                 </div>
-                <Button label="Cancel" style="text" to="/" />
+                <Button label="Cancel" style="secondary" to="/" />
               </div>
             </div>
           </FormikForm>
