@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
 
     def handle_record_not_unique(exception)
-      respond_with_error(exception)
+      respond_with_error("Category must be unique")
     end
 
     def handle_api_error(exception)
