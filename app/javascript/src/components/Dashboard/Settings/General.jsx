@@ -75,12 +75,16 @@ const General = () => {
         {({ values, resetForm, dirty, isValid, isSubmitting }) => (
           <FormikForm className="max-w-sm">
             <Input required label="Site Name" name="title" />
+            <Typography style="nano">
+              Customize the site name which is used to show the site name in
+              Open Graph Tags.
+            </Typography>
+            <hr className="mt-4" />
             <Checkbox
               className="mt-3"
               label="Password Protect Knowledge Base"
               name="isPasswordProtected"
             />
-            <hr className="mt-4" />
             {values.isPasswordProtected && (
               <div className="mt-4 flex items-center space-x-3">
                 <Input

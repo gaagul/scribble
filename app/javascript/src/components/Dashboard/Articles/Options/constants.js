@@ -4,6 +4,7 @@ export const CREATE_FORM_INITIAL_VALUES = {
   title: "",
   body: "",
   category: { label: null, value: null },
+  status: "Draft",
 };
 
 export const ARTICLE_FORM_VALIDATION_SCHEMA = Yup.object().shape({
