@@ -36,11 +36,11 @@ const SideMenuBar = ({
         count={count.draftCount}
         label="Draft"
         onClick={() => {
-          setActiveStatus("draft");
+          setActiveStatus("Draft");
         }}
       />
       <MenuBar.Block
-        active={activeStatus === "published"}
+        active={activeStatus === "Published"}
         count={count.publishedCount}
         label="Published"
         onClick={() => {

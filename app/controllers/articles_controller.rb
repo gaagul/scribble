@@ -6,8 +6,8 @@ class ArticlesController < ApplicationController
   def index
     articles = Article.all.order(updated_at: :desc)
     @all_articles = articles
-    @draft_articles = articles.where(status: :draft)
-    @published_articles = articles.where(status: :published)
+    @draft_articles = articles.where(status: :Draft)
+    @published_articles = articles.where(status: :Published)
   end
 
   def show

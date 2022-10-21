@@ -5,5 +5,5 @@ json.categories @categories do | category |
     :id,
     :title,
     :position
-  json.articles category.articles.where(articles: { status: "published" })
+  json.articles category.articles.where(articles: { status: "Published" })
 end
