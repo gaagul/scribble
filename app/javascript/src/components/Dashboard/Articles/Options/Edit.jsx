@@ -11,14 +11,14 @@ import Form from "./Form";
 const Edit = () => {
   const [article, setArticle] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { slug } = useParams();
+  const { id } = useParams();
   const history = useHistory();
 
   const fetchArticle = async () => {
     try {
       const {
         data: { article },
-      } = await articlesApi.show(slug);
+      } = await articlesApi.show(id);
       setArticle(article);
     } catch (error) {
       logger.error(error);

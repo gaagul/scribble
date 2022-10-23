@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "organizations/update"
   constraints(lambda { |req| req.format == :json }) do
       resources :categories, except: %i[new edit]
-      resources :articles, except: %i[new edit], param: :slug
+      resources :articles, except: %i[new edit]
       resources :organizations, only: %i[index update]
       resources :redirections, except: %i[new edit]
       resource :session, only: :create

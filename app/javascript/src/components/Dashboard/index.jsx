@@ -23,7 +23,7 @@ const Dashboard = () => (
         exact
         component={EditArticle}
         key="EDIT_ARTICLE_PATH"
-        path="/article/:slug/edit"
+        path="/article/:id/edit"
       />
       <Route component={Settings} path="/settings" />
       <Redirect exact from="/" to="/articles" />
