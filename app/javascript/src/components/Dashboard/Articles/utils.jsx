@@ -50,7 +50,7 @@ export const buildColumnData = (destroyArticle, columnVisibility) =>
             className="mr-2"
             icon={Edit}
             style="secondary"
-            to={`/article/${record.slug}/edit`}
+            to={`/article/${record.id}/edit`}
           />
           <Button
             icon={Delete}
@@ -59,7 +59,7 @@ export const buildColumnData = (destroyArticle, columnVisibility) =>
               if (
                 window.confirm(`Do you really want to Delete ${record.title}`)
               ) {
-                destroyArticle(record.slug);
+                destroyArticle(record.id);
               }
             }}
           />
