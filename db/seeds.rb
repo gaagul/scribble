@@ -114,7 +114,3 @@ Article.create!(
       status: "Published"
     },
     ])
-Redirection.create!(
-  from: "/welcome",
-  to: "/public"
-)
