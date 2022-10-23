@@ -51,13 +51,17 @@ const SideMenuBar = ({
         iconProps={[
           {
             icon: Plus,
-            onClick: () =>
-              setIsInputCollapsed(isInputCollapsed => !isInputCollapsed),
+            onClick: () => {
+              setIsInputCollapsed(isInputCollapsed => !isInputCollapsed);
+              setIsSearchCollapsed(true);
+            },
           },
           {
             icon: Search,
-            onClick: () =>
-              setIsSearchCollapsed(isSearchCollapsed => !isSearchCollapsed),
+            onClick: () => {
+              setIsSearchCollapsed(isSearchCollapsed => !isSearchCollapsed);
+              setIsInputCollapsed(true);
+            },
           },
         ]}
       >
@@ -72,6 +76,7 @@ const SideMenuBar = ({
       </MenuBar.SubTitle>
       <MenuBar.Search
         collapse={isSearchCollapsed}
+        placeholder="Search Category"
         value={searchCategory}
         onChange={e => {
           setSearchCategory(e.target.value);
@@ -86,7 +91,6 @@ const SideMenuBar = ({
         <div className="mb-4 flex">
           <Input
             placeholder="Add New Category"
-            type="search"
             value={newCategoryTitle}
             onChange={e => setNewCategoryTitle(e.target.value)}
           />

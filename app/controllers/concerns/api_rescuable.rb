@@ -8,7 +8,6 @@ module ApiRescuable
     rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_error
     rescue_from ActiveRecord::RecordNotUnique, with: :handle_record_not_unique
     rescue_from ActionController::ParameterMissing, with: :handle_api_error
-    rescue_from Pundit::NotAuthorizedError, with: :handle_authorization_error
 
   end
 
@@ -23,7 +22,7 @@ module ApiRescuable
     end
 
     def handle_record_not_unique(exception)
-      respond_with_error(exception)
+      respond_with_error(t("category.not_unique"))
     end
 
     def handle_api_error(exception)

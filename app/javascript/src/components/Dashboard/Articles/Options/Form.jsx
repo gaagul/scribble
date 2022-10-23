@@ -34,21 +34,19 @@ const Form = ({ article, isEdit }) => {
 
   const handleSubmit = async values => {
     try {
-      if (isEdit) {
-        await articlesApi.update(article.slug, {
-          title: values.title,
-          body: values.body,
-          category_id: values.category.value,
-          status: values.status.value,
-        });
-      } else {
-        await articlesApi.create({
-          title: values.title,
-          body: values.body,
-          category_id: values.category.value,
-          status: values.status.value,
-        });
-      }
+      isEdit
+        ? await articlesApi.update(article.slug, {
+            title: values.title,
+            body: values.body,
+            category_id: values.category.value,
+            status: values.status.value,
+          })
+        : await articlesApi.create({
+            title: values.title,
+            body: values.body,
+            category_id: values.category.value,
+            status: values.status.value,
+          });
       history.push("/");
     } catch (err) {
       logger.error(err);

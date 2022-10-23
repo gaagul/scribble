@@ -6,7 +6,12 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
 
-const List = ({ categories, fetchCategories }) => {
+const List = ({
+  categories,
+  fetchCategories,
+  setCategoryToDelete,
+  setIsDeleting,
+}) => {
   const [categoryId, setCategoryId] = useState(0);
   const [categoryTitle, setCategoryTitle] = useState("");
 
@@ -43,15 +48,6 @@ const List = ({ categories, fetchCategories }) => {
     }
   };
 
-  const destroyCategory = async categoryId => {
-    try {
-      await categoriesApi.destroy(categoryId);
-      await fetchCategories();
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
   const handleOnDragEnd = result => {
     if (!result.destination) return;
 
@@ -66,7 +62,7 @@ const List = ({ categories, fetchCategories }) => {
       <Droppable droppableId="categories">
         {provided => (
           <ul {...provided.droppableProps} ref={provided.innerRef}>
-            {categories.map(({ id, title }, position) => (
+            {categories.map(({ id, title, count }, position) => (
               <Draggable draggableId={String(id)} index={position} key={id}>
                 {provided => (
                   <li
@@ -88,7 +84,12 @@ const List = ({ categories, fetchCategories }) => {
                             icon={Delete}
                             style="text"
                             onClick={() => {
-                              destroyCategory(id);
+                              setCategoryToDelete({
+                                id,
+                                title,
+                                count,
+                              });
+                              setIsDeleting(true);
                             }}
                           />
                           <Button
