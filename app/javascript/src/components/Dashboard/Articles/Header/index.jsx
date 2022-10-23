@@ -29,6 +29,7 @@ const DashboardHeader = ({
       </>
     }
     searchProps={{
+      placeholder: "Search Article Title",
       onChange: e => {
         setSearchTitle(e.target.value);
       },

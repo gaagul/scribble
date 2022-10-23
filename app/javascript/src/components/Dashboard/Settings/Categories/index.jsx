@@ -6,10 +6,13 @@ import { Typography, PageLoader, Button } from "neetoui";
 import categoriesApi from "apis/categories";
 
 import Add from "./Add";
+import DeleteModal from "./DeleteModal";
 import List from "./List";
 
 const Categories = () => {
   const [isAdding, setIsAdding] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState({});
   const [categories, setCategories] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -66,7 +69,19 @@ const Categories = () => {
           onClick={() => setIsAdding(true)}
         />
       )}
-      <List categories={categories} fetchCategories={fetchCategories} />
+      <List
+        categories={categories}
+        fetchCategories={fetchCategories}
+        setCategoryToDelete={setSelectedCategory}
+        setIsDeleting={setIsDeleting}
+      />
+      <DeleteModal
+        categories={categories}
+        isDeleting={isDeleting}
+        refetchCategories={fetchCategories}
+        selectedCategory={selectedCategory}
+        setIsDeleting={setIsDeleting}
+      />
     </div>
   );
 };
