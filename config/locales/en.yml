@@ -5,8 +5,7 @@ en:
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
   successfully_deleted: "%{entity} was successfully deleted!"
-  category:
-    not_unique: "Category name must bee unique"
+  not_unique: "%{entity} title must be unique"
   article:
     slug:
       immutable: "is immutable!"
