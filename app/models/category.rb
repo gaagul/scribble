@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
-  MAX_TITLE_LENGTH = 15
+  MAX_TITLE_LENGTH = 20
 
   has_many :articles, dependent: :delete_all
   acts_as_list
