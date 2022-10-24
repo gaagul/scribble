@@ -67,8 +67,6 @@ const General = () => {
         enableReinitialize
         initialValues={{
           title: organization.title,
-          isPasswordProtected: organization.is_password_enabled,
-          password: organization.password,
         }}
         onSubmit={handleSubmit}
       >
