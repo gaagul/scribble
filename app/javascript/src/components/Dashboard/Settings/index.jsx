@@ -19,7 +19,7 @@ const Settings = ({ history, location }) => {
   }
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <MenuBar showMenu title="Settings">
         {SETTINGS_NAVLINKS.map(navlink => (
           <div className="flex items-center" key={navlink.key}>

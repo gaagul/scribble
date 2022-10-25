@@ -122,7 +122,7 @@ const Eui = () => {
             </Switch>
           </>
         ) : (
-          <div className=" mx-auto mt-10">no articles published</div>
+          <div className=" mx-auto mt-10">No articles published</div>
         )}
       </div>
     </>

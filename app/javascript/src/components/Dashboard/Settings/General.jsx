@@ -13,6 +13,7 @@ const General = () => {
 
   const fetchOrg = async () => {
     try {
+      setLoading(true);
       const {
         data: { organization },
       } = await organizationsApi.get();
@@ -20,6 +21,7 @@ const General = () => {
       setLoading(false);
     } catch (error) {
       logger.error(error);
+      setLoading(false);
     }
   };
 
@@ -31,6 +33,7 @@ const General = () => {
           is_password_enabled: values.isPasswordProtected,
           password: values.password,
         });
+        fetchOrg();
       } else {
         await organizationsApi.update(organization.id, {
           title: values.title,
@@ -67,6 +70,7 @@ const General = () => {
         enableReinitialize
         initialValues={{
           title: organization.title,
+          isPasswordProtected: organization.is_password_enabled,
         }}
         onSubmit={handleSubmit}
       >

@@ -5,11 +5,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Articles from "./Articles";
 import CreateArticle from "./Articles/Options/Create";
 import EditArticle from "./Articles/Options/Edit";
+import InvalidRoute from "./InvalidRoute";
 import NavBar from "./NavBar";
 import Settings from "./Settings";
 
 const Dashboard = () => (
-  <div className=" h-screen w-full">
+  <div className="h-screen w-full">
     <NavBar />
     <Switch>
       <Route exact component={Articles} key="ARTICLES_PATH" path="/articles" />
@@ -27,6 +28,7 @@ const Dashboard = () => (
       />
       <Route component={Settings} path="/settings" />
       <Redirect exact from="/" to="/articles" />
+      <Route component={InvalidRoute} path="/*" />
     </Switch>
   </div>
 );

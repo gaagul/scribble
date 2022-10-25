@@ -25,6 +25,7 @@ const DeleteModal = ({
         new_category_id: newCategoryId,
       });
       refetchCategories();
+      setNewCategoryId(0);
     } catch (error) {
       logger.error(error);
     }
@@ -35,6 +36,7 @@ const DeleteModal = ({
       isOpen={isDeleting}
       onClose={() => {
         setIsDeleting(false);
+        setNewCategoryId(0);
       }}
     >
       <Modal.Header>
@@ -81,8 +83,12 @@ const DeleteModal = ({
       </Modal.Body>
       <Modal.Footer className="space-x-2">
         <Button
-          disabled={numberOfCategories > 1 && newCategoryId === 0}
           label="Continue"
+          disabled={
+            numberOfCategories > 1 &&
+            newCategoryId === 0 &&
+            selectedCategory.count > 0
+          }
           onClick={() => {
             handleDelete();
           }}
@@ -90,7 +96,10 @@ const DeleteModal = ({
         <Button
           label="Cancel"
           style="text"
-          onClick={() => setIsDeleting(false)}
+          onClick={() => {
+            setIsDeleting(false);
+            setNewCategoryId(0);
+          }}
         />
       </Modal.Footer>
     </Modal>
