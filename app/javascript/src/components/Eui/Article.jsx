@@ -55,7 +55,9 @@ const Article = ({ setCategory }) => {
           </div>
         </Container>
       ) : (
-        <div> Invalid Article! please select an article from the menu</div>
+        <div className="mx-auto my-56">
+          Invalid Article! please select an article from the menu
+        </div>
       )}
     </>
   );
