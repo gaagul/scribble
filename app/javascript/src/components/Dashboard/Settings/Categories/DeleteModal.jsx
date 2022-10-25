@@ -83,6 +83,7 @@ const DeleteModal = ({
       </Modal.Body>
       <Modal.Footer className="space-x-2">
         <Button
+          disabled={numberOfCategories > 1 && newCategoryId === 0}
           label="Continue"
           disabled={
             numberOfCategories > 1 &&
