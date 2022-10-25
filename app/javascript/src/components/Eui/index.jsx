@@ -12,10 +12,11 @@ import Article from "./Article";
 
 const Eui = () => {
   const [initialArticle, setInitialArticle] = useState({});
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedCategoryPosition, setSelectedCategoryPosition] = useState(0);
   const [organization, setOrganization] = useState({});
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
+  const [selectedTitle, setSelectedTitle] = useState("");
   const history = useHistory();
 
   const fetchCategories = async () => {
@@ -75,7 +76,7 @@ const Eui = () => {
         {!either(isNil, isEmpty)(categories) ? (
           <>
             <MenuBar showMenu>
-              <Accordion defaultActiveKey={selectedCategory - 1}>
+              <Accordion defaultActiveKey={selectedCategoryPosition - 1}>
                 {categories.map(category => (
                   <Accordion.Item
                     className="border-b-2"
@@ -84,9 +85,11 @@ const Eui = () => {
                   >
                     {category.articles.map(article => (
                       <Typography
-                        className="ml-2 mb-2 cursor-pointer"
                         key={article.id}
                         style="body2"
+                        className={`ml-2 mb-2 cursor-pointer ${
+                          article.title === selectedTitle && "text-blue-600"
+                        }`}
                         onClick={() => {
                           history.push(`/public/${article.slug}`);
                         }}
@@ -104,7 +107,10 @@ const Eui = () => {
                 path="/public/:slug"
                 component={() => (
                   <Article
-                    setCategory={category => setSelectedCategory(category)}
+                    setSelectedTitle={title => setSelectedTitle(title)}
+                    setCategoryPosition={category =>
+                      setSelectedCategoryPosition(category)
+                    }
                   />
                 )}
               />
@@ -116,7 +122,7 @@ const Eui = () => {
             </Switch>
           </>
         ) : (
-          <div>no articles published</div>
+          <div className=" mx-auto mt-10">no articles published</div>
         )}
       </div>
     </>

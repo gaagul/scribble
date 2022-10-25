@@ -20,15 +20,10 @@ const DeleteModal = ({
   const handleDelete = async () => {
     try {
       setIsDeleting(false);
-      numberOfCategories > 1 && newCategoryId !== 0
-        ? await categoriesApi.destroy({
-            id: selectedCategory.id,
-            new_category_id: newCategoryId,
-          })
-        : await categoriesApi.destroy({
-            id: selectedCategory.id,
-          });
-
+      await categoriesApi.destroy({
+        id: selectedCategory.id,
+        new_category_id: newCategoryId,
+      });
       refetchCategories();
     } catch (error) {
       logger.error(error);
@@ -86,6 +81,7 @@ const DeleteModal = ({
       </Modal.Body>
       <Modal.Footer className="space-x-2">
         <Button
+          disabled={numberOfCategories > 1 && newCategoryId === 0}
           label="Continue"
           onClick={() => {
             handleDelete();

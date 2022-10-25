@@ -18,13 +18,7 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    @articles = @category.articles
-    @all_count = Category.all.count
-    unless @all_count == 1 && @category.title == "General"
-      params[:new_category_id].present? ?
-      (@articles.update_all(category_id: params[:new_category_id]) unless @articles.empty?) :
-      ((no_new_category_param unless @articles.empty?) and return)
-    end
+    DeleteCategoryService.new(@category, params[:new_category_id]).call unless @category.articles.count == 0
     @category.destroy!
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
@@ -37,14 +31,5 @@ class CategoriesController < ApplicationController
 
     def load_category!
       @category = Category.find_by!(id: params[:id])
-    end
-
-    def no_new_category_param
-      unless @all_count > 1
-        general_category = Category.create!(title: "General")
-        @articles.update_all(category_id: general_category.id)
-        return
-      end
-      respond_with_error("please select a new category")
     end
 end
