@@ -4,6 +4,7 @@ import { Typography, Input, PageLoader, Button } from "@bigbinary/neetoui";
 import { Check, Close, Plus } from "neetoicons";
 
 import redirectionsApi from "apis/redirections";
+import { keyPress } from "utils/keyPress";
 
 import Table from "./Table";
 
@@ -36,6 +37,10 @@ const Redirections = () => {
     } finally {
       setAdding(false);
     }
+  };
+
+  const handleSubmit = () => {
+    createRedirection();
   };
 
   useEffect(() => {
@@ -83,13 +88,19 @@ const Redirections = () => {
                 to: e.target.value,
               }));
             }}
+            onKeyDown={e => {
+              keyPress(e, handleSubmit);
+            }}
           />
           <div className="flex space-x-1 pl-2">
             <Button
               icon={Check}
-              onClick={() => {
-                createRedirection();
-              }}
+              disabled={
+                newRedirection.to === "" ||
+                newRedirection.from === "" ||
+                newRedirection.to === newRedirection.from
+              }
+              onClick={handleSubmit}
             />
             <Button
               icon={Close}
