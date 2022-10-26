@@ -31,14 +31,13 @@ const DeleteModal = ({
     }
   };
 
+  const handleClose = () => {
+    setIsDeleting(false);
+    setNewCategoryId(0);
+  };
+
   return (
-    <Modal
-      isOpen={isDeleting}
-      onClose={() => {
-        setIsDeleting(false);
-        setNewCategoryId(0);
-      }}
-    >
+    <Modal isOpen={isDeleting} onClose={handleClose}>
       <Modal.Header>
         <Typography id="dialog1Title" style="h2">
           Delete Category
@@ -83,7 +82,6 @@ const DeleteModal = ({
       </Modal.Body>
       <Modal.Footer className="space-x-2">
         <Button
-          disabled={numberOfCategories > 1 && newCategoryId === 0}
           label="Continue"
           disabled={
             numberOfCategories > 1 &&
@@ -94,14 +92,7 @@ const DeleteModal = ({
             handleDelete();
           }}
         />
-        <Button
-          label="Cancel"
-          style="text"
-          onClick={() => {
-            setIsDeleting(false);
-            setNewCategoryId(0);
-          }}
-        />
+        <Button label="Cancel" style="text" onClick={handleClose} />
       </Modal.Footer>
     </Modal>
   );
