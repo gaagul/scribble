@@ -99,3 +99,15 @@ export const filterAndSearch = (
   activeStatus,
   input
 ) => searchWithTitle(filter(articles, activeCategoryId, activeStatus), input);
+
+export const filterCategories = (selectedCategories, newCategory) => {
+  const index = selectedCategories.indexOf(newCategory);
+  const arr = [...selectedCategories];
+  if (index === -1) {
+    arr.push(newCategory);
+  } else {
+    arr.splice(index, 1);
+  }
+
+  return arr;
+};

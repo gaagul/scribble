@@ -4,10 +4,10 @@ class ArticlesController < ApplicationController
   before_action :load_article!, except: %i[index create]
 
   def index
-    articles = Article.all.order(updated_at: :desc)
-    @all_articles = articles
-    @draft_articles = articles.where(status: :Draft)
-    @published_articles = articles.where(status: :Published)
+    category_filtered_articles = current_organization.articles.categories_filter(params[:category_ids])
+    @filtered_articles = category_filtered_articles.status_filter(params[:status])
+    @draft_articles = category_filtered_articles.where(status: :Draft)
+    @published_articles = category_filtered_articles.where(status: :Published)
   end
 
   def show
