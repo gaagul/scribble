@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  scope :categories_filter, -> (categories) { where category_id: categories unless categories.nil? }
+  scope :status_filter, -> (status) { where status: status unless status == "all" }
+
   MAX_TITLE_LENGTH = 25
+
   belongs_to :category
   belongs_to :user
   belongs_to :organization
@@ -33,7 +37,6 @@ class Article < ApplicationRecord
         self.slug = slug_candidate
       end
     end
-
 
     def slug_not_changed
       if slug_changed? && self.persisted?

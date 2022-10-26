@@ -15,11 +15,11 @@ const Articles = () => {
   const [articles, setArticles] = useState({});
   const [categories, setCategories] = useState({});
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
-  const [allArticles, setAllArticles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategoryId, setActiveCategoryId] = useState(0);
+  const [activeCategoryIds, setActiveCategoryIds] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
   const [searchTitle, setSearchTitle] = useState("");
+  const [count, setCount] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({
     title: true,
     date: true,
@@ -33,9 +33,14 @@ const Articles = () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list();
+      } = await articlesApi.list(activeCategoryIds, activeStatus);
       setArticles(articles);
-      setAllArticles(articles.all);
+      setLoading(false);
+      setCount({
+        draftCount: articles.draft_count,
+        publishedCount: articles.published_count,
+        allCount: articles.draft_count + articles.published_count,
+      });
     } catch (error) {
       logger.error(error);
     }
@@ -47,6 +52,7 @@ const Articles = () => {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
+      setLoading(false);
     } catch (error) {
       logger.error(error);
     }
@@ -84,8 +90,12 @@ const Articles = () => {
   };
 
   useEffect(() => {
-    fetchArticlesAndCategories();
+    fetchCategories();
   }, []);
+
+  useEffect(() => {
+    fetchArticles();
+  }, [activeCategoryIds, activeStatus]);
 
   if (loading) {
     return (
@@ -98,19 +108,15 @@ const Articles = () => {
   return (
     <div className="flex">
       <SideMenuBar
-        activeCategoryId={activeCategoryId}
+        activeCategoryIds={activeCategoryIds}
         activeStatus={activeStatus}
         categories={categories}
+        count={count}
         createCategory={createCategory}
         newCategoryTitle={newCategoryTitle}
-        setActiveCategoryId={setActiveCategoryId}
+        setActiveCategoryIds={setActiveCategoryIds}
         setActiveStatus={setActiveStatus}
         setNewCategoryTitle={setNewCategoryTitle}
-        count={{
-          draftCount: articles.draft_count,
-          publishedCount: articles.published_count,
-          allCount: articles.draft_count + articles.published_count,
-        }}
       />
       <Container>
         <Header
@@ -120,7 +126,7 @@ const Articles = () => {
           setColumnVisibility={setColumnVisibility}
           setSearchTitle={setSearchTitle}
         />
-        {either(isNil, isEmpty)(allArticles) ? (
+        {either(isNil, isEmpty)(articles.all) ? (
           <div className="mx-auto my-56 ">
             <h1 className="text-center text-xl leading-5">
               You have no articles to read
@@ -137,14 +143,12 @@ const Articles = () => {
             <SubHeader
               leftActionBlock={
                 <Typography component="h4" style="h4">
-                  Articles
+                  {articles.all.length} Articles
                 </Typography>
               }
             />
             <Table
-              activeCategoryId={activeCategoryId}
-              activeStatus={activeStatus}
-              allArticles={allArticles}
+              allArticles={articles.all}
               columnVisibility={columnVisibility}
               destroyArticle={destroyArticle}
               searchTitle={searchTitle}

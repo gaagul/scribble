@@ -4,15 +4,15 @@ import { Plus, Search, Check, Close } from "neetoicons";
 import { Typography, Button, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
-import { searchWithTitle } from "./utils";
+import { searchWithTitle, filterCategories } from "./utils";
 
 const SideMenuBar = ({
   categories,
   count,
   activeStatus,
   setActiveStatus,
-  activeCategoryId,
-  setActiveCategoryId,
+  activeCategoryIds,
+  setActiveCategoryIds,
   createCategory,
   newCategoryTitle,
   setNewCategoryTitle,
@@ -32,7 +32,7 @@ const SideMenuBar = ({
         }}
       />
       <MenuBar.Block
-        active={activeStatus === "draft"}
+        active={activeStatus === "Draft"}
         count={count.draftCount}
         label="Draft"
         onClick={() => {
@@ -44,7 +44,7 @@ const SideMenuBar = ({
         count={count.publishedCount}
         label="Published"
         onClick={() => {
-          setActiveStatus("published");
+          setActiveStatus("Published");
         }}
       />
       <MenuBar.SubTitle
@@ -83,7 +83,7 @@ const SideMenuBar = ({
         }}
         onCollapse={() => {
           setSearchCategory("");
-          setActiveCategoryId(0);
+          setActiveCategoryIds(activeCategoryIds);
           setIsSearchCollapsed(true);
         }}
       />
@@ -116,16 +116,16 @@ const SideMenuBar = ({
       )}
       {searchWithTitle(categories, searchCategory).map(category => (
         <MenuBar.Block
-          active={category.id === activeCategoryId}
+          active={activeCategoryIds.includes(category.id)}
           count={category.count}
           key={category.id}
           label={category.title}
           onClick={() => {
-            if (activeCategoryId === category.id) {
-              setActiveCategoryId(0);
-            } else {
-              setActiveCategoryId(category.id);
-            }
+            const filteredCategories = filterCategories(
+              activeCategoryIds,
+              category.id
+            );
+            setActiveCategoryIds(filteredCategories);
           }}
         />
       ))}

@@ -2,24 +2,18 @@ import React from "react";
 
 import { Table as NeetoTable } from "neetoui";
 
-import { buildColumnData, filterAndSearch } from "./utils";
+import { buildColumnData, searchWithTitle } from "./utils";
 
 const Table = ({
   allArticles,
   destroyArticle,
-  searchTitle,
-  activeStatus,
   columnVisibility,
-  activeCategoryId,
+  searchTitle,
 }) => (
   <NeetoTable
+    allowRowClick={false}
     columnData={buildColumnData(destroyArticle, columnVisibility)}
-    rowData={filterAndSearch(
-      allArticles,
-      activeCategoryId,
-      activeStatus,
-      searchTitle
-    )}
+    rowData={searchWithTitle(allArticles, searchTitle)}
   />
 );
 export default Table;
