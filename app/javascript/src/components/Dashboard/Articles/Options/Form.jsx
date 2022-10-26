@@ -100,13 +100,7 @@ const Form = ({ article, isEdit }) => {
                 }))}
               />
             </div>
-            <Textarea
-              preventDefault
-              className=""
-              label="Article Body"
-              name="body"
-              rows="20"
-            />
+            <Textarea className="" label="Article Body" name="body" rows="20" />
             <div className="m-2 flex">
               <div className="flex space-x-5">
                 <div className="flex space-x-1">
