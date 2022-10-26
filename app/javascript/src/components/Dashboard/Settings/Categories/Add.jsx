@@ -5,6 +5,9 @@ import { Input, Button } from "neetoui";
 
 const Add = ({ createCategory, setIsAdding }) => {
   const [category, setCategory] = useState("");
+  const handleSubmit = () => {
+    createCategory(category);
+  };
 
   return (
     <div className="mt -10 flex max-w-xs">
@@ -16,7 +19,11 @@ const Add = ({ createCategory, setIsAdding }) => {
         onChange={e => setCategory(e.target.value)}
       />
       <div className="mt-4 ml-4 flex space-x-2">
-        <Button icon={Check} onClick={() => createCategory(category)} />
+        <Button
+          disabled={category === ""}
+          icon={Check}
+          onClick={handleSubmit}
+        />
         <Button icon={Close} onClick={() => setIsAdding(false)} />
       </div>
     </div>

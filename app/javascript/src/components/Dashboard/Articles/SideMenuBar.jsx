@@ -4,6 +4,8 @@ import { Plus, Search, Check, Close } from "neetoicons";
 import { Typography, Button, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
+import { keyPress } from "utils/keyPress";
+
 import { searchWithTitle, filterCategories } from "./utils";
 
 const SideMenuBar = ({
@@ -20,6 +22,10 @@ const SideMenuBar = ({
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [isInputCollapsed, setIsInputCollapsed] = useState(true);
   const [searchCategory, setSearchCategory] = useState("");
+  const handleSubmit = () => {
+    createCategory();
+    setIsInputCollapsed(true);
+  };
 
   return (
     <MenuBar showMenu title="Articles">
@@ -93,15 +99,16 @@ const SideMenuBar = ({
             placeholder="Add New Category"
             value={newCategoryTitle}
             onChange={e => setNewCategoryTitle(e.target.value)}
+            onKeyDown={e => {
+              keyPress(e, handleSubmit);
+            }}
           />
           <Button
+            disabled={newCategoryTitle === ""}
             icon={Check}
             size="large"
             style="text"
-            onClick={() => {
-              createCategory();
-              setIsInputCollapsed(true);
-            }}
+            onClick={handleSubmit}
           />
           <Button
             icon={Close}
