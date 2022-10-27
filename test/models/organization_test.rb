@@ -25,7 +25,7 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   def test_validation_should_accept_valid_passwords
-    valid_passwords = %w[welcome123 wel4com/e123 comdfdsf-;';.le123 3214abcde123 sp1nkart]
+    valid_passwords = %w[Welcome1 Password1]
     valid_passwords.each do |password|
       @organization.password = password
       assert @organization.valid?
@@ -33,7 +33,7 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   def test_validation_should_reject_invalid_passwords
-    invalid_passwords = %w[welcome wel12 welcomw-welcome -spin- 21345 1234567890]
+    invalid_passwords = %w[passworD @Password 1234]
     invalid_passwords.each do |password|
       @organization.password = password
       assert @organization.invalid?
