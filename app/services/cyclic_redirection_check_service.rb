@@ -24,7 +24,7 @@ class CyclicRedirectionCheckService
         end
         if @fast == @slow
           Redirection.last.delete
-          return
+          return true
         end
       end
     end
