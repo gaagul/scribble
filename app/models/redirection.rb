@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Redirection < ApplicationRecord
-  validates :from, presence: true
-  validates :to, presence: true
+  REG_EXP = /([A-z0-9])/
+
+  validates :from, presence: true, format: { with: REG_EXP }
+  validates :to, presence: true, format: { with: REG_EXP }
   validate :to_and_from_validation
 
   after_save :check_cycle

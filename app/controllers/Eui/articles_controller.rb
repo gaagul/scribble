@@ -3,11 +3,8 @@
 class Eui::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show]
 
-  def index
-    @published_articles = articles.where(status: :Published)
-  end
-
   def show
+    render
   end
 
   private

@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include ApiResponders
   include ApiRescuable
+
   before_action :current_organization
   before_action :current_user
 

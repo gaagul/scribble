@@ -2,6 +2,7 @@
 
 class OrganizationsController < ApplicationController
   def index
+    render
   end
 
   def update

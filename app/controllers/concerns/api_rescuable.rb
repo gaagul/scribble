@@ -22,7 +22,7 @@ module ApiRescuable
     end
 
     def handle_record_not_unique(exception)
-      respond_with_error(t("category.not_unique"))
+      respond_with_error(exception)
     end
 
     def handle_api_error(exception)
