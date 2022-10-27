@@ -5,7 +5,7 @@ class Category < ApplicationRecord
 
   has_many :articles, dependent: :delete_all
 
-  acts_as_list
+  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: /([A-z0-9])/ }
 
-  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
+  acts_as_list
 end
