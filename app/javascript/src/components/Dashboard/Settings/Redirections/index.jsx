@@ -4,7 +4,6 @@ import { Typography, Input, PageLoader, Button } from "@bigbinary/neetoui";
 import { Check, Close, Plus } from "neetoicons";
 
 import redirectionsApi from "apis/redirections";
-import { keyPress } from "utils/keyPress";
 
 import Table from "./Table";
 
@@ -43,6 +42,19 @@ const Redirections = () => {
     createRedirection();
   };
 
+  const keyPress = e => {
+    if (e.key === "Enter" || (e.key === "Enter" && e.shiftKey === true)) {
+      handleSubmit();
+    } else if (e.key === "Escape") {
+      onClose();
+    }
+  };
+
+  const onClose = () => {
+    setAdding(adding => !adding);
+    setNewRedirection({ from: "", to: "" });
+  };
+
   useEffect(() => {
     fetchRedirections();
   }, []);
@@ -68,8 +80,14 @@ const Redirections = () => {
         redirections={redirections}
       />
       {adding && (
-        <div className="mt-5 flex space-x-2">
+        <div
+          className="mt-5 flex space-x-2"
+          onKeyDown={e => {
+            keyPress(e);
+          }}
+        >
           <Input
+            autoFocus
             prefix="/"
             value={newRedirection.from}
             onChange={e => {
@@ -88,11 +106,6 @@ const Redirections = () => {
                 to: e.target.value,
               }));
             }}
-            onKeyDown={e => {
-              if (newRedirection.from !== newRedirection.to) {
-                keyPress(e, handleSubmit);
-              }
-            }}
           />
           <div className="flex space-x-1 pl-2">
             <Button
@@ -104,13 +117,7 @@ const Redirections = () => {
               }
               onClick={handleSubmit}
             />
-            <Button
-              icon={Close}
-              onClick={() => {
-                setAdding(adding => !adding);
-                setNewRedirection({ from: "", to: "" });
-              }}
-            />
+            <Button icon={Close} onClick={onClose} />
           </div>
         </div>
       )}

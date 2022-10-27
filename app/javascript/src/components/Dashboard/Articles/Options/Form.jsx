@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
-import { keyPress } from "utils/keyPress";
 
 import { ARTICLE_FORM_VALIDATION_SCHEMA } from "./constants";
 
@@ -80,9 +79,6 @@ const Form = ({ article, isEdit }) => {
           },
         }}
         onSubmit={handleSubmit}
-        onKeyDown={e => {
-          keyPress(e, handleSubmit);
-        }}
       >
         {({ isSubmitting, dirty }) => (
           <FormikForm className="mx-auto mt-5 max-w-xl">

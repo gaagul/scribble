@@ -4,8 +4,6 @@ import { Plus, Search, Check, Close } from "neetoicons";
 import { Typography, Button, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
-import { keyPress } from "utils/keyPress";
-
 import { searchWithTitle, filterCategories } from "./utils";
 
 const SideMenuBar = ({
@@ -25,6 +23,11 @@ const SideMenuBar = ({
   const handleSubmit = () => {
     createCategory();
     setIsInputCollapsed(true);
+  };
+
+  const handleClose = () => {
+    setIsInputCollapsed(true);
+    setNewCategoryTitle("");
   };
 
   return (
@@ -81,6 +84,7 @@ const SideMenuBar = ({
         </Typography>
       </MenuBar.SubTitle>
       <MenuBar.Search
+        autoFocus
         collapse={isSearchCollapsed}
         placeholder="Search Category"
         value={searchCategory}
@@ -96,11 +100,16 @@ const SideMenuBar = ({
       {!isInputCollapsed && (
         <div className="mb-4 flex">
           <Input
+            autoFocus
             placeholder="Add New Category"
             value={newCategoryTitle}
             onChange={e => setNewCategoryTitle(e.target.value)}
             onKeyDown={e => {
-              keyPress(e, handleSubmit);
+              if (e.key === "Enter") {
+                handleSubmit();
+              } else if (e.key === "Escape") {
+                handleClose();
+              }
             }}
           />
           <Button
@@ -114,10 +123,7 @@ const SideMenuBar = ({
             icon={Close}
             size="large"
             style="text"
-            onClick={() => {
-              setIsInputCollapsed(true);
-              setNewCategoryTitle("");
-            }}
+            onClick={handleClose}
           />
         </div>
       )}

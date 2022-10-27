@@ -6,6 +6,8 @@ import { Input, Checkbox } from "neetoui/formik";
 
 import organizationsApi from "apis/organizations";
 
+import { ORGANIZATION_VALIDATION_SCHEMA } from "./constants";
+
 const General = () => {
   const [organization, setOrganization] = useState({});
   const [editPassword, setEditPassword] = useState(false);
@@ -68,13 +70,17 @@ const General = () => {
       </Typography>
       <Formik
         enableReinitialize
+        validateOnBlur={false}
+        validateOnChange={false}
+        validationSchema={ORGANIZATION_VALIDATION_SCHEMA}
         initialValues={{
           title: organization.title,
           isPasswordProtected: organization.is_password_enabled,
+          password: "",
         }}
         onSubmit={handleSubmit}
       >
-        {({ values, resetForm, dirty, isValid, isSubmitting }) => (
+        {({ values, resetForm, dirty, isSubmitting }) => (
           <FormikForm className="max-w-sm">
             <Input required label="Site Name" name="title" />
             <Typography style="nano">
@@ -101,11 +107,14 @@ const General = () => {
                   label={editPassword ? "Cancel" : "Change Password"}
                   size="small"
                   style="link"
-                  onClick={() => setEditPassword(editPassword => !editPassword)}
+                  onClick={() => {
+                    values.password = "";
+                    setEditPassword(editPassword => !editPassword);
+                  }}
                 />
               </div>
             )}
-            {dirty && isValid && (
+            {dirty && (
               <div className="mt-3 max-w-xs space-x-1">
                 <Button
                   disabled={!dirty || isSubmitting}
