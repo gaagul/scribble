@@ -8,8 +8,15 @@ class RedirectionsController < ApplicationController
   end
 
   def create
-    Redirection.create!(from: "/#{redirection_params[:from]}", to: "/#{redirection_params[:to]}")
-    respond_with_success(t("successfully_created", entity: "Redirection"))
+    cycle = CyclicRedirectionCheckService.new(
+      "/#{redirection_params[:from]}",
+      "/#{redirection_params[:to]}"
+    ).call || false
+    if cycle
+      respond_with_error("Redirection cycle deteced")
+    else
+      respond_with_success(t("successfully_created", entity: "Redirection"))
+    end
   end
 
   def update
