@@ -10,10 +10,10 @@ class HomeController < ApplicationController
   private
 
     def redirect
-      from_path = "/#{params[:path]}"
+      from_path = "#{params[:path]}"
       redirection = Redirection.find_by(from: from_path)
       if redirection
-        redirect_to redirection.to, status: :moved_permanently
+        redirect_to "/#{redirection.to}", status: :moved_permanently
       end
     end
 end

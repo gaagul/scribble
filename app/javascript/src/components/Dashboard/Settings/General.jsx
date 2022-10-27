@@ -117,6 +117,7 @@ const General = () => {
                   label="Reset"
                   style="text"
                   onClick={() => {
+                    setEditPassword(false);
                     resetForm();
                   }}
                 />

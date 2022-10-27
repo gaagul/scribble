@@ -77,29 +77,6 @@ export const searchWithTitle = (data, input) =>
     return item;
   });
 
-export const filter = (articles, activeCategoryId, activeStatus) => {
-  if (activeStatus !== "all" && activeCategoryId !== 0) {
-    return articles.filter(
-      article =>
-        article.status === activeStatus &&
-        article.category.id === activeCategoryId
-    );
-  } else if (activeStatus === "all" && activeCategoryId !== 0) {
-    return articles.filter(article => article.category.id === activeCategoryId);
-  } else if (activeStatus !== "all" && activeCategoryId === 0) {
-    return articles.filter(article => article.status === activeStatus);
-  }
-
-  return articles;
-};
-
-export const filterAndSearch = (
-  articles,
-  activeCategoryId,
-  activeStatus,
-  input
-) => searchWithTitle(filter(articles, activeCategoryId, activeStatus), input);
-
 export const filterCategories = (selectedCategories, newCategory) => {
   const index = selectedCategories.indexOf(newCategory);
   const arr = [...selectedCategories];
