@@ -1,12 +1,10 @@
 import axios from "axios";
-import { Toastr } from "neetoui";
 
+import Toastr from "components/Common/Toastr";
 import { setToLocalStorage, getFromLocalStorage } from "utils/storage";
 
 const DEFAULT_ERROR_NOTIFICATION = "Something went wrong!";
-
 axios.defaults.baseURL = "/";
-
 const setAuthHeaders = (setLoading = () => null) => {
   axios.defaults.headers = {
     Accept: "application/json",
@@ -17,9 +15,10 @@ const setAuthHeaders = (setLoading = () => null) => {
   };
   const token = getFromLocalStorage("authToken");
   const organization = getFromLocalStorage("authOrganization");
-  if (token && organization) {
-    axios.defaults.headers["X-Auth-Token"] = token;
+  const user = getFromLocalStorage("authUser");
+  if (token && organization && user) {
     axios.defaults.headers["X-Auth-Organization"] = organization;
+    axios.defaults.headers["X-Auth-Token"] = token;
   }
   setLoading(false);
 };
@@ -37,7 +36,11 @@ const handleSuccessResponse = response => {
 
 const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
-    setToLocalStorage({ authToken: null, organization: null });
+    setToLocalStorage({
+      authToken: null,
+      authOrganization: null,
+      authUser: null,
+    });
     setTimeout(() => (window.location.href = "/public"), 2000);
   }
 
@@ -57,9 +60,4 @@ const registerIntercepts = () => {
   );
 };
 
-const resetAuthTokens = () => {
-  delete axios.defaults.headers["X-Auth-Token"];
-  delete axios.defaults.headers["X-Auth-Organization"];
-};
-
-export { setAuthHeaders, registerIntercepts, resetAuthTokens };
+export { setAuthHeaders, registerIntercepts };
