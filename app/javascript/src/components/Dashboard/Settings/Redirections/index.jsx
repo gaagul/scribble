@@ -75,63 +75,65 @@ const Redirections = () => {
         new links. All redirections are performed with 301 status codes to be
         friendly.
       </Typography>
-      <Table
-        fetchRedirections={fetchRedirections}
-        redirections={redirections}
-      />
-      {adding && (
-        <div
-          className="mt-5 flex space-x-2"
-          onKeyDown={e => {
-            keyPress(e);
-          }}
-        >
-          <Input
-            autoFocus
-            prefix="/"
-            value={newRedirection.from}
-            onChange={e => {
-              setNewRedirection(newRedirection => ({
-                ...newRedirection,
-                from: e.target.value,
-              }));
-            }}
-          />
-          <Input
-            prefix="/"
-            value={newRedirection.to}
-            onChange={e => {
-              setNewRedirection(newRedirection => ({
-                ...newRedirection,
-                to: e.target.value,
-              }));
-            }}
-          />
-          <div className="flex space-x-1 pl-2">
-            <Button
-              icon={Check}
-              disabled={
-                newRedirection.to === "" ||
-                newRedirection.from === "" ||
-                newRedirection.to === newRedirection.from
-              }
-              onClick={handleSubmit}
-            />
-            <Button icon={Close} onClick={onClose} />
-          </div>
-        </div>
-      )}
-      {!adding && (
-        <Button
-          icon={Plus}
-          iconPosition="left"
-          label="Add New Redirection"
-          style="text"
-          onClick={() => {
-            setAdding(adding => !adding);
-          }}
+      <div className="bg-blue-200 p-3">
+        <Table
+          fetchRedirections={fetchRedirections}
+          redirections={redirections}
         />
-      )}
+        {adding && (
+          <div
+            className="mt-5 flex space-x-2"
+            onKeyDown={e => {
+              keyPress(e);
+            }}
+          >
+            <Input
+              autoFocus
+              prefix="/"
+              value={newRedirection.from}
+              onChange={e => {
+                setNewRedirection(newRedirection => ({
+                  ...newRedirection,
+                  from: e.target.value,
+                }));
+              }}
+            />
+            <Input
+              prefix="/"
+              value={newRedirection.to}
+              onChange={e => {
+                setNewRedirection(newRedirection => ({
+                  ...newRedirection,
+                  to: e.target.value,
+                }));
+              }}
+            />
+            <div className="flex space-x-1 pl-2">
+              <Button
+                icon={Check}
+                disabled={
+                  newRedirection.to === "" ||
+                  newRedirection.from === "" ||
+                  newRedirection.to === newRedirection.from
+                }
+                onClick={handleSubmit}
+              />
+              <Button icon={Close} onClick={onClose} />
+            </div>
+          </div>
+        )}
+        {!adding && (
+          <Button
+            icon={Plus}
+            iconPosition="left"
+            label="Add New Redirection"
+            style="text"
+            onClick={() => {
+              setAdding(adding => !adding);
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };
