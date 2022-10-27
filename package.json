@@ -16,6 +16,10 @@
     ]
   },
   "name": "scribble-by-gaagul-gigi",
+  "engines": {
+    "node": "v16.4.2",
+    "yarn": "1.22.19"
+  },
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.18.6",
