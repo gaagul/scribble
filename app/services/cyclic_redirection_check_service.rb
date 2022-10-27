@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-class Redirection < ApplicationRecord
-  validates :from, presence: true
-  validates :to, presence: true
-  validate :to_and_from_validation
+class CyclicRedirectionCheckService
+  def initialize(from, to)
+    @from = from
+    @to = to
+  end
 
-  after_save :check_cycle
+  def call
+    Redirection.create!(from: @from, to: @to)
+    check_cycle
+  end
 
   private
 
-    def to_and_from_validation
-      errors.add(:base, "TO and FROM paths must be different") if from == to
-    end
-
     def check_cycle
-      @slow = to
-      @fast = to
+      @slow = @to
+      @fast = @to
 
       while @fast != true do
         fast_jump
@@ -23,8 +23,8 @@ class Redirection < ApplicationRecord
           slow_jump
         end
         if @fast == @slow
-          errors.add(:base, "Redirection creates a loop, Hence rejected.")
-          raise ActiveRecord::RecordInvalid.new(self)
+          Redirection.last.delete
+          return true
         end
       end
     end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  scope :categories_filter, -> (categories) { where category_id: categories unless categories.nil? }
-  scope :status_filter, -> (status) { where status: status unless status == "all" }
+  scope :categories_filter, -> (categories) { where(category_id: categories) unless categories.nil? }
+  scope :status_filter, -> (status) { where(status: status) unless status == "all" }
 
   MAX_TITLE_LENGTH = 25
 
@@ -21,7 +21,7 @@ class Article < ApplicationRecord
   private
 
     def set_slug
-      if status == "Published" && slug.nil?
+      if status == "Published"
         title_slug = title.parameterize
         latest_task_slug = Article.where(
           "slug ~* ?",
@@ -35,6 +35,8 @@ class Article < ApplicationRecord
         end
         slug_candidate = slug_count.positive? ? "#{title_slug}-#{slug_count + 1}" : title_slug
         self.slug = slug_candidate
+      else
+        self.slug = nil
       end
     end
 

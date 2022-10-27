@@ -89,7 +89,9 @@ const Redirections = () => {
               }));
             }}
             onKeyDown={e => {
-              keyPress(e, handleSubmit);
+              if (newRedirection.from !== newRedirection.to) {
+                keyPress(e, handleSubmit);
+              }
             }}
           />
           <div className="flex space-x-1 pl-2">

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class DeleteCategoryService
-  include ActionView::Helpers::TranslationHelper
   def initialize(category, new_category_id)
     @category = category
     @articles = @category.articles

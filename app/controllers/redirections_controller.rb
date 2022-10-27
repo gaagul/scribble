@@ -25,7 +25,7 @@ class RedirectionsController < ApplicationController
   private
 
     def redirection_params
-      params.require(:redirection).permit(:from, :to)
+      params.require(:redirection).permit(:id, :from, :to)
     end
 
     def load_redirection!
