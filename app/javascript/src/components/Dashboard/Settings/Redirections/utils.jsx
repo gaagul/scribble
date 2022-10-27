@@ -19,6 +19,7 @@ export const buildColumns = (
       if (record.id === rowId) {
         return (
           <Input
+            prefix="/"
             value={editRedirection.from}
             onChange={e => {
               setEditRedirection(editRedirection => ({
@@ -30,7 +31,7 @@ export const buildColumns = (
         );
       }
 
-      return <p>{text}</p>;
+      return <p>/{text}</p>;
     },
   },
   {
@@ -41,6 +42,7 @@ export const buildColumns = (
       if (rowId === record.id) {
         return (
           <Input
+            prefix="/"
             value={editRedirection.to}
             onChange={e => {
               setEditRedirection(editRedirection => ({
@@ -52,7 +54,7 @@ export const buildColumns = (
         );
       }
 
-      return <p>{text}</p>;
+      return <p>/{text}</p>;
     },
   },
   {
@@ -66,6 +68,11 @@ export const buildColumns = (
           <div className="flex space-x-2">
             <Button
               icon={Check}
+              disabled={
+                editRedirection.to === editRedirection.from ||
+                (editRedirection.to === record.to &&
+                  editRedirection.from === record.from)
+              }
               onClick={() => {
                 updateRedirection();
               }}
@@ -95,7 +102,13 @@ export const buildColumns = (
             icon={Delete}
             style="secondary"
             onClick={() => {
-              destroyRedirection(record.id);
+              if (
+                window.confirm(
+                  "Do you really want to Delete the selected Redirection"
+                )
+              ) {
+                destroyRedirection(record.id);
+              }
             }}
           />
         </div>

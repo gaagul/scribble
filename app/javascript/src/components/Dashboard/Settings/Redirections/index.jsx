@@ -31,10 +31,10 @@ const Redirections = () => {
     try {
       await redirectionsApi.create(newRedirection);
       fetchRedirections();
-      setNewRedirection({ from: "", to: "" });
     } catch (error) {
       logger.error(error);
     } finally {
+      setNewRedirection({ from: "", to: "" });
       setAdding(false);
     }
   };
