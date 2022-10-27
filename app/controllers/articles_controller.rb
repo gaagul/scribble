@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
 
   def index
     category_filtered_articles = current_organization.articles.categories_filter(
-      params[:category_ids]).title_search(params[:search_title]
+      params[:category_ids]).title_search(params[:search_title].downcase
     )
     @filtered_articles = category_filtered_articles.status_filter(params[:status])
     @draft_articles = category_filtered_articles.where(status: :Draft)
