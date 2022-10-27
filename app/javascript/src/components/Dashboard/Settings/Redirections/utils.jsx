@@ -19,6 +19,7 @@ export const buildColumns = (
       if (record.id === rowId) {
         return (
           <Input
+            autoFocus
             prefix="/"
             value={editRedirection.from}
             onChange={e => {
@@ -80,7 +81,7 @@ export const buildColumns = (
             <Button
               icon={Close}
               onClick={() => {
-                setRowId();
+                setRowId(0);
               }}
             />
           </div>

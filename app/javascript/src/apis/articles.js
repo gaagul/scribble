@@ -1,10 +1,13 @@
 import axios from "axios";
 
-const list = (activeCategoryIds, activeStatus) =>
+const list = (activeCategoryIds, activeStatus, searchTitle) =>
   axios.get("/articles", {
-    params: { category_ids: activeCategoryIds, status: activeStatus },
+    params: {
+      category_ids: activeCategoryIds,
+      status: activeStatus,
+      search_title: searchTitle,
+    },
   });
-
 const show = slug => axios.get(`/articles/${slug}`);
 
 const create = payload =>

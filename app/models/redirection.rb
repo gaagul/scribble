@@ -3,7 +3,7 @@
 class Redirection < ApplicationRecord
   REG_EXP = /([A-z0-9])/
 
-  validates :from, presence: true, format: { with: REG_EXP }
+  validates :from, presence: true, uniqueness: true, format: { with: REG_EXP }
   validates :to, presence: true, format: { with: REG_EXP }
   validate :to_and_from_validation
 

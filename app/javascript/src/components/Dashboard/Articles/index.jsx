@@ -33,7 +33,7 @@ const Articles = () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list(activeCategoryIds, activeStatus);
+      } = await articlesApi.list(activeCategoryIds, activeStatus, searchTitle);
       setArticles(articles);
       setLoading(false);
       setCount({
@@ -95,7 +95,7 @@ const Articles = () => {
 
   useEffect(() => {
     fetchArticles();
-  }, [activeCategoryIds, activeStatus]);
+  }, [activeCategoryIds, activeStatus, searchTitle]);
 
   if (loading) {
     return (

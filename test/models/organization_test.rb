@@ -23,4 +23,20 @@ class OrganizationTest < ActiveSupport::TestCase
     second_organization = build(:organization)
     assert_not_same @organization.authentication_token, second_organization.authentication_token
   end
+
+  def test_validation_should_accept_valid_passwords
+    valid_passwords = %w[Welcome1 Password1]
+    valid_passwords.each do |password|
+      @organization.password = password
+      assert @organization.valid?
+    end
+  end
+
+  def test_validation_should_reject_invalid_passwords
+    invalid_passwords = %w[passworD @Password 1234]
+    invalid_passwords.each do |password|
+      @organization.password = password
+      assert @organization.invalid?
+    end
+  end
 end
