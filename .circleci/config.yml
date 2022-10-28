@@ -20,7 +20,7 @@ jobs:
       - checkout
       - run: gem install bundler:2.2.20
       #install sqlite dependency
-      - run: sudo apt update && sudo apt get-install postgresql-client
+      - run: sudo apt update && sudo apt-get install postgresql-client
       # Bundle install
       - run:
           bundle check --path=vendor/bundle || bundle install
