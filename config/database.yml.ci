@@ -1,19 +1,17 @@
 default: &default
   adapter: postgresql
+  encoding: unicode
+  host: 127.0.0.1
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
-
 development:
   <<: *default
-  database: db/development.postgresql
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+  database: scribble_by_gaagul_gigi_development
 test:
   <<: *default
-  database: granite_test<%= ENV['CIRCLE_NODE_INDEX'] %>
-
+  user: postgres
+  database: scribble_by_gaagul_gigi_test<%= ENV['CIRCLE_NODE_INDEX'] %>
 production:
   <<: *default
-  database: db/production.postgresql
+  database: scribble_by_gaagul_gigi_production
+  username: scribble_by_gaagul_gigi
+  password: <%= ENV['SCRIBBLE_BY_GAAGUL_GIGI_DATABASE_PASSWORD'] %>
