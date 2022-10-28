@@ -11,7 +11,8 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
   def test_list_all_organizations
     get organizations_path, headers: headers
     assert_response :success
-    assert_equal parse_body["organization"]["title"], @organization.title
+    response_json = parse_body
+    assert_equal response_json["organization"]["title"], @organization.title
   end
 
   def test_should_update_organization_details
