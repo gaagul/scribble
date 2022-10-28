@@ -4,13 +4,18 @@ const list = () => axios.get("/categories");
 
 const create = payload => axios.post("/categories/", { category: payload });
 
-const update = ({ id, payload }) =>
-  axios.put(`/categories/${id}`, { category: payload });
-
 const destroy = ({ id, new_category_id }) =>
   axios.delete(`/categories/${id}`, {
     data: { new_category_id },
   });
+
+const update = ({ id, payload, quiet = false }) => {
+  const path = quiet ? `/categories/${id}?quiet` : `/categories/${id}`;
+
+  return axios.put(path, {
+    category: payload,
+  });
+};
 
 const categoriesApi = {
   list,

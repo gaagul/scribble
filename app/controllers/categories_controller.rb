@@ -14,7 +14,7 @@ class CategoriesController < ApplicationController
 
   def update
     @category.update!(category_params)
-    respond_with_success(t("successfully_updated", entity: "Category"))
+    respond_with_success(t("successfully_updated", entity: "Category")) unless params.key?(:quiet)
   end
 
   def destroy
