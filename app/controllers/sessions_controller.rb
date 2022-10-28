@@ -11,5 +11,5 @@ class SessionsController < ApplicationController
 
     def login_params
       params.permit(:password)
-   end
+    end
 end
