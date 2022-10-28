@@ -14,7 +14,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get articles_path, params: { category_ids: nil, status: "all", search_title: "" }, headers: headers
     assert_response :success
     total_articles_count = Article.count
-    assert_equal parse_body["articles"]["all"].length, total_articles_count
+    response_json = parse_body
+    assert_equal response_json["articles"]["all"].length, total_articles_count
    end
 
   def test_should_create_valid_category
@@ -22,7 +23,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       params: { article: { title: "Test", status: "Published", category_id: @category.id } },
       headers: headers
     assert_response :success
-    assert_equal t("successfully_created", entity: "Article"), parse_body["notice"]
+    response_json = parse_body
+    assert_equal t("successfully_created", entity: "Article"), response_json["notice"]
   end
 
   def test_should_destroy_redirection
