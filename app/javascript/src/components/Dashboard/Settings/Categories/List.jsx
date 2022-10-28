@@ -41,6 +41,7 @@ const List = ({
         payload: {
           position,
         },
+        quiet: true,
       });
       await fetchCategories();
     } catch (error) {
