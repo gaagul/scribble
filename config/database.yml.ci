@@ -3,16 +3,13 @@ default: &default
   encoding: unicode
   host: 127.0.0.1
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
 development:
-  <<: default
+  <<: *default
   database: scribble_by_gaagul_gigi_development
-
 test:
-  <<:default
+  <<: *default
   user: postgres
   database: scribble_by_gaagul_gigi_test<%= ENV['CIRCLE_NODE_INDEX'] %>
-
 production:
   <<: *default
   database: scribble_by_gaagul_gigi_production
