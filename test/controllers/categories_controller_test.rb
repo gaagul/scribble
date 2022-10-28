@@ -10,8 +10,8 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def test_should_list_all_categories
     get categories_path, headers: headers
     assert_response :success
-    response_body = response.parsed_body
-    all_categories = response_body["categories"]
+    response_json = parse_body
+    all_categories = response_json["categories"]
     total_categories_count = Category.count
     assert_equal all_categories.length, total_categories_count
    end
@@ -21,7 +21,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       params: { category: { title: "Test" } },
       headers: headers
     assert_response :success
-    response_json = response.parsed_body
+    response_json = parse_body
     assert_equal t("successfully_created", entity: "Category"), response_json["notice"]
   end
 

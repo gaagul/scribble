@@ -32,9 +32,14 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
-def headers
+def headers(organization = nil)
   {
     Accept: "application/json",
-    "Content_Type" => "application/json"
+    "Content_Type" => "application/json",
+    "X-Auth-Token" => organization && organization.authentication_token
   }
+end
+
+def parse_body
+  response.parsed_body
 end
