@@ -35,11 +35,10 @@ class ArticleTest < ActiveSupport::TestCase
   def test_incremental_slug_generation_for_articles_with_duplicate_hyphenated_titles
     first_article = Article.create!(
       title: "test-article", body: "This is a test article body",
-      user: @user, category: @category, organization: @organization)
+      user: @user, category: @category, organization: @organization, status: "Published")
     second_article = Article.create!(
       title: "test-article", body: "This is a test article body",
-      user: @user, category: @category, organization: @organization)
-
+      user: @user, category: @category, organization: @organization, status: "Published")
     assert_equal "test-article", first_article.slug
     assert_equal "test-article-2", second_article.slug
   end
@@ -47,7 +46,7 @@ class ArticleTest < ActiveSupport::TestCase
   def test_error_raised_for_duplicate_slug
     another_test_article = Article.create!(
       title: "another test article", body: "This is a test article body",
-      user: @user, category: @category, organization: @organization)
+      user: @user, category: @category, organization: @organization, status: "Published")
     assert_raises ActiveRecord::RecordInvalid do
       another_test_article.update!(slug: @article.slug)
     end
@@ -61,17 +60,16 @@ class ArticleTest < ActiveSupport::TestCase
     body = "This is a test article body"
     first_article = Article.create!(
       title: title, body: body, user: @user,
-      category: @category, organization: @organization)
+      category: @category, organization: @organization, status: "Published")
     second_article = Article.create!(
       title: title, body: body, user: @user,
-      category: @category, organization: @organization)
+      category: @category, organization: @organization, status: "Published")
     third_article = Article.create!(
       title: title, body: body, user: @user,
-      category: @category, organization: @organization)
+      category: @category, organization: @organization, status: "Published")
     fourth_article = Article.create!(
       title: title, body: body, user: @user,
-      category: @category, organization: @organization)
-
+      category: @category, organization: @organization, status: "Published")
     assert_equal fourth_article.slug, "#{title.parameterize}-4"
 
     third_article.destroy
@@ -80,7 +78,7 @@ class ArticleTest < ActiveSupport::TestCase
 
     new_article = Article.create!(
       title: title, body: body, user: @user,
-      category: @category, organization: @organization)
+      category: @category, organization: @organization, status: "Published")
     assert_equal new_article.slug, "#{title.parameterize}-#{expected_slug_suffix_for_new_article}"
   end
 
@@ -90,13 +88,13 @@ class ArticleTest < ActiveSupport::TestCase
 
     existing_Article = Article.create!(
       title: title_with_numbered_substring, body: body, user: @user,
-      category: @category, organization: @organization)
+      category: @category, organization: @organization, status: "Published")
     assert_equal title_with_numbered_substring.parameterize, existing_Article.slug
 
     substring_of_existing_slug = "buy"
     new_Article = Article.create!(
       title: substring_of_existing_slug, body: body, user: @user,
-      category: @category, organization: @organization)
+      category: @category, organization: @organization, status: "Published")
 
     assert_equal substring_of_existing_slug.parameterize, new_Article.slug
   end
