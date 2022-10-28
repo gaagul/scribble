@@ -12,5 +12,5 @@ class Eui::ArticlesController < ApplicationController
 
     def load_article!
       @article = Article.find_by!(slug: params[:slug])
-      end
+    end
 end
