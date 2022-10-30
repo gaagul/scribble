@@ -5,7 +5,7 @@ FactoryBot.define do
     association :organization, Factory: :organization
     association :user, Factory: :user
     association :category, Factory: :category
-    title { Faker::Name.name }
+    title { Faker::Lorem.sentence[0..14] }
     body { Faker::Lorem.paragraph }
     status { "Published" }
   end
