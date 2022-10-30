@@ -5,7 +5,7 @@ class DeleteCategoryService
     @category = category
     @articles = @category.articles
     @all_count = Category.all.count
-    @new_category_id = new_category_id
+    @new_category_id = new_category_id.to_i
   end
 
   def call
