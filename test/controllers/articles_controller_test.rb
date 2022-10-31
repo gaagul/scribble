@@ -13,7 +13,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_should_list_all_articles
     get articles_path, params: { category_ids: nil, status: "all", search_title: "" }, headers: headers
     assert_response :success
-    total_articles_count = Article.count
+    total_articles_count = @organization.articles.count
     response_json = parse_body
     assert_equal response_json["articles"]["all"].length, total_articles_count
    end

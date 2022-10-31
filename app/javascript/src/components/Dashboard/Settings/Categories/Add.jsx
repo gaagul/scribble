@@ -9,8 +9,18 @@ const Add = ({ createCategory, setIsAdding }) => {
     createCategory(category);
   };
 
+  const handleClose = () => setIsAdding(false);
+
+  const keyPress = e => {
+    if (e.key === "Enter" || (e.key === "Enter" && e.shiftKey === true)) {
+      handleSubmit();
+    } else if (e.key === "Escape") {
+      handleClose();
+    }
+  };
+
   return (
-    <div className="mt -10 flex max-w-xs">
+    <div className="mt -10 flex max-w-xs" onKeyDown={e => keyPress(e)}>
       <Input
         required
         className="mt-4"
@@ -24,7 +34,7 @@ const Add = ({ createCategory, setIsAdding }) => {
           icon={Check}
           onClick={handleSubmit}
         />
-        <Button icon={Close} onClick={() => setIsAdding(false)} />
+        <Button icon={Close} onClick={handleClose} />
       </div>
     </div>
   );

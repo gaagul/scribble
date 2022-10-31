@@ -58,6 +58,14 @@ const List = ({
     });
   };
 
+  const handleKeyPress = (e, title) => {
+    if (e.key === "Enter" && title !== categoryTitle) {
+      updateCategory();
+    } else if (e.key === "Escape") {
+      setCategoryId(0);
+    }
+  };
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="categories">
@@ -109,6 +117,7 @@ const List = ({
                         <Input
                           value={categoryTitle}
                           onChange={e => setCategoryTitle(e.target.value)}
+                          onKeyDown={e => handleKeyPress(e, title)}
                         />
                         <Button
                           icon={Check}
