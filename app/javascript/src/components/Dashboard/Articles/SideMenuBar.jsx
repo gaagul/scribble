@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Plus, Search, Check, Close } from "neetoicons";
 import { Typography, Button, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
-import { searchWithTitle, filterCategories } from "./utils";
+import categoriesApi from "apis/categories";
+
+import { filterCategories } from "./utils";
 
 const SideMenuBar = ({
   categories,
@@ -13,13 +15,24 @@ const SideMenuBar = ({
   setActiveStatus,
   activeCategoryIds,
   setActiveCategoryIds,
-  createCategory,
-  newCategoryTitle,
-  setNewCategoryTitle,
+  fetchCategories,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [isInputCollapsed, setIsInputCollapsed] = useState(true);
-  const [searchCategory, setSearchCategory] = useState("");
+  const [newCategoryTitle, setNewCategoryTitle] = useState("");
+  const [categorySearchTerm, setCategorySearchTerm] = useState("");
+
+  const createCategory = async () => {
+    try {
+      await categoriesApi.create({ title: newCategoryTitle });
+      await fetchCategories();
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setNewCategoryTitle("");
+    }
+  };
+
   const handleSubmit = () => {
     createCategory();
     setIsInputCollapsed(true);
@@ -29,6 +42,10 @@ const SideMenuBar = ({
     setIsInputCollapsed(true);
     setNewCategoryTitle("");
   };
+
+  useEffect(() => {
+    fetchCategories(categorySearchTerm);
+  }, [categorySearchTerm]);
 
   return (
     <MenuBar showMenu title="Articles">
@@ -87,12 +104,12 @@ const SideMenuBar = ({
         autoFocus
         collapse={isSearchCollapsed}
         placeholder="Search Category"
-        value={searchCategory}
+        value={categorySearchTerm}
         onChange={e => {
-          setSearchCategory(e.target.value);
+          setCategorySearchTerm(e.target.value);
         }}
         onCollapse={() => {
-          setSearchCategory("");
+          setCategorySearchTerm("");
           setActiveCategoryIds(activeCategoryIds);
           setIsSearchCollapsed(true);
         }}
@@ -127,7 +144,7 @@ const SideMenuBar = ({
           />
         </div>
       )}
-      {searchWithTitle(categories, searchCategory).map(category => (
+      {categories.map(category => (
         <MenuBar.Block
           active={activeCategoryIds.includes(category.id)}
           count={category.count}

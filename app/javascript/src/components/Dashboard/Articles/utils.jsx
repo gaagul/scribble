@@ -68,15 +68,6 @@ export const buildColumnData = (destroyArticle, columnVisibility) =>
     },
   ].filter(item => item.visibility);
 
-export const searchWithTitle = (data, input) =>
-  data.filter(item => {
-    if (input !== "") {
-      return item?.title?.toLowerCase()?.includes(input?.toLowerCase());
-    }
-
-    return item;
-  });
-
 export const filterCategories = (selectedCategories, newCategory) => {
   const index = selectedCategories.indexOf(newCategory);
   const arr = [...selectedCategories];

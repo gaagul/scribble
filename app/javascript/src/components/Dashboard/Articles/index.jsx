@@ -14,7 +14,6 @@ import Table from "./Table";
 const Articles = () => {
   const [articles, setArticles] = useState({});
   const [categories, setCategories] = useState({});
-  const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeCategoryIds, setActiveCategoryIds] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
@@ -46,11 +45,11 @@ const Articles = () => {
     }
   };
 
-  const fetchCategories = async () => {
+  const fetchCategories = async (categorySearchTerm = "") => {
     try {
       const {
         data: { categories },
-      } = await categoriesApi.list();
+      } = await categoriesApi.list(categorySearchTerm);
       setCategories(categories);
       setLoading(false);
     } catch (error) {
@@ -78,17 +77,6 @@ const Articles = () => {
     }
   };
 
-  const createCategory = async () => {
-    try {
-      await categoriesApi.create({ title: newCategoryTitle });
-      await fetchCategories();
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setNewCategoryTitle("");
-    }
-  };
-
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -112,11 +100,9 @@ const Articles = () => {
         activeStatus={activeStatus}
         categories={categories}
         count={count}
-        createCategory={createCategory}
-        newCategoryTitle={newCategoryTitle}
+        fetchCategories={fetchCategories}
         setActiveCategoryIds={setActiveCategoryIds}
         setActiveStatus={setActiveStatus}
-        setNewCategoryTitle={setNewCategoryTitle}
       />
       <Container>
         <Header
