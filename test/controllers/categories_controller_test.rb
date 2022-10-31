@@ -22,8 +22,14 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       params: { category: { title: "Test" } },
       headers: headers
     assert_response :success
-    response_json = parse_body
-    assert_equal t("successfully_created", entity: "Category"), response_json["notice"]
+    assert_equal t("successfully_created", entity: "Category"), parse_body["notice"]
+  end
+
+  def test_should_update_category_details
+    put category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
+    assert_response :success
+    @category.reload
+    assert_equal @category.title, "Welcome"
   end
 
   def test_should_update_category_details
