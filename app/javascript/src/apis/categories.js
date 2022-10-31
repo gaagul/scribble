@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const list = categorySearchTerm =>
+const list = (categorySearchTerm = "") =>
   axios.get("/categories", {
     params: {
       search_title: categorySearchTerm,
