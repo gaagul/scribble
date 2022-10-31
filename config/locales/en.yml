@@ -10,3 +10,6 @@ en:
   article:
     slug:
       immutable: "is immutable!"
+  redirection:
+    creates_loop: "Redirection creates a loop, Hence rejected!"
+    same_path: "TO and FROM paths must be different."

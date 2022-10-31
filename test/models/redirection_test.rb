@@ -31,7 +31,7 @@ class RedirectionTest < ActiveSupport::TestCase
   def test_does_not_form_a_cycle_while_create
     first_redirection = Redirection.create!(from: "public", to: "welcome")
     second_redirection = Redirection.create(from: "welcome", to: "public")
-    assert_includes second_redirection.errors.full_messages, "Redirection creates a loop, Hence rejected."
+    assert_includes second_redirection.errors.full_messages, t("redirection.creates_loop")
   end
 
   def test_does_not_form_a_cycle_while_update
@@ -39,6 +39,6 @@ class RedirectionTest < ActiveSupport::TestCase
     second_redirection = Redirection.create!(from: "welcome", to: "new")
     second_redirection.to = "public"
     second_redirection.save
-    assert_includes second_redirection.errors.full_messages, "Redirection creates a loop, Hence rejected."
+    assert_includes second_redirection.errors.full_messages, t("redirection.creates_loop")
   end
 end

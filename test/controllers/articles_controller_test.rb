@@ -35,9 +35,18 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_article_details
-    put article_path(@article.id), params: { title: "Welcome" }, as: :json, headers: headers
+    @new_article = create(:article, category: @category, user: @user, organization: @organization)
+    put article_path(@article.id), params: { title: "Welcome", body: @new_article.body, status: "Draft" }, as: :json,
+      headers: headers
     assert_response :success
     @article.reload
     assert_equal @article.title, "Welcome"
+    assert_equal @article.body, @new_article.body
+  end
+
+  def test_show_article_using_id
+    get article_path(@article.id), headers: headers
+    response_json = parse_body
+    assert_equal response_json["article"]["id"], @article.id
   end
 end
