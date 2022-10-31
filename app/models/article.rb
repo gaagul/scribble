@@ -13,7 +13,7 @@ class Article < ApplicationRecord
 
   enum status: { Draft: 0, Published: 1 }
 
-  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: /([A-z0-9])/ }
+  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: /\A[0-9a-zA-Z_-]+\z/ }
   validates :slug, uniqueness: true unless -> { slug.nil? }
   validate :slug_not_changed
 
