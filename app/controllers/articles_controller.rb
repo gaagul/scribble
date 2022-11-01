@@ -4,7 +4,7 @@ class ArticlesController < ApplicationController
   before_action :load_article!, except: %i[index create]
 
   def index
-    category_filtered_articles = current_organization.articles.categories_filter(
+    category_filtered_articles = current_user.articles.categories_filter(
       params[:category_ids]).title_search(params[:search_title].downcase
     )
     @filtered_articles = category_filtered_articles.status_filter(params[:status])
