@@ -14,13 +14,11 @@ class Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_should_show_article
     get eui_article_path(@article.slug), headers: @organization_header
     assert_response :success
-    response_json = parse_body
-    assert_equal response_json["article"]["id"], @article.id
+    assert_equal parse_body["article"]["id"], @article.id
   end
 
   def test_should_not_load_with_id
     get eui_article_path(@article.id), headers: @organization_header
-    response_json = parse_body
-    assert_equal "Couldn't find Article", response_json["error"]
+    assert_equal "Couldn't find Article", parse_body["error"]
   end
 end
