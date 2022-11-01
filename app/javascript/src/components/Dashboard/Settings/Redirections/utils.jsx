@@ -3,6 +3,19 @@ import React from "react";
 import { Check, Close, Edit, Delete } from "neetoicons";
 import { Input, Button } from "neetoui";
 
+const handleKeyPress = (e, to, from, updateRedirection, setRowId, record) => {
+  if (
+    e.key === "Enter" &&
+    to !== from &&
+    record.to !== to &&
+    record.from !== from
+  ) {
+    updateRedirection();
+  } else if (e.key === "Escape") {
+    setRowId(0);
+  }
+};
+
 export const buildColumns = (
   editRedirection,
   setEditRedirection,
@@ -28,6 +41,16 @@ export const buildColumns = (
                 from: e.target.value,
               }));
             }}
+            onKeyDown={e =>
+              handleKeyPress(
+                e,
+                editRedirection.to,
+                editRedirection.from,
+                updateRedirection,
+                setRowId,
+                record
+              )
+            }
           />
         );
       }
@@ -51,6 +74,16 @@ export const buildColumns = (
                 to: e.target.value,
               }));
             }}
+            onKeyDown={e =>
+              handleKeyPress(
+                e,
+                editRedirection.to,
+                editRedirection.from,
+                updateRedirection,
+                setRowId,
+                record
+              )
+            }
           />
         );
       }

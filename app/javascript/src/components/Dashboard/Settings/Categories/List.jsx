@@ -115,6 +115,7 @@ const List = ({
                     {categoryId === id && (
                       <div className="border-t flex p-3">
                         <Input
+                          autoFocus
                           value={categoryTitle}
                           onChange={e => setCategoryTitle(e.target.value)}
                           onKeyDown={e => handleKeyPress(e, title)}

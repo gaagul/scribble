@@ -6,5 +6,4 @@ json.categories @categories do | category |
     :title,
     :position,
     :articles
-
 end
