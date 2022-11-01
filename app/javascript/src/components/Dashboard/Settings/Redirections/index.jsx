@@ -43,7 +43,11 @@ const Redirections = () => {
   };
 
   const keyPress = e => {
-    if (e.key === "Enter" || (e.key === "Enter" && e.shiftKey === true)) {
+    if (
+      e.key === "Enter" &&
+      newRedirection.to !== "" &&
+      newRedirection.from !== ""
+    ) {
       handleSubmit();
     } else if (e.key === "Escape") {
       onClose();

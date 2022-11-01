@@ -6,7 +6,8 @@ class Eui::CategoriesController < ApplicationController
   def index
     @categories = Category.includes(:articles).where(
       articles: {
-        status: :Published
+        status: :Published,
+        organization: @_current_organization
       }).order("position")
   end
 end
