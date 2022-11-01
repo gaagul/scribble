@@ -39,6 +39,13 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @category.title, "Welcome"
   end
 
+  def test_should_update_category_details
+    put category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
+    assert_response :success
+    @category.reload
+    assert_equal @category.title, "Welcome"
+  end
+
   def test_should_destroy_redirection
     assert_difference "Category.count", -1 do
       delete category_path(@category.id), headers: headers

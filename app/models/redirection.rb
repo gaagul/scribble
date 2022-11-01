@@ -12,7 +12,7 @@ class Redirection < ApplicationRecord
   private
 
     def to_and_from_validation
-      errors.add(:base, "TO and FROM paths must be different") if from == to
+      errors.add(:base, t("redirection.same_path")) if from == to
     end
 
     def check_cycle
@@ -25,7 +25,7 @@ class Redirection < ApplicationRecord
           slow_jump
         end
         if @fast == @slow
-          errors.add(:base, "Redirection creates a loop, Hence rejected.")
+          errors.add(:base, t("redirection.creates_loop"))
           raise ActiveRecord::RecordInvalid.new(self)
         end
       end
