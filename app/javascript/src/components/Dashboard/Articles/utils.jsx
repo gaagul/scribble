@@ -15,6 +15,9 @@ export const buildColumnData = (
       visibility: columnVisibility.title,
       key: "title",
       width: 300,
+      render: (_, record) => (
+        <a href={`/article/${record.id}/edit`}>{record.title}</a>
+      ),
     },
     {
       title: "DATE",
