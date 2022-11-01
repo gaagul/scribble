@@ -16,17 +16,17 @@ export const buildColumnData = (
       key: "title",
       width: 250,
       render: (_, record) => (
-        <a href={`/article/${record.id}/edit`}>
-          <Tooltip
-            content={record.title}
-            followCursor="horizontal"
-            position="bottom"
-          >
+        <Tooltip
+          content={record.title}
+          followCursor="horizontal"
+          position="bottom"
+        >
+          <a href={`/article/${record.id}/edit`}>
             <Typography className="truncate w-48 overflow-hidden" style="h5">
               {record.title}
             </Typography>
-          </Tooltip>
-        </a>
+          </a>
+        </Tooltip>
       ),
     },
     {
