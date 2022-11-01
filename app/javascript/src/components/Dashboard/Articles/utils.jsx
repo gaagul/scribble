@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Delete, Edit } from "neetoicons";
-import { Button, Typography } from "neetoui";
+import { Button, Typography, Tooltip } from "neetoui";
 
 export const buildColumnData = (
   setSelectedArticle,
@@ -14,9 +14,19 @@ export const buildColumnData = (
       dataIndex: "title",
       visibility: columnVisibility.title,
       key: "title",
-      width: 300,
+      width: 250,
       render: (_, record) => (
-        <a href={`/article/${record.id}/edit`}>{record.title}</a>
+        <a href={`/article/${record.id}/edit`}>
+          <Tooltip
+            content={record.title}
+            followCursor="horizontal"
+            position="bottom"
+          >
+            <Typography className="truncate w-48 overflow-hidden" style="h5">
+              {record.title}
+            </Typography>
+          </Tooltip>
+        </a>
       ),
     },
     {
@@ -24,7 +34,6 @@ export const buildColumnData = (
       dataIndex: "date",
       visibility: columnVisibility.date,
       key: "date",
-      width: 200,
     },
     {
       title: "AUTHOR",
@@ -37,6 +46,7 @@ export const buildColumnData = (
       dataIndex: "category",
       visibility: columnVisibility.category,
       key: "category",
+      width: 200,
       render: (_, record) => <Typography>{record.category.title}</Typography>,
     },
     {

@@ -9,7 +9,7 @@ export const CREATE_FORM_INITIAL_VALUES = {
 
 export const ARTICLE_FORM_VALIDATION_SCHEMA = Yup.object().shape({
   title: Yup.string()
-    .max(30)
+    .max(50)
     .matches(/[a-zA-Z]/, "Title is Invalid")
     .required("Title is required"),
   category: Yup.object().nullable().required("Select a Category"),
