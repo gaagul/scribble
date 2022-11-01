@@ -22,7 +22,8 @@ export const buildColumns = (
   rowId,
   setRowId,
   updateRedirection,
-  destroyRedirection
+  setIsAlertOpen,
+  setSelectedRedirection
 ) => [
   {
     title: "FROM PATH",
@@ -136,13 +137,8 @@ export const buildColumns = (
             icon={Delete}
             style="secondary"
             onClick={() => {
-              if (
-                window.confirm(
-                  "Do you really want to Delete the selected Redirection"
-                )
-              ) {
-                destroyRedirection(record.id);
-              }
+              setSelectedRedirection(record);
+              setIsAlertOpen(true);
             }}
           />
         </div>

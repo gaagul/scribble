@@ -3,7 +3,11 @@ import React from "react";
 import { Delete, Edit } from "neetoicons";
 import { Button, Typography } from "neetoui";
 
-export const buildColumnData = (destroyArticle, columnVisibility) =>
+export const buildColumnData = (
+  setSelectedArticle,
+  columnVisibility,
+  setIsAlertOpen
+) =>
   [
     {
       title: "TITLE",
@@ -56,11 +60,8 @@ export const buildColumnData = (destroyArticle, columnVisibility) =>
             icon={Delete}
             style="secondary"
             onClick={() => {
-              if (
-                window.confirm(`Do you really want to Delete ${record.title}`)
-              ) {
-                destroyArticle(record.id);
-              }
+              setSelectedArticle(record);
+              setIsAlertOpen(true);
             }}
           />
         </div>

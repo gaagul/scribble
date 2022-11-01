@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Table as NeetoTable } from "@bigbinary/neetoui";
+import { Table as NeetoTable, Alert } from "neetoui";
 
 import redirectionsApi from "apis/redirections";
 
@@ -11,6 +11,8 @@ const Table = ({ redirections, fetchRedirections }) => {
     emptyText: "No redirections added yet",
   };
   const [rowId, setRowId] = useState(0);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [selectedRedirection, setSelectedRedirection] = useState({});
   const [editRedirection, setEditRedirection] = useState({
     id: "",
     from: "",
@@ -40,18 +42,31 @@ const Table = ({ redirections, fetchRedirections }) => {
   };
 
   return (
-    <NeetoTable
-      locale={LOCALE}
-      rowData={redirections}
-      columnData={buildColumns(
-        editRedirection,
-        setEditRedirection,
-        rowId,
-        setRowId,
-        updateRedirection,
-        destroyRedirection
-      )}
-    />
+    <>
+      <NeetoTable
+        locale={LOCALE}
+        rowData={redirections}
+        columnData={buildColumns(
+          editRedirection,
+          setEditRedirection,
+          rowId,
+          setRowId,
+          updateRedirection,
+          setIsAlertOpen,
+          setSelectedRedirection
+        )}
+      />
+      <Alert
+        isOpen={isAlertOpen}
+        message="Are you sure you want to delete the redirection, This action cannot be undone."
+        title="You are permenantly deleting a Redirection!"
+        onClose={() => setIsAlertOpen(false)}
+        onSubmit={() => {
+          destroyRedirection(selectedRedirection.id);
+          setIsAlertOpen(false);
+        }}
+      />
+    </>
   );
 };
 export default Table;
