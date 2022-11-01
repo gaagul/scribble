@@ -2,10 +2,11 @@
 
 class Eui::CategoriesController < ApplicationController
   include Authenticable
+
   def index
-    @categories = Category.joins(:articles).where(
+    @categories = Category.includes(:articles).where(
       articles: {
         status: :Published
-      }).group("id").order("position")
+      }).order("position")
   end
 end
