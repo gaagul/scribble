@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  MAX_TITLE_LENGTH = 25
+  MAX_TITLE_LENGTH = 50
 
   scope :categories_filter, -> (categories) { where(category_id: categories) unless categories.nil? }
   scope :status_filter, -> (status) { where(status: status) unless status == "all" }
