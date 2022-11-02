@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Redirection < ApplicationRecord
-  REG_EXP = /([A-z0-9])/
+  include ActiveModel::Validations
 
-  validates :from, presence: true, uniqueness: true, format: { with: REG_EXP }
-  validates :to, presence: true, format: { with: REG_EXP }
-  validate :to_and_from_validation
+  validates :from, presence: true, uniqueness: true
+  validates :to, presence: true
+  validates_with RedirectionCycleValidator
 
-  after_save :check_cycle
+  # after_save :check_cycle
 
   private
 
