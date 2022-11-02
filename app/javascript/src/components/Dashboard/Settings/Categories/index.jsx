@@ -64,11 +64,11 @@ const Categories = () => {
         <Add createCategory={createCategory} setIsAdding={setIsAdding} />
       ) : (
         <Button
-          className="mt-6 mb-6"
+          className="mt-8 mb-8"
           icon={Plus}
           iconPosition="left"
           label="Add New Category"
-          style="Link"
+          style="link"
           onClick={() => setIsAdding(true)}
         />
       )}

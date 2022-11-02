@@ -12,9 +12,9 @@ import Article from "./Article";
 
 const Eui = () => {
   const [initialArticle, setInitialArticle] = useState({});
-  const [selectedCategoryPosition, setSelectedCategoryPosition] = useState(0);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [organization, setOrganization] = useState({});
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTitle, setSelectedTitle] = useState("");
   const history = useHistory();
@@ -76,7 +76,11 @@ const Eui = () => {
         {!either(isNil, isEmpty)(categories) ? (
           <>
             <MenuBar showMenu>
-              <Accordion defaultActiveKey={selectedCategoryPosition - 1}>
+              <Accordion
+                defaultActiveKey={categories.findIndex(
+                  category => category.id === selectedCategoryId
+                )}
+              >
                 {categories.map(category => (
                   <Accordion.Item
                     className="border-b-2"
@@ -107,10 +111,8 @@ const Eui = () => {
                 path="/public/:slug"
                 component={() => (
                   <Article
+                    setCategoryId={id => setSelectedCategoryId(id)}
                     setSelectedTitle={title => setSelectedTitle(title)}
-                    setCategoryPosition={category =>
-                      setSelectedCategoryPosition(category)
-                    }
                   />
                 )}
               />

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const get = () => axios.get("/organizations");
+const get = () => axios.get("api/v1/organizations");
 
 const update = (id, payload) =>
-  axios.put(`/organizations/${id}`, { organization: payload });
+  axios.put(`api/v1/organizations/${id}`, { organization: payload });
 
 const organizationsApi = {
   get,

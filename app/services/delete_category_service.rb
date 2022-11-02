@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DeleteCategoryService
+  attr_reader :category, :articles, :all_count, :new_category_id
   def initialize(category, new_category_id)
     @category = category
     @articles = @category.articles
@@ -15,17 +16,17 @@ class DeleteCategoryService
   private
 
     def delete_category
-      if @new_category_id != 0
-        @articles.update_all(category_id: @new_category_id)
+      if new_category_id != 0
+        articles.update_all(category_id: new_category_id)
       else
         no_new_category_param
       end
     end
 
     def no_new_category_param
-      unless @category.title == "General"
+      unless category.title == "General"
         general_category = Category.create!(title: "General")
-        @articles.update_all(category_id: general_category.id)
+        articles.update_all(category_id: general_category.id)
       end
     end
 end

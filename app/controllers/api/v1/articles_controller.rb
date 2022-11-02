@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ArticlesController < ApplicationController
+class Api::V1::ArticlesController < Api::V1::BaseController
   before_action :load_article!, except: %i[index create]
 
   def index
