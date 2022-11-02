@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Accordion, PageLoader } from "neetoui";
+import { Typography, Accordion, PageLoader, Input } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 import { isNil, isEmpty, either } from "ramda";
 import { useHistory, Switch, Route, Redirect } from "react-router-dom";
@@ -9,6 +9,7 @@ import euiApi from "apis/eui";
 import organizationsApi from "apis/organizations";
 
 import Article from "./Article";
+import SearchModal from "./SearchModal";
 
 const Eui = () => {
   const [initialArticle, setInitialArticle] = useState({});
@@ -17,6 +18,7 @@ const Eui = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const history = useHistory();
 
   const fetchCategories = async () => {
@@ -68,6 +70,14 @@ const Eui = () => {
   return (
     <>
       <nav className="border max-w-7xl sticky top-0 mx-auto flex h-20 bg-white px-4">
+        <div className="mt-6 w-1/5">
+          <Input
+            className="mt-auto"
+            placeholder="Search for articles here"
+            type="search"
+            onClick={() => setShowModal(true)}
+          />
+        </div>
         <Typography className="m-auto" style="h3">
           {organization.title}
         </Typography>
@@ -92,7 +102,7 @@ const Eui = () => {
                         key={article.id}
                         style="body2"
                         className={`ml-2 mb-2 cursor-pointer ${
-                          article.title === selectedTitle && "text-blue-600"
+                          article.title === selectedTitle && "text-indigo-600"
                         }`}
                         onClick={() => {
                           history.push(`/public/${article.slug}`);
@@ -105,6 +115,11 @@ const Eui = () => {
                 ))}
               </Accordion>
             </MenuBar>
+            <SearchModal
+              history={history}
+              setShowModal={setShowModal}
+              showModal={showModal}
+            />
             <Switch>
               <Route
                 exact
