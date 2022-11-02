@@ -18,7 +18,7 @@ const Article = ({ setCategoryPosition, setSelectedTitle }) => {
       } = await euiApi.show(slug);
       setArticle(article);
       setSelectedTitle(article.title);
-      setCategoryPosition(article.categoryPosition);
+      setCategoryPosition(article.category_id);
     } catch (error) {
       logger.error(error);
     } finally {
