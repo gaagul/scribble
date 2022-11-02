@@ -18,8 +18,11 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await categoriesApi.list();
-      setCategories(response.data.categories);
+      setLoading(true);
+      const {
+        data: { categories },
+      } = await categoriesApi.list();
+      setCategories(categories);
     } catch (error) {
       logger.error(error);
     } finally {

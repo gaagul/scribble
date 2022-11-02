@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Check, Close, Reorder, Delete, Edit } from "neetoicons";
-import { Typography, Button, Input } from "neetoui";
+import { Typography, Button, Input, PageLoader } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
@@ -13,11 +13,8 @@ const List = ({
   setIsDeleting,
 }) => {
   const [categoryId, setCategoryId] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState("");
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   const updateCategory = async () => {
     try {
@@ -36,6 +33,7 @@ const List = ({
 
   const updatePosition = async ({ id, position }) => {
     try {
+      setLoading(true);
       await categoriesApi.update({
         id,
         payload: {
@@ -46,6 +44,8 @@ const List = ({
       await fetchCategories();
     } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +54,7 @@ const List = ({
 
     updatePosition({
       id: result.draggableId,
-      position: result.destination.index + 1,
+      position: result.destination.index,
     });
   };
 
@@ -66,12 +66,20 @@ const List = ({
     }
   };
 
+  if (loading) {
+    return (
+      <div className="h-screen w-screen">
+        <PageLoader />
+      </div>
+    );
+  }
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="categories">
         {provided => (
           <ul {...provided.droppableProps} ref={provided.innerRef}>
-            {categories.map(({ id, title, count }, position) => (
+            {categories.map(({ id, title, count, position }) => (
               <Draggable draggableId={String(id)} index={position} key={id}>
                 {provided => (
                   <li
