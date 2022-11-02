@@ -5,18 +5,6 @@ Rails.application.routes.draw do
     instance_eval(File.read(Rails.root.join("config/routes/#{routes_name}.rb")))
   end
 
-  constraints(lambda { |req| req.format == :json }) do
-    resources :categories, except: %i[new edit]
-    resources :articles, except: %i[new edit]
-    resources :organizations, only: %i[index update]
-    resources :redirections, except: %i[new edit]
-    resource :session, only: :create
-    namespace :eui do
-      resources :articles, only: %i[show], param: :slug
-      resources :categories, only: %i[index]
-    end
-  end
-
   draw :api
 
   root "home#index"
