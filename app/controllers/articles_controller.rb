@@ -17,10 +17,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    article = Article.new(article_params)
-    article.organization = @_current_organization
-    article.user = @_current_user
-    article.save!
+    Article.create!(article_params.merge(organization: @_current_organization, user: @_current_user))
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
