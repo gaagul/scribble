@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Check, Close, Reorder, Delete, Edit } from "neetoicons";
+import { Check, Close, Delete, Edit } from "neetoicons";
 import { Typography, Button, Input, PageLoader } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -91,7 +91,7 @@ const List = ({
                     {categoryId !== id && (
                       <div className="border-t flex items-center justify-between space-x-2 p-3">
                         <div className="flex items-center space-x-2">
-                          <Reorder />
+                          <i className="ri-drag-move-2-fill" />
                           <Typography size="body2" weight="medium">
                             {title}
                           </Typography>

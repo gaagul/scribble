@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Eui::ArticlesController < ApplicationController
+class Api::V1::Eui::ArticlesController < Api::V1::BaseController
   include Authenticable
   before_action :load_article!, only: %i[show]
 

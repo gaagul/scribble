@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-Rails.application.routes.draw do
-  def draw(routes_name)
-    instance_eval(File.read(Rails.root.join("config/routes/#{routes_name}.rb")))
-  end
-
-  constraints(lambda { |req| req.format == :json }) do
+namespace :api, defaults: { format: :json } do
+  namespace :v1 do
     resources :categories, except: %i[new edit]
     resources :articles, except: %i[new edit]
     resources :organizations, only: %i[index update]
@@ -16,9 +12,4 @@ Rails.application.routes.draw do
       resources :categories, only: %i[index]
     end
   end
-
-  draw :api
-
-  root "home#index"
-  get "*path", to: "home#index", via: :all
 end
