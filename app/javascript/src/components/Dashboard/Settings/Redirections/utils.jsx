@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Check, Close, Edit, Delete } from "neetoicons";
-import { Input, Button } from "neetoui";
+import { Input, Button, Tooltip, Typography } from "neetoui";
 
 const handleKeyPress = (e, to, from, updateRedirection, setRowId, record) => {
   if (
@@ -56,7 +56,13 @@ export const buildColumns = (
         );
       }
 
-      return <p>/{text}</p>;
+      return (
+        <Tooltip content={text} followCursor="horizontal" position="bottom">
+          <Typography className="truncate w-48 overflow-hidden" style="h5">
+            /{text}
+          </Typography>
+        </Tooltip>
+      );
     },
   },
   {
@@ -89,7 +95,13 @@ export const buildColumns = (
         );
       }
 
-      return <p>/{text}</p>;
+      return (
+        <Tooltip content={text} followCursor="horizontal" position="bottom">
+          <Typography className="truncate w-48 overflow-hidden" style="h5">
+            /{text}
+          </Typography>
+        </Tooltip>
+      );
     },
   },
   {
