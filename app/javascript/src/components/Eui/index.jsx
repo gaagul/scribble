@@ -111,7 +111,7 @@ const Eui = () => {
                 path="/public/:slug"
                 component={() => (
                   <Article
-                    setCategoryPosition={id => setSelectedCategoryId(id)}
+                    setCategoryId={id => setSelectedCategoryId(id)}
                     setSelectedTitle={title => setSelectedTitle(title)}
                   />
                 )}
