@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const list = (activeCategoryIds, activeStatus, searchTitle) =>
-  axios.get("/articles", {
+  axios.get("api/v1/articles", {
     params: {
       category_ids: activeCategoryIds,
       status: activeStatus,
       search_title: searchTitle,
     },
   });
-const show = slug => axios.get(`/articles/${slug}`);
+const show = slug => axios.get(`api/v1/articles/${slug}`);
 
 const create = payload =>
   axios.post("/articles", {
@@ -16,11 +16,11 @@ const create = payload =>
   });
 
 const update = (id, payload) =>
-  axios.put(`/articles/${id}`, {
+  axios.put(`api/v1/articles/${id}`, {
     article: payload,
   });
 
-const destroy = id => axios.delete(`/articles/${id}`);
+const destroy = id => axios.delete(`api/v1/articles/${id}`);
 
 const articlesApi = {
   list,

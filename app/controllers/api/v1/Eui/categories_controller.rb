@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Eui::CategoriesController < ApplicationController
+class Api::V1::Eui::CategoriesController < Api::V1::BaseController
   include Authenticable
 
   def index

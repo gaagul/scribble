@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OrganizationsController < ApplicationController
+class Api::V1::OrganizationsController < Api::V1::BaseController
   def index
     render
   end
