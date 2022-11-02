@@ -8,7 +8,7 @@ namespace :api, defaults: { format: :json } do
     resources :redirections, except: %i[new edit]
     resource :session, only: :create
     namespace :eui do
-      resources :articles, only: %i[show], param: :slug
+      resources :articles, only: %i[index show], param: :slug
       resources :categories, only: %i[index]
     end
   end
