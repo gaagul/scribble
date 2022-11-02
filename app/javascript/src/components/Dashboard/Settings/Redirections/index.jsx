@@ -73,7 +73,7 @@ const Redirections = () => {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-xl space-y-2 ">
+    <div className="mx-auto mt-10 max-w-3xl space-y-2 ">
       <Typography style="h2">Redirections</Typography>
       <Typography style="body3">
         Create and configure redirection rules to send users from old links to
