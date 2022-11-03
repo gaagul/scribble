@@ -5,13 +5,14 @@ import { isNil, isEmpty, either } from "ramda";
 import { useHistory, useParams } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import versionsApi from "apis/versions";
 
 import Form from "./Form";
 import VersionModal from "./VersionModal";
 
 const Edit = () => {
   const [article, setArticle] = useState({});
-  const [versions, setVersions] = useState([]);
+  const [versions, setVersions] = useState({});
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState({});
@@ -24,7 +25,26 @@ const Edit = () => {
         data: { article },
       } = await articlesApi.show(id);
       setArticle(article);
-      setVersions(article.versions);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const fetchArticleVersions = async () => {
+    try {
+      const {
+        data: { versions },
+      } = await versionsApi.list(id);
+      setVersions(versions);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([fetchArticle(), fetchArticleVersions()]);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -33,7 +53,7 @@ const Edit = () => {
   };
 
   useEffect(() => {
-    fetchArticle();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -46,7 +66,6 @@ const Edit = () => {
 
   return (
     <>
-      {logger.info(versions)}
       {!either(isNil, isEmpty)(article) ? (
         <div className="flex h-full w-full justify-between">
           <Form isEdit article={article} />
@@ -55,27 +74,28 @@ const Edit = () => {
               Version History
             </Typography>
             <Typography className="mt-1 mb-4" style="body2">
-              Version history of Setting up an account in Scribble.
+              Version history of {`${article.title}`}.
             </Typography>
-            {versions.map(version => (
-              <div className="mt-2 flex" key={version.time}>
-                <div className="mr-4 text-gray-500">{version.time}</div>
-                <Button
-                  style="link"
-                  label={
-                    version.status === "Published"
-                      ? "Article Published"
-                      : "Article Drafted"
-                  }
-                  onClick={() => {
-                    setSelectedVersion(version);
-                    setIsModalOpen(true);
-                  }}
-                />
-              </div>
-            ))}
+            {!either(isNil, isEmpty)(versions) ? (
+              versions.map(version => (
+                <div className="mt-2 flex" key={version.version_id}>
+                  <div className="mr-4 text-gray-500">{version.time}</div>
+                  <Button
+                    label={`Article ${version.event}`}
+                    style="link"
+                    onClick={() => {
+                      setSelectedVersion(version);
+                      setIsModalOpen(true);
+                    }}
+                  />
+                </div>
+              ))
+            ) : (
+              <Typography>No version History Found!</Typography>
+            )}
           </div>
           <VersionModal
+            fetchData={fetchData}
             isModalOpen={isModalOpen}
             selectedVersion={selectedVersion}
             setIsModalOpen={setIsModalOpen}

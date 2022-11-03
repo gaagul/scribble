@@ -2,6 +2,7 @@
 
 class Api::V1::ArticlesController < Api::V1::BaseController
   before_action :load_article!, except: %i[index create]
+  before_action :set_event, only: %i[update]
   before_action :set_paper_trail_whodunnit
 
   def index
@@ -40,5 +41,13 @@ class Api::V1::ArticlesController < Api::V1::BaseController
 
     def article_params
       params.require(:article).permit(:title, :status, :category_id, :body)
+    end
+
+    def set_event
+      if params.key?(:restore)
+        @article.paper_trail_event = "Restored"
+      else
+        @article.paper_trail_event = article_params[:status] == "Published" ? "Published" : "Drafted"
+      end
     end
 end

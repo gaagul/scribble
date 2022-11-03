@@ -2,8 +2,33 @@ import React from "react";
 
 import { Modal, Input, Typography, Textarea, Button } from "neetoui";
 
-const VersionModal = ({ isModalOpen, setIsModalOpen, selectedVersion }) => {
+import versionsApi from "apis/versions";
+
+const VersionModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  selectedVersion,
+  fetchData,
+}) => {
   const handleClose = () => setIsModalOpen(false);
+  const handleRestore = async () => {
+    try {
+      await versionsApi.articleUpdate({
+        id: selectedVersion.id,
+        payload: {
+          title: selectedVersion.title,
+          body: selectedVersion.body,
+          category_id: selectedVersion.category.id,
+          status: selectedVersion.status,
+        },
+      });
+      setIsModalOpen(false);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      fetchData();
+    }
+  };
 
   return (
     <Modal
@@ -35,7 +60,11 @@ const VersionModal = ({ isModalOpen, setIsModalOpen, selectedVersion }) => {
           label="Article Content"
           value={selectedVersion.body}
         />
-        <Button className="mt-4" label="Restore Version" />
+        <Button
+          className="mt-4"
+          label="Restore Version"
+          onClick={handleRestore}
+        />
         <Button className="ml-3" label="Cancel" style="secondary" />
       </Modal.Body>
     </Modal>
