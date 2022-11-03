@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { PageLoader, Button, Typography } from "neetoui";
+import { PageLoader, Button, Typography, Tag } from "neetoui";
 import { isNil, isEmpty, either } from "ramda";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -67,10 +67,19 @@ const Edit = () => {
   return (
     <>
       {!either(isNil, isEmpty)(article) ? (
-        <div className="flex h-full w-full justify-between">
+        <div className="flex w-full justify-between">
           <Form isEdit article={article} />
-          <div className="w-2/6 border-l-2 pl-3">
-            <Typography className="mt-2" style="h2">
+          <div className="h-full w-2/6 border-l-2 pl-3">
+            <Typography className="mt-2" style="h3">
+              Current Status:
+              <Tag
+                className="ml-3"
+                label={article.status}
+                size="large"
+                style={article.status === "Published" ? "success" : "warning"}
+              />
+            </Typography>
+            <Typography className="mt-6" style="h3">
               Version History
             </Typography>
             <Typography className="mt-1 mb-4" style="body2">

@@ -129,6 +129,7 @@ const Redirections = () => {
         )}
         {!adding && (
           <Button
+            className="mt-2"
             icon={Plus}
             iconPosition="left"
             label="Add New Redirection"

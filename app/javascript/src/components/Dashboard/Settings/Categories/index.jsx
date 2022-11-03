@@ -64,7 +64,6 @@ const Categories = () => {
         <Add createCategory={createCategory} setIsAdding={setIsAdding} />
       ) : (
         <Button
-          className="mt-8 mb-8"
           icon={Plus}
           iconPosition="left"
           label="Add New Category"
