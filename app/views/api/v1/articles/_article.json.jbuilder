@@ -4,6 +4,7 @@ json.id article.id
 json.title article.title
 json.slug article.slug
 json.date article.created_at.strftime("%B %d, %Y")
+json.time article.updated_at.strftime("%I:%M %p, %m/%d/%Y")
 json.status article.status
 json.body article.body
 json.author article.user.name
