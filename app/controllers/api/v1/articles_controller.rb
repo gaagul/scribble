@@ -2,6 +2,7 @@
 
 class Api::V1::ArticlesController < Api::V1::BaseController
   before_action :load_article!, except: %i[index create]
+  before_action :set_paper_trail_whodunnit
 
   def index
     category_filtered_articles = current_user.articles.categories_filter(
