@@ -2,6 +2,7 @@ import React from "react";
 
 import { Route, Switch, Redirect } from "react-router-dom";
 
+import Analytics from "./Analytics";
 import Articles from "./Articles";
 import CreateArticle from "./Articles/Options/Create";
 import EditArticle from "./Articles/Options/Edit";
@@ -27,6 +28,7 @@ const Dashboard = () => (
         path="/article/:id/edit"
       />
       <Route component={Settings} path="/settings" />
+      <Route component={Analytics} path="/analytics" />
       <Redirect exact from="/" to="/articles" />
       <Route component={InvalidRoute} path="/*" />
     </Switch>
