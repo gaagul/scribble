@@ -1,37 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Accordion, PageLoader, Input, Kbd } from "neetoui";
-import { MenuBar } from "neetoui/layouts";
-import { isNil, isEmpty, either } from "ramda";
-import { useHistory, Switch, Route, Redirect } from "react-router-dom";
+import { Typography, PageLoader, Input, Kbd } from "neetoui";
+import { Switch, Route } from "react-router-dom";
 
-import euiApi from "apis/eui";
 import organizationsApi from "apis/organizations";
 
-import Article from "./Article";
+import Preview from "./Preview";
 import SearchModal from "./SearchModal";
 
-const Eui = () => {
-  const [initialArticle, setInitialArticle] = useState({});
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+const Eui = ({ history }) => {
   const [organization, setOrganization] = useState({});
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTitle, setSelectedTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const history = useHistory();
-
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await euiApi.listCategories();
-      setCategories(categories);
-      setInitialArticle(categories[0].articles[0]);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
 
   const fetchOrganization = async () => {
     try {
@@ -39,15 +19,6 @@ const Eui = () => {
         data: { organization },
       } = await organizationsApi.get();
       setOrganization(organization);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      await Promise.all([fetchOrganization(), fetchCategories()]);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -62,7 +33,7 @@ const Eui = () => {
   };
 
   useEffect(() => {
-    loadData();
+    fetchOrganization();
     document.addEventListener("keydown", handleKeyDown);
 
     return function cleanup() {
@@ -94,66 +65,17 @@ const Eui = () => {
           {organization.title}
         </Typography>
       </nav>
-      <div className="flex">
-        {!either(isNil, isEmpty)(categories) ? (
-          <>
-            <MenuBar showMenu>
-              <Accordion
-                defaultActiveKey={categories.findIndex(
-                  category => category.id === selectedCategoryId
-                )}
-              >
-                {categories.map(category => (
-                  <Accordion.Item
-                    className="border-b-2"
-                    key={category.id}
-                    title={category.title}
-                  >
-                    {category.articles.map(article => (
-                      <Typography
-                        key={article.id}
-                        style="body2"
-                        className={`ml-2 mb-2 cursor-pointer ${
-                          article.title === selectedTitle && "text-indigo-600"
-                        }`}
-                        onClick={() => {
-                          history.push(`/public/${article.slug}`);
-                        }}
-                      >
-                        {article.title}
-                      </Typography>
-                    ))}
-                  </Accordion.Item>
-                ))}
-              </Accordion>
-            </MenuBar>
-            <SearchModal
-              history={history}
-              setShowModal={setShowModal}
-              showModal={showModal}
-            />
-            <Switch>
-              <Route
-                exact
-                path="/public/:slug"
-                component={() => (
-                  <Article
-                    setCategoryId={id => setSelectedCategoryId(id)}
-                    setSelectedTitle={title => setSelectedTitle(title)}
-                  />
-                )}
-              />
-              <Redirect
-                exact
-                from="/public"
-                to={`/public/${initialArticle.slug}`}
-              />
-            </Switch>
-          </>
-        ) : (
-          <div className=" mx-auto mt-10">No articles published</div>
-        )}
-      </div>
+      {showModal && (
+        <SearchModal
+          history={history}
+          setShowModal={setShowModal}
+          showModal={showModal}
+        />
+      )}
+      <Switch>
+        <Route exact component={Preview} path="/public" />
+        <Route exact component={Preview} path="/public/:slug" />
+      </Switch>
     </div>
   );
 };

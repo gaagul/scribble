@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Check, Close, Delete, Edit } from "neetoicons";
-import { Typography, Button, Input, PageLoader } from "neetoui";
+import { Typography, Button, Input } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
@@ -13,7 +13,6 @@ const List = ({
   setIsDeleting,
 }) => {
   const [categoryId, setCategoryId] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState("");
 
   const updateCategory = async () => {
@@ -33,7 +32,6 @@ const List = ({
 
   const updatePosition = async ({ id, position }) => {
     try {
-      setLoading(true);
       await categoriesApi.update({
         id,
         payload: {
@@ -44,8 +42,6 @@ const List = ({
       await fetchCategories();
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -65,14 +61,6 @@ const List = ({
       setCategoryId(0);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="h-screen w-screen">
-        <PageLoader />
-      </div>
-    );
-  }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

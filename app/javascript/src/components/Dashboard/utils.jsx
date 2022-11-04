@@ -14,7 +14,7 @@ export const buildColumnData = () => [
         followCursor="horizontal"
         position="bottom"
       >
-        <a href={`/public/${record.slug}`}>
+        <a href={`/public/${record.slug}`} rel="noreferrer" target="_blank">
           <Typography className="truncate w-48 overflow-hidden" style="h5">
             {record.title}
           </Typography>

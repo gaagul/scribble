@@ -58,11 +58,11 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
         <ul className="border-gray-1 my-2 w-full">
           {!either(isNil, isEmpty)(articles) &&
             articles.map(article => (
-              <a href={`${article.slug}`} key={article.id}>
+              <a href={`/public/${article.slug}`} key={article.id}>
                 <li
                   className="relative m-2 flex rounded-xl border-2 border-solid border-gray-300 p-2 hover:bg-indigo-700 hover:text-white"
                   onClick={() => {
-                    history.push(article.slug);
+                    history.push(`/public/${article.slug}`);
                     handleClose();
                   }}
                 >
