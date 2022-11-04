@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 
 import { PageLoader, Typography, Label, Tag } from "neetoui";
 import { Container } from "neetoui/layouts";
@@ -26,9 +26,9 @@ const Article = ({ setCategoryId, setSelectedTitle }) => {
     }
   };
 
-  useEffect(() => {
+  useMemo(() => {
     fetchArticle();
-  }, []);
+  }, [slug]);
 
   if (loading) {
     return (

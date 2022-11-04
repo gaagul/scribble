@@ -20,6 +20,7 @@ const NavBar = () => (
             </Link>
             <NavItem name="Articles" path="/articles" />
             <NavItem name="Settings" path="/settings" />
+            <NavItem name="Analytics" path="/analytics" />
           </div>
         </div>
         <div className="flex items-center justify-end">
