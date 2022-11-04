@@ -51,7 +51,7 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
           onChange={e => setSearchTitle(e.target.value)}
           onKeyDown={e => handleKeyDown(e)}
         />
-        <p className="ml-4">(Esc)</p>
+        <p className="ml-4 mt-1 mr-1">(Esc)</p>
         <Button className="mr-4" icon={Close} onClick={handleClose} />
       </div>
       <div className="overflow-scroll">
@@ -60,7 +60,7 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
             articles.map(article => (
               <a href={`${article.slug}`} key={article.id}>
                 <li
-                  className="relative m-2 flex border-2 border-solid border-gray-300 p-2 hover:bg-indigo-700 hover:text-white"
+                  className="relative m-2 flex rounded-xl border-2 border-solid border-gray-300 p-2 hover:bg-indigo-700 hover:text-white"
                   onClick={() => {
                     history.push(article.slug);
                     handleClose();

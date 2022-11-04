@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Accordion, PageLoader, Input } from "neetoui";
+import { Typography, Accordion, PageLoader, Input, Kbd } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 import { isNil, isEmpty, either } from "ramda";
 import { useHistory, Switch, Route, Redirect } from "react-router-dom";
@@ -55,8 +55,19 @@ const Eui = () => {
     }
   };
 
+  const handleKeyDown = event => {
+    if (event.metaKey && event.keyCode === 75) {
+      setShowModal(true);
+    }
+  };
+
   useEffect(() => {
     loadData();
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   if (loading) {
@@ -68,12 +79,13 @@ const Eui = () => {
   }
 
   return (
-    <>
+    <div>
       <nav className="border max-w-7xl sticky top-0 mx-auto flex h-20 bg-white px-4">
         <div className="mt-6 w-1/5">
           <Input
             className="mt-auto"
             placeholder="Search for articles here"
+            suffix={<Kbd keyName="⌘K" />}
             type="search"
             onClick={() => setShowModal(true)}
           />
@@ -142,7 +154,7 @@ const Eui = () => {
           <div className=" mx-auto mt-10">No articles published</div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

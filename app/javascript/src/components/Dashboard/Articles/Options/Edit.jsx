@@ -67,7 +67,7 @@ const Edit = () => {
   return (
     <>
       {!either(isNil, isEmpty)(article) ? (
-        <div className="flex w-full justify-between">
+        <div className="flex h-full w-full justify-between">
           <Form isEdit article={article} />
           <div className="h-full w-2/6 border-l-2 pl-3">
             <Typography className="mt-2" style="h3">
