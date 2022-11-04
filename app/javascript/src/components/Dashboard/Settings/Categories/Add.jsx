@@ -20,11 +20,11 @@ const Add = ({ createCategory, setIsAdding }) => {
   };
 
   return (
-    <div className="mt -10 flex max-w-xs" onKeyDown={e => keyPress(e)}>
+    <div className="flex max-w-xs" onKeyDown={e => keyPress(e)}>
       <Input
         autoFocus
         required
-        className="mt-4"
+        className="mt-2"
         placeholder="Enter Category Name"
         value={category}
         onChange={e => setCategory(e.target.value)}

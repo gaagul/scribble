@@ -61,7 +61,7 @@ const Form = ({ article, isEdit }) => {
   }
 
   return (
-    <div className="justify-center">
+    <div className="mt-10 h-full w-5/6">
       <Formik
         validateOnBlur={submitted}
         validateOnChange={submitted}
@@ -81,9 +81,14 @@ const Form = ({ article, isEdit }) => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, dirty }) => (
-          <FormikForm className="mx-auto mt-5 max-w-xl">
+          <FormikForm className="mx-auto mt-5 max-h-full max-w-2xl">
             <div className="grid grid-cols-2 space-x-5">
-              <Input required label="Article Title" name="title" />
+              <Input
+                required
+                label="Article Title"
+                name="title"
+                placeholder="Enter Article Title"
+              />
               <Select
                 isSearchable
                 required
@@ -96,7 +101,13 @@ const Form = ({ article, isEdit }) => {
                 }))}
               />
             </div>
-            <Textarea className="" label="Article Body" name="body" rows="20" />
+            <Textarea
+              className="mt-4"
+              label="Article Body"
+              name="body"
+              placeholder="Enter Article Body"
+              rows="20"
+            />
             <div className="m-2 flex">
               <div className="flex space-x-5">
                 <div className="flex space-x-1">
