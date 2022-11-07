@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Search, RightArrow, Close } from "neetoicons";
-import { Modal, Input, Button } from "neetoui";
+import { Modal, Input, Button, Typography } from "neetoui";
 import { isNil, isEmpty, either } from "ramda";
 
 import euiApi from "apis/eui";
@@ -56,7 +56,7 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
       </div>
       <div className="overflow-scroll">
         <ul className="border-gray-1 my-2 w-full">
-          {!either(isNil, isEmpty)(articles) &&
+          {!either(isNil, isEmpty)(articles) ? (
             articles.map(article => (
               <a href={`/public/${article.slug}`} key={article.id}>
                 <li
@@ -70,7 +70,10 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
                   {article.title}
                 </li>
               </a>
-            ))}
+            ))
+          ) : (
+            <Typography>No articles </Typography>
+          )}
         </ul>
       </div>
     </Modal>

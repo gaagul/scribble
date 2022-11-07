@@ -15,7 +15,7 @@ const list = (
 const show = slug => axios.get(`api/v1/articles/${slug}`);
 
 const create = payload =>
-  axios.post("/articles", {
+  axios.post("api/v1/articles", {
     article: payload,
   });
 

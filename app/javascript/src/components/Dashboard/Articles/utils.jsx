@@ -34,6 +34,12 @@ export const buildColumnData = (
       dataIndex: "date",
       visibility: columnVisibility.date,
       key: "date",
+      render: (_, record) =>
+        record.status === "Published" ? (
+          <Typography style="body2">{record.date}</Typography>
+        ) : (
+          <Typography style="body2">-</Typography>
+        ),
     },
     {
       title: "AUTHOR",

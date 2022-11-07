@@ -27,7 +27,21 @@ def create_sample_data!
   create_article! title: "Writing an article", category_id: 3, status: "Published"
   create_article! title: "Writing an article draft", category_id: 3, status: "Draft"
   create_article! title: "Redirections", category_id: 4, status: "Published"
-  create_article! title: "Redirections draft", category_id: 4, status: "Draft"
+  create_article! title: "A2", category_id: 2, status: "Published"
+  create_article! title: "A1", category_id: 1, status: "Published"
+  create_article! title: "A3", category_id: 3, status: "Published"
+  create_article! title: "A4", category_id: 4, status: "Published"
+  create_article! title: "A5", category_id: 1, status: "Published"
+  create_article! title: "A6", category_id: 2, status: "Published"
+  create_article! title: "A7", category_id: 1, status: "Published"
+  create_article! title: "A8", category_id: 3, status: "Published"
+  create_article! title: "A9", category_id: 4, status: "Published"
+  create_article! title: "A10", category_id: 1, status: "Published"
+  create_article! title: "A11", category_id: 2, status: "Published"
+  create_article! title: "A12", category_id: 1, status: "Published"
+  create_article! title: "A13", category_id: 3, status: "Published"
+  create_article! title: "A14", category_id: 4, status: "Published"
+  create_article! title: "A15", category_id: 1, status: "Published"
   Redirection.create!( from: "welcome", to: "public")
 end
 

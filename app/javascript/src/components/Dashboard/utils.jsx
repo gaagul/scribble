@@ -39,5 +39,6 @@ export const buildColumnData = () => [
     dataIndex: "visits",
     key: "views",
     width: 100,
+    sorter: (a, b) => a.visits - b.visits,
   },
 ];
