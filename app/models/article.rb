@@ -38,8 +38,6 @@ class Article < ApplicationRecord
         end
         slug_candidate = slug_count.positive? ? "#{title_slug}-#{slug_count + 1}" : title_slug
         self.slug = slug_candidate
-      else
-        self.slug = nil
       end
     end
 
