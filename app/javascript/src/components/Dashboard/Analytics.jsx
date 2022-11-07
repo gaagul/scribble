@@ -39,7 +39,7 @@ const Analytics = () => {
     <div className="mx-auto mt-6 w-1/2 ">
       <Table
         allowRowClick={false}
-        columnData={buildColumnData()}
+        columnData={buildColumnData(fetchArticles)}
         currentPageNumber={currentPage}
         defaultPageSize={8}
         handlePageChange={setCurrentPage}

@@ -11,6 +11,7 @@ const List = ({
   fetchCategories,
   setCategoryToDelete,
   setIsDeleting,
+  setLoading,
 }) => {
   const [categoryId, setCategoryId] = useState(0);
   const [categoryTitle, setCategoryTitle] = useState("");
@@ -32,6 +33,7 @@ const List = ({
 
   const updatePosition = async ({ id, position }) => {
     try {
+      setLoading(true);
       await categoriesApi.update({
         id,
         payload: {
