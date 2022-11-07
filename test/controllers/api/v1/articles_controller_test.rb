@@ -37,7 +37,7 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_should_update_article_details
     @new_article = create(:article, category: @category, user: @user, organization: @organization)
     put api_v1_article_path(@article.id),
-      params: { title: "Welcome", body: @new_article.body, status: "Draft" }, as: :json,
+      params: { article: { title: "Welcome", body: @new_article.body, status: "Draft" } },
       headers: headers
     assert_response :success
     @article.reload
@@ -49,5 +49,13 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_v1_article_path(@article.id), headers: headers
     response_json = parse_body
     assert_equal response_json["article"]["id"], @article.id
+  end
+
+  def test_set_papertrail_event_as_restored_if_restored_params_is_true
+    put api_v1_article_path(@article.id),
+      params: { restore: true, article: { title: "Welcome" } },
+      headers: headers
+    assert_response :success
+    assert_equal @article.versions.last.event, "Restored"
   end
 end
