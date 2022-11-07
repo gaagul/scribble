@@ -9,6 +9,7 @@ import { buildColumnData } from "./utils";
 const Analytics = () => {
   const [articles, setArticles] = useState({});
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchArticles = async () => {
     try {
@@ -35,11 +36,15 @@ const Analytics = () => {
   }
 
   return (
-    <div className="mx-auto mt-6 w-1/2">
+    <div className="mx-auto mt-6 w-1/2 ">
       <Table
         allowRowClick={false}
         columnData={buildColumnData()}
-        rowData={articles}
+        currentPageNumber={currentPage}
+        defaultPageSize={8}
+        handlePageChange={setCurrentPage}
+        paginationProps={{ showQuickJumper: true }}
+        rowData={articles.sort((a, b) => b.visits - a.visits)}
       />
     </div>
   );

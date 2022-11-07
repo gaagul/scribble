@@ -47,7 +47,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
       if params.key?(:restore)
         @article.paper_trail_event = "Restored"
       else
-        @article.paper_trail_event = article_params[:status] == "Published" ? "Published" : "Drafted"
+        @article.paper_trail_event = @article.status == "Published" ? "Published" : "Drafted"
       end
     end
 end
