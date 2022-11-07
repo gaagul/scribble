@@ -2,7 +2,11 @@ import React from "react";
 
 import { Typography, Tooltip } from "neetoui";
 
-export const buildColumnData = () => [
+const handleClick = fetchArticles => {
+  fetchArticles();
+};
+
+export const buildColumnData = fetchArticles => [
   {
     title: "TITLE",
     dataIndex: "title",
@@ -14,7 +18,12 @@ export const buildColumnData = () => [
         followCursor="horizontal"
         position="bottom"
       >
-        <a href={`/public/${record.slug}`} rel="noreferrer" target="_blank">
+        <a
+          href={`/public/${record.slug}`}
+          rel="noreferrer"
+          target="_blank"
+          onClick={() => handleClick(fetchArticles)}
+        >
           <Typography className="truncate w-48 overflow-hidden" style="h5">
             {record.title}
           </Typography>
