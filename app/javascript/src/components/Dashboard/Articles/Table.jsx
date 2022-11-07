@@ -7,11 +7,16 @@ import { buildColumnData } from "./utils";
 const Table = ({ allArticles, destroyArticle, columnVisibility }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <>
       <NeetoTable
         allowRowClick={false}
+        currentPageNumber={currentPage}
+        defaultPageSize={8}
+        handlePageChange={setCurrentPage}
+        paginationProps={{ showQuickJumper: true }}
         rowData={allArticles}
         columnData={buildColumnData(
           setSelectedArticle,

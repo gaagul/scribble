@@ -11,7 +11,7 @@ import NavBar from "./NavBar";
 import Settings from "./Settings";
 
 const Dashboard = () => (
-  <div className="h-screen w-full">
+  <div className="h-screen w-screen">
     <NavBar />
     <Switch>
       <Route exact component={Articles} key="ARTICLES_PATH" path="/articles" />

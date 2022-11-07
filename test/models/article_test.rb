@@ -7,7 +7,7 @@ class ArticleTest < ActiveSupport::TestCase
     @user = build(:user)
     @category = build(:category)
     @organization = build(:organization)
-    @article = build(:article, category: @category, user: @user, organization: @organization)
+    @article = build(:article, title: "new", category: @category, user: @user, organization: @organization)
   end
 
   def test_article_title_should_not_exceed_maximum_length
@@ -97,5 +97,59 @@ class ArticleTest < ActiveSupport::TestCase
       category: @category, organization: @organization, status: "Published")
 
     assert_equal substring_of_existing_slug.parameterize, new_Article.slug
+  end
+
+  def test_testing_category_filter_scope
+    body = "This is a test article body"
+    @category_2 = build(:category)
+    first_article = Article.create!(
+      title: "A1", body: body, user: @user,
+      category: @category_2, organization: @organization, status: "Published")
+    second_article = Article.create!(
+      title: "A2", body: body, user: @user,
+      category: @category_2, organization: @organization, status: "Published")
+    third_article = Article.create!(
+      title: "A3", body: body, user: @user,
+      category: @category, organization: @organization, status: "Published")
+    fourth_article = Article.create!(
+      title: "A4", body: body, user: @user,
+      category: @category, organization: @organization, status: "Published")
+    assert_equal Article.categories_filter([@category_2.id]).count, @category_2.articles.count
+  end
+
+  def test_status_filter_scope
+    body = "This is a test article body"
+    @category_2 = build(:category)
+    first_article = Article.create!(
+      title: "A1", body: body, user: @user,
+      category: @category_2, organization: @organization, status: "Published")
+    second_article = Article.create!(
+      title: "A2", body: body, user: @user,
+      category: @category_2, organization: @organization, status: "Published")
+    third_article = Article.create!(
+      title: "A3", body: body, user: @user,
+      category: @category, organization: @organization, status: "Published")
+    fourth_article = Article.create!(
+      title: "A4", body: body, user: @user,
+      category: @category, organization: @organization, status: "Published")
+    assert_equal Article.status_filter("Published").count, Article.Published.count
+  end
+
+  def test_title_search_filter_scope
+    body = "This is a test article body"
+    @category_2 = build(:category)
+    first_article = Article.create!(
+      title: "t", body: body, user: @user,
+      category: @category_2, organization: @organization, status: "Published")
+    second_article = Article.create!(
+      title: "te", body: body, user: @user,
+      category: @category_2, organization: @organization, status: "Published")
+    third_article = Article.create!(
+      title: "tes", body: body, user: @user,
+      category: @category, organization: @organization, status: "Published")
+    fourth_article = Article.create!(
+      title: "test1", body: body, user: @user,
+      category: @category, organization: @organization, status: "Published")
+    assert_equal Article.title_search("t").count, Article.where("title LIKE ?", "%t%").count
   end
 end
