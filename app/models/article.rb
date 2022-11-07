@@ -24,7 +24,7 @@ class Article < ApplicationRecord
   private
 
     def set_slug
-      if status == "Published"
+      if status == "Published" && slug.nil?
         title_slug = title.parameterize
         latest_article_slug = Article.where(
           "slug ~* ?",
