@@ -74,26 +74,28 @@ export const buildColumns = (
     render: (text, record) => {
       if (rowId === record.id) {
         return (
-          <Input
-            prefix="/"
-            value={editRedirection.to}
-            onChange={e => {
-              setEditRedirection(editRedirection => ({
-                ...editRedirection,
-                to: e.target.value,
-              }));
-            }}
-            onKeyDown={e =>
-              handleKeyPress(
-                e,
-                editRedirection.to,
-                editRedirection.from,
-                updateRedirection,
-                setRowId,
-                record
-              )
-            }
-          />
+          <Tooltip content={editRedirection.to} position="top">
+            <Input
+              prefix="/"
+              value={editRedirection.to}
+              onChange={e => {
+                setEditRedirection(editRedirection => ({
+                  ...editRedirection,
+                  to: e.target.value,
+                }));
+              }}
+              onKeyDown={e =>
+                handleKeyPress(
+                  e,
+                  editRedirection.to,
+                  editRedirection.from,
+                  updateRedirection,
+                  setRowId,
+                  record
+                )
+              }
+            />
+          </Tooltip>
         );
       }
 
