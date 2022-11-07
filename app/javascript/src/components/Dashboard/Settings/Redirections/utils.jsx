@@ -32,27 +32,29 @@ export const buildColumns = (
     render: (text, record) => {
       if (record.id === rowId) {
         return (
-          <Input
-            autoFocus
-            prefix="/"
-            value={editRedirection.from}
-            onChange={e => {
-              setEditRedirection(editRedirection => ({
-                ...editRedirection,
-                from: e.target.value,
-              }));
-            }}
-            onKeyDown={e =>
-              handleKeyPress(
-                e,
-                editRedirection.to,
-                editRedirection.from,
-                updateRedirection,
-                setRowId,
-                record
-              )
-            }
-          />
+          <Tooltip content={editRedirection.from} position="top">
+            <Input
+              autoFocus
+              prefix="/"
+              value={editRedirection.from}
+              onChange={e => {
+                setEditRedirection(editRedirection => ({
+                  ...editRedirection,
+                  from: e.target.value,
+                }));
+              }}
+              onKeyDown={e =>
+                handleKeyPress(
+                  e,
+                  editRedirection.to,
+                  editRedirection.from,
+                  updateRedirection,
+                  setRowId,
+                  record
+                )
+              }
+            />
+          </Tooltip>
         );
       }
 
