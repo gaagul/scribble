@@ -76,6 +76,7 @@ const Categories = () => {
         fetchCategories={fetchCategories}
         setCategoryToDelete={setSelectedCategory}
         setIsDeleting={setIsDeleting}
+        setLoading={setLoading}
       />
       <DeleteModal
         categories={categories}

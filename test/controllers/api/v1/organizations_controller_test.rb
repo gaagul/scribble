@@ -16,9 +16,14 @@ class Api::V1::OrganizationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_organization_details
-    put api_v1_organization_path(@organization.id), params: { title: "Welcome" }, as: :json, headers: headers
+    put api_v1_organization_path(@organization.id), params: { organization: { title: "Welcome" } }, headers: headers
     assert_response :success
     @organization.reload
     assert_equal @organization.title, "Welcome"
+  end
+
+  def test_shout_change_authentication_token_if_password_updated
+    put api_v1_organization_path(@organization.id), params: { organization: { password: "Welcome2" } }, headers: headers
+    assert_not_equal @organization.authentication_token, @organization.reload.authentication_token
   end
 end

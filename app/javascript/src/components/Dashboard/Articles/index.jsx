@@ -18,6 +18,7 @@ const Articles = () => {
   const [activeCategoryIds, setActiveCategoryIds] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
   const [searchTitle, setSearchTitle] = useState("");
+  const [categorySearchTerm, setCategorySearchTerm] = useState("");
   const [count, setCount] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({
     title: true,
@@ -79,7 +80,7 @@ const Articles = () => {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [categorySearchTerm]);
 
   useEffect(() => {
     fetchArticles();
@@ -99,10 +100,12 @@ const Articles = () => {
         activeCategoryIds={activeCategoryIds}
         activeStatus={activeStatus}
         categories={categories}
+        categorySearchTerm={categorySearchTerm}
         count={count}
         fetchCategories={fetchCategories}
         setActiveCategoryIds={setActiveCategoryIds}
         setActiveStatus={setActiveStatus}
+        setCategorySearchTerm={setCategorySearchTerm}
       />
       <Container>
         <Header
