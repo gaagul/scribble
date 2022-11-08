@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Plus, Search, Check, Close } from "neetoicons";
 import { Typography, Button, Input } from "neetoui";
@@ -13,9 +13,9 @@ const SideMenuBar = ({
   count,
   activeStatus,
   setActiveStatus,
+  fetchCategories,
   activeCategoryIds,
   setActiveCategoryIds,
-  fetchCategories,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [isInputCollapsed, setIsInputCollapsed] = useState(true);
@@ -42,10 +42,6 @@ const SideMenuBar = ({
     setIsInputCollapsed(true);
     setNewCategoryTitle("");
   };
-
-  useEffect(() => {
-    fetchCategories(categorySearchTerm);
-  }, [categorySearchTerm]);
 
   return (
     <MenuBar showMenu title="Articles">
