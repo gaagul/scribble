@@ -24,10 +24,9 @@ const Preview = ({ history }) => {
       } = await euiApi.listCategories();
       setCategories(categories);
       setCategoryId(categories[0].id);
+      setLoading(false);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 

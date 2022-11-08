@@ -30,6 +30,7 @@ const General = () => {
   const handleSubmit = async (values, onSubmitProps) => {
     try {
       if (editPassword) {
+        setEditPassword(false);
         await organizationsApi.update(organization.id, {
           title: values.title,
           is_password_enabled: values.isPasswordProtected,

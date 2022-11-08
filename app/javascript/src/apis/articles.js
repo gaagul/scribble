@@ -1,10 +1,6 @@
 import axios from "axios";
 
-const list = (
-  activeCategoryIds = [],
-  activeStatus = "Published",
-  searchTitle = ""
-) =>
+const list = (activeCategoryIds = [], activeStatus = "all", searchTitle = "") =>
   axios.get("api/v1/articles", {
     params: {
       category_ids: activeCategoryIds,
