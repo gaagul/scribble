@@ -41,7 +41,7 @@ const Analytics = () => {
       {!either(isEmpty, isNil)(articles) ? (
         <Table
           allowRowClick={false}
-          columnData={buildColumnData(fetchArticles)}
+          columnData={buildColumnData()}
           currentPageNumber={currentPage}
           defaultPageSize={8}
           handlePageChange={setCurrentPage}

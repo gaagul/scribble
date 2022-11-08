@@ -19,12 +19,14 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   end
 
   def create
-    Article.create!(article_params.merge(organization: @_current_organization, user: @_current_user))
+    Article.create!(article_params.merge(organization: current_organization, user: current_user))
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
   def update
-    @article.update!(article_params)
+    attributes = article_params
+    attributes.merge(visits: @article.visits) if params.key?(:restore)
+    @article.update!(attributes)
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
 
