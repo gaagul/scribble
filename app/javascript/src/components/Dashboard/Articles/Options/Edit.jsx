@@ -69,35 +69,37 @@ const Edit = () => {
       {!either(isNil, isEmpty)(article) ? (
         <div className="flex h-full w-full justify-between">
           <Form isEdit article={article} />
-          <div className="h-full w-4/12 border-l-2 px-3">
-            <Typography className="mt-2" style="h3">
-              Current Status:
-              <Tag
-                className="ml-3"
-                label={article.status}
-                size="large"
-                style={article.status === "Published" ? "success" : "warning"}
-              />
-            </Typography>
-            <Typography className="mt-6" style="h3">
-              Version History
-            </Typography>
-            <Typography className="mt-1 mb-4" style="body2">
-              Version history of {`${article.title}`}.
-            </Typography>
-            <Callout className="flex">
-              <div className="flex flex-col">
-                <Typography className="text-gray-500" style="body2">
-                  {article.time}
-                </Typography>
-                <Typography className="text-gray-500" style="body2">
-                  Current Version
-                </Typography>
-              </div>
-              <Typography className="ml-auto" style="body2">{`Article ${
-                article.status === "Draft" ? "Drafted" : "Published"
-              }`}</Typography>
-            </Callout>
+          <div className="max-h-screen w-4/12 overflow-scroll border-l-2 px-3">
+            <div className="sticky top-0 z-10 bg-gray-100">
+              <Typography className="mt-2" style="h3">
+                Current Status:
+                <Tag
+                  className="ml-3"
+                  label={article.status}
+                  size="large"
+                  style={article.status === "Published" ? "success" : "warning"}
+                />
+              </Typography>
+              <Typography className="mt-6" style="h3">
+                Version History
+              </Typography>
+              <Typography className="mt-1 mb-4" style="body2">
+                Version history of {`${article.title}`}.
+              </Typography>
+              <Callout className="flex">
+                <div className="flex flex-col">
+                  <Typography className="text-gray-500" style="body2">
+                    {article.time}
+                  </Typography>
+                  <Typography className="text-gray-500" style="body2">
+                    Current Version
+                  </Typography>
+                </div>
+                <Typography className="ml-auto" style="body2">{`Article ${
+                  article.status === "Draft" ? "Drafted" : "Published"
+                }`}</Typography>
+              </Callout>
+            </div>
             <div className="max-h-screen flex-col overflow-scroll">
               {!either(isNil, isEmpty)(versions) ? (
                 versions.map(version => (
@@ -106,7 +108,7 @@ const Edit = () => {
                     key={version.version_id}
                   >
                     {version.event !== "update" &&
-                    version.event.split("-")[0] !== "Restore" ? (
+                    version.event.split("-")[0] !== "restore" ? (
                       <>
                         <div className="flex-col">
                           <Typography className="text-gray-500" style="body2">
