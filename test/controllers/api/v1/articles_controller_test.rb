@@ -55,8 +55,12 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     put api_v1_article_path(@article.id),
       params: { restore: true, article: { title: "Welcome" }, time: @article.updated_at },
       headers: headers
+    time = @article.versions.last.event.split("-").last
     assert_response :success
-    byebug
-    assert_equal @article.versions.last.event, "Restored from #{@article.updated_at}"
+    assert_equal @article.versions.last.event, "restore-#{@article.updated_at}"
+    put api_v1_article_path(@article.id),
+      params: { article: { title: "new" }, time: @article.updated_at },
+      headers: headers
+    assert_equal @article.versions.last.event, "Restored from #{time}"
   end
 end
