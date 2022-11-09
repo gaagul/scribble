@@ -46,12 +46,12 @@ class Api::V1::ArticlesController < Api::V1::BaseController
 
     def set_event
       if params.key?(:restore)
-        @article.paper_trail_event = "Restored-#{params[:time]}"
+        @article.paper_trail_event = "Restore-#{params[:time]}"
       end
     end
 
     def set_time
-      if @article.versions.last.event.starts_with?("Restored") && @article.versions.last.event.split("-").size == 2
+      if @article.versions.last.event.starts_with?("Restore")
         @article.paper_trail_event = "Restored from #{@article.versions.last.event.split('-').last}"
         @article.versions.last.event = "updated"
       end
