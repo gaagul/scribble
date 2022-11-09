@@ -10,8 +10,10 @@ json.status article.status
 json.body article.body
 json.author article.user.name
 json.category do
-  json.extract! article.category,
-    :id,
-    :title,
-    :position
+  unless article.category.nil?
+    json.extract! article.category,
+      :id,
+      :title,
+      :position
+  end
 end

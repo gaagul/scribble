@@ -64,7 +64,10 @@ const VersionModal = ({
         />
         <Button
           className="mt-4"
-          label="Restore Version"
+          disabled={!("category" in selectedVersion)}
+          label={
+            !("category" in selectedVersion) ? "Category not found" : "Restore"
+          }
           onClick={handleRestore}
         />
         <Button className="ml-3" label="Cancel" style="secondary" />
