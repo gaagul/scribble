@@ -37,7 +37,7 @@ const Eui = ({ history }) => {
     fetchOrganization();
     document.addEventListener("keydown", handleKeyDown);
 
-    return function cleanup() {
+    return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);

@@ -119,7 +119,7 @@ const Edit = () => {
                           </Typography>
                         </div>
                         <Typography
-                          className="my-auto ml-auto text-indigo-600"
+                          className="my-auto ml-auto text-indigo-300"
                           style="h5"
                         >
                           Article Restored
