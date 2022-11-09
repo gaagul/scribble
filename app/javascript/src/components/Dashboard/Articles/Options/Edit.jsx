@@ -106,7 +106,7 @@ const Edit = () => {
                     key={version.version_id}
                   >
                     {version.event !== "update" &&
-                    version.event.split("-")[0] !== "Restored" ? (
+                    version.event.split("-")[0] !== "Restore" ? (
                       <>
                         <div className="flex-col">
                           <Typography className="text-gray-500" style="body2">
