@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { Search } from "neetoicons";
 import { Typography, PageLoader, Input, Kbd } from "neetoui";
 import { Switch, Route } from "react-router-dom";
 
@@ -56,6 +57,7 @@ const Eui = ({ history }) => {
           <Input
             className="mt-auto"
             placeholder="Search for articles here"
+            prefix={<Search size={16} />}
             suffix={<Kbd keyName="⌘K" />}
             type="search"
             onClick={() => setShowModal(true)}

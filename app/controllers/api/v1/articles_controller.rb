@@ -3,6 +3,7 @@
 class Api::V1::ArticlesController < Api::V1::BaseController
   before_action :load_article!, except: %i[index create]
   before_action :set_event, only: %i[update]
+  before_action :set_time, only: %i[update]
   before_action :set_paper_trail_whodunnit
 
   def index
@@ -24,9 +25,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   end
 
   def update
-    attributes = article_params
-    attributes.merge(visits: @article.visits) if params.key?(:restore)
-    @article.update!(attributes)
+    @article.update!(article_params)
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
 
@@ -47,9 +46,14 @@ class Api::V1::ArticlesController < Api::V1::BaseController
 
     def set_event
       if params.key?(:restore)
-        @article.paper_trail_event = "Restored"
-      else
-        @article.paper_trail_event = @article.status == "Published" ? "Published" : "Drafted"
+        @article.paper_trail_event = "Restored-#{params[:time]}"
+      end
+    end
+
+    def set_time
+      if @article.versions.last.event.starts_with?("Restored") && @article.versions.last.event.split("-").size == 2
+        @article.paper_trail_event = "Restored from #{@article.versions.last.event.split('-').last}"
+        @article.versions.last.event = "updated"
       end
     end
 end

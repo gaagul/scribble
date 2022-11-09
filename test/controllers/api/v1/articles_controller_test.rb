@@ -53,9 +53,10 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_set_papertrail_event_as_restored_if_restored_params_is_true
     put api_v1_article_path(@article.id),
-      params: { restore: true, article: { title: "Welcome" } },
+      params: { restore: true, article: { title: "Welcome" }, time: @article.updated_at },
       headers: headers
     assert_response :success
-    assert_equal @article.versions.last.event, "Restored"
+    byebug
+    assert_equal @article.versions.last.event, "Restored from #{@article.updated_at}"
   end
 end
