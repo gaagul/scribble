@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Api::V1::ArticlesController < Api::V1::BaseController
-  before_action :load_article!, except: %i[index create]
+  before_action :load_article!, except: %i[analytics index create]
   before_action :set_event, only: %i[update]
   before_action :set_time, only: %i[update]
   before_action :set_paper_trail_whodunnit
-  before_action :set_category_filtered_articles, only: %i[index]
+  before_action :set_category_title_filtered_articles, only: %i[index]
 
   def index
     @all_articles = @category_filtered_articles.status_filter(params[:status])
@@ -33,6 +33,11 @@ class Api::V1::ArticlesController < Api::V1::BaseController
     respond_with_success(t("successfully_deleted", entity: "article"))
   end
 
+  def analytics
+    @all_articles = current_user.articles.status_filter(:Published).sorted
+    @articles = @all_articles.page(params[:current_page])
+  end
+
   private
 
     def load_article!
@@ -56,13 +61,8 @@ class Api::V1::ArticlesController < Api::V1::BaseController
       end
     end
 
-    def set_category_filtered_articles
-      if params.key?(:sort)
-        @category_filtered_articles = current_user.articles.categories_filter(
-          params[:category_ids]).title_search(params[:search_title].downcase).order("articles.visits DESC")
-      else
-        @category_filtered_articles = current_user.articles.categories_filter(
-          params[:category_ids]).title_search(params[:search_title].downcase)
-      end
+    def set_category_title_filtered_articles
+      @category_filtered_articles = current_user.articles.categories_filter(
+        params[:category_ids]).title_search(params[:search_title].downcase)
     end
 end

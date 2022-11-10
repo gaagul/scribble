@@ -5,10 +5,10 @@ import { isEmpty, isNil, either } from "ramda";
 
 import articlesApi from "apis/articles";
 
-import { buildColumnData } from "./utils";
+import { buildColumnData, expandableRender } from "./utils";
 
 const Analytics = () => {
-  const [articles, setArticles] = useState({});
+  const [analytics, setAnalytics] = useState({});
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginationProps, setPaginationProps] = useState({});
@@ -16,14 +16,14 @@ const Analytics = () => {
   const fetchArticles = async () => {
     try {
       const {
-        data: { articles },
-      } = await articlesApi.AnalyticsList([], "Published", "", currentPage);
-      setArticles(articles.all);
-      setLoading(false);
+        data: { analytics },
+      } = await articlesApi.analytics(currentPage);
+      setAnalytics(analytics.visits);
       setPaginationProps({
-        count: articles.total_count,
-        pageSize: articles.page_size,
+        count: analytics.count,
+        pageSize: analytics.page_size,
       });
+      setLoading(false);
     } catch (error) {
       logger.error(error);
     }
@@ -42,14 +42,18 @@ const Analytics = () => {
   }
 
   return (
-    <div className="mx-auto mt-6 w-1/2 ">
-      {!either(isEmpty, isNil)(articles) ? (
+    <div className="mx-auto mt-6 max-w-3xl">
+      {!either(isEmpty, isNil)(analytics) ? (
         <>
           <Table
             allowRowClick={false}
             columnData={buildColumnData()}
             handlePageChange={setCurrentPage}
-            rowData={articles.sort((a, b) => b.visits - a.visits)}
+            rowData={analytics}
+            expandable={{
+              expandedRowRender: record => expandableRender(record),
+              rowExpandable: record => record.count !== 0,
+            }}
           />
           <Pagination
             className="float-right mr-6 mt-4"

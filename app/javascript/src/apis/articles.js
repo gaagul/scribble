@@ -28,17 +28,9 @@ const update = (id, payload) =>
 
 const destroy = id => axios.delete(`api/v1/articles/${id}`);
 
-const AnalyticsList = (
-  activeCategoryIds = [],
-  activeStatus = "all",
-  searchTitle = "",
-  currentPage = 1
-) =>
-  axios.get("api/v1/articles?sort", {
+const analytics = currentPage =>
+  axios.get("api/v1/articles/analytics", {
     params: {
-      category_ids: activeCategoryIds,
-      status: activeStatus,
-      search_title: searchTitle,
       current_page: currentPage,
     },
   });
@@ -49,7 +41,7 @@ const articlesApi = {
   create,
   update,
   destroy,
-  AnalyticsList,
+  analytics,
 };
 
 export default articlesApi;

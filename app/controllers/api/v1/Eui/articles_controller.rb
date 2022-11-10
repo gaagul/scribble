@@ -20,6 +20,6 @@ class Api::V1::Eui::ArticlesController < Api::V1::BaseController
     end
 
     def increment_view_count
-      @article.increment!(:visits)
+      @article.visits.create!(article: @article)
     end
 end
