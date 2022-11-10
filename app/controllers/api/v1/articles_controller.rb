@@ -5,15 +5,13 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   before_action :set_event, only: %i[update]
   before_action :set_time, only: %i[update]
   before_action :set_paper_trail_whodunnit
+  before_action :set_category_filtered_articles, only: %i[index]
 
   def index
-    category_filtered_articles = current_user.articles.categories_filter(
-      params[:category_ids]).title_search(params[:search_title].downcase
-    )
-    @all_articles = category_filtered_articles.status_filter(params[:status])
-    @filtered_articles = @all_articles.page(params[:current_page]).per(Article::MAX_ARTICLES_COUNT)
-    @draft_articles = category_filtered_articles.where(status: :Draft)
-    @published_articles = category_filtered_articles.where(status: :Published)
+    @all_articles = @category_filtered_articles.status_filter(params[:status])
+    @filtered_articles = @all_articles.page(params[:current_page])
+    @draft_articles = @category_filtered_articles.where(status: :Draft)
+    @published_articles = @category_filtered_articles.where(status: :Published)
   end
 
   def show
@@ -55,6 +53,16 @@ class Api::V1::ArticlesController < Api::V1::BaseController
       if @article.versions.last.event.start_with?("restore")
         @article.paper_trail_event = "Restored from #{@article.versions.last.event.split('-').last}"
         @article.versions.last.event = "updated"
+      end
+    end
+
+    def set_category_filtered_articles
+      if params.key?(:sort)
+        @category_filtered_articles = current_user.articles.categories_filter(
+          params[:category_ids]).title_search(params[:search_title].downcase).order("articles.visits DESC")
+      else
+        @category_filtered_articles = current_user.articles.categories_filter(
+          params[:category_ids]).title_search(params[:search_title].downcase)
       end
     end
 end

@@ -17,7 +17,7 @@ const Analytics = () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list([], "Published", "", currentPage);
+      } = await articlesApi.AnalyticsList([], "Published", "", currentPage);
       setArticles(articles.all);
       setLoading(false);
       setPaginationProps({

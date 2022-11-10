@@ -21,6 +21,7 @@ class Article < ApplicationRecord
   before_save :set_slug
 
   has_paper_trail ignore: [:visits]
+  paginates_per MAX_ARTICLES_COUNT
 
   private
 
