@@ -4,7 +4,8 @@ json.analytics do
   json.visits @articles.each do | article |
     json.extract! article,
       :id,
-      :title
+      :title,
+      :slug
     json.visits article.visits.group_by_day(:created_at, format: "%B %d, %Y").count.to_a
     json.date article.updated_at.strftime("%B %d, %Y")
     json.category article.category.title

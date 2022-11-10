@@ -63,4 +63,14 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
       headers: headers
     assert_equal @article.versions.last.event, "Restored from #{time}"
   end
+
+  def test_analytics_action
+    article1 = create(:article, user: @user, category: @category, status: :Draft, organization: @organization)
+    article2 = create(:article, user: @user, category: @category, status: :Draft, organization: @organization)
+    article3 = create(:article, user: @user, category: @category, status: :Published, organization: @organization)
+    get analytics_api_v1_articles_path, params: { current_page: 1 }, headers: headers
+    assert_response :success
+    response_json = parse_body
+    assert_equal @user.articles.where(status: :Published).count, response_json["analytics"]["visits"].length
+  end
 end
