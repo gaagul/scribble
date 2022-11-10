@@ -2,10 +2,14 @@
 
 class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 50
+  MAX_ARTICLES_COUNT = 9
 
   scope :categories_filter, -> (categories) { where(category_id: categories) unless categories.nil? }
   scope :status_filter, -> (status) { where(status: status) unless status == "all" }
   scope :title_search, -> (title) { where("lower(title) like ?", "#{title}%") }
+  scope :sorted, -> { order("visits_count DESC") }
+
+  has_many :visits, dependent: :destroy
 
   belongs_to :organization
   belongs_to :user
@@ -19,7 +23,8 @@ class Article < ApplicationRecord
 
   before_save :set_slug
 
-  has_paper_trail
+  has_paper_trail ignore: [:visits]
+  paginates_per MAX_ARTICLES_COUNT
 
   private
 

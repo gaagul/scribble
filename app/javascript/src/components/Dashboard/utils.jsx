@@ -1,10 +1,36 @@
 import React from "react";
 
-import { Typography, Tooltip } from "neetoui";
+import { Typography, Tooltip, Table } from "neetoui";
 
 const handleClick = fetchArticles => {
   fetchArticles();
 };
+
+export const expandableRender = record => (
+  <div className="my-2 ml-16 max-w-md">
+    <Table
+      columnData={[
+        {
+          title: "Date",
+          dataIndex: "date",
+          key: "date",
+          width: 10,
+        },
+        {
+          title: "Visits",
+          dataIndex: "visits",
+          key: "visits",
+          width: 10,
+        },
+      ]}
+      rowData={record.visits.map(([key, val]) => ({
+        key,
+        date: key,
+        visits: val,
+      }))}
+    />
+  </div>
+);
 
 export const buildColumnData = fetchArticles => [
   {
@@ -41,13 +67,13 @@ export const buildColumnData = fetchArticles => [
     dataIndex: "category",
     key: "category",
     width: 200,
-    render: (_, record) => <Typography>{record.category.title}</Typography>,
+    render: (_, record) => <Typography>{record.category}</Typography>,
   },
   {
     title: "VISITS",
-    dataIndex: "visits",
-    key: "views",
+    dataIndex: "count",
+    key: "visits",
     width: 100,
-    sorter: (a, b) => a.visits - b.visits,
+    sorter: (a, b) => a.count - b.count,
   },
 ];

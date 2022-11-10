@@ -21,6 +21,7 @@ const VersionModal = ({
           category_id: selectedVersion.category.id,
           status: selectedVersion.status,
         },
+        time: selectedVersion.time,
       });
       setIsModalOpen(false);
     } catch (error) {
@@ -58,11 +59,15 @@ const VersionModal = ({
         <Textarea
           disabled
           label="Article Content"
+          rows="200"
           value={selectedVersion.body}
         />
         <Button
           className="mt-4"
-          label="Restore Version"
+          disabled={!("category" in selectedVersion)}
+          label={
+            !("category" in selectedVersion) ? "Category not found" : "Restore"
+          }
           onClick={handleRestore}
         />
         <Button className="ml-3" label="Cancel" style="secondary" />

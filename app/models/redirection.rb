@@ -5,6 +5,7 @@ class Redirection < ApplicationRecord
 
   validates :from, presence: true, uniqueness: true
   validates :to, presence: true
+  validate :to_and_from_validation
   validates_with RedirectionCycleValidator
 
   private

@@ -53,9 +53,24 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_set_papertrail_event_as_restored_if_restored_params_is_true
     put api_v1_article_path(@article.id),
-      params: { restore: true, article: { title: "Welcome" } },
+      params: { restore: true, article: { title: "Welcome" }, time: @article.updated_at },
       headers: headers
+    time = @article.versions.last.event.split("-").last
     assert_response :success
-    assert_equal @article.versions.last.event, "Restored"
+    assert_equal @article.versions.last.event, "restore-#{@article.updated_at}"
+    put api_v1_article_path(@article.id),
+      params: { article: { title: "new" }, time: @article.updated_at },
+      headers: headers
+    assert_equal @article.versions.last.event, "Restored from #{time}"
+  end
+
+  def test_analytics_action
+    article1 = create(:article, user: @user, category: @category, status: :Draft, organization: @organization)
+    article2 = create(:article, user: @user, category: @category, status: :Draft, organization: @organization)
+    article3 = create(:article, user: @user, category: @category, status: :Published, organization: @organization)
+    get analytics_api_v1_articles_path, params: { current_page: 1 }, headers: headers
+    assert_response :success
+    response_json = parse_body
+    assert_equal @user.articles.where(status: :Published).count, response_json["analytics"]["visits"].length
   end
 end

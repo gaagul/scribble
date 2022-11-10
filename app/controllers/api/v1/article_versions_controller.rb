@@ -11,6 +11,6 @@ class Api::V1::ArticleVersionsController < Api::V1::BaseController
   private
 
     def load_versions!
-      @versions = Article.find(params[:article_id]).versions
+      @versions = Article.find(params[:article_id]).versions.reverse
     end
 end

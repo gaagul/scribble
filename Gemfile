@@ -5,6 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.2"
 gem "acts_as_list"
+gem "groupdate"
+gem "kaminari"
 gem "paper_trail"
 gem "react-rails"
 gem "simplecov", require: false, group: :test

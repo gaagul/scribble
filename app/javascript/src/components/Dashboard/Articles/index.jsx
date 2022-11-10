@@ -20,6 +20,7 @@ const Articles = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [categorySearchTerm, setCategorySearchTerm] = useState("");
   const [count, setCount] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
   const [columnVisibility, setColumnVisibility] = useState({
     title: true,
     date: true,
@@ -33,13 +34,20 @@ const Articles = () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list(activeCategoryIds, activeStatus, searchTitle);
+      } = await articlesApi.list(
+        activeCategoryIds,
+        activeStatus,
+        searchTitle,
+        currentPage
+      );
       setArticles(articles);
       setLoading(false);
       setCount({
         draftCount: articles.draft_count,
         publishedCount: articles.published_count,
         allCount: articles.draft_count + articles.published_count,
+        totalArticlesCount: articles.total_count,
+        pageSize: articles.page_size,
       });
     } catch (error) {
       logger.error(error);
@@ -84,7 +92,7 @@ const Articles = () => {
 
   useEffect(() => {
     fetchArticles();
-  }, [activeCategoryIds, activeStatus, searchTitle]);
+  }, [activeCategoryIds, activeStatus, searchTitle, currentPage]);
 
   if (loading) {
     return (
@@ -106,6 +114,7 @@ const Articles = () => {
         setActiveCategoryIds={setActiveCategoryIds}
         setActiveStatus={setActiveStatus}
         setCategorySearchTerm={setCategorySearchTerm}
+        setCurrentPage={setCurrentPage}
       />
       <Container>
         <Header
@@ -132,15 +141,19 @@ const Articles = () => {
             <SubHeader
               leftActionBlock={
                 <Typography component="h4" style="h4">
-                  {articles.all.length} Articles
+                  {count.totalArticlesCount} Articles
                 </Typography>
               }
             />
             <Table
               allArticles={articles.all}
               columnVisibility={columnVisibility}
+              currentPage={currentPage}
               destroyArticle={destroyArticle}
+              pageSize={count.pageSize}
               searchTitle={searchTitle}
+              setCurrentPage={setCurrentPage}
+              totalArticlesCount={count.totalArticlesCount}
             />
           </>
         )}

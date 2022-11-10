@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class Api::V1::ArticlesController < Api::V1::BaseController
-  before_action :load_article!, except: %i[index create]
+  before_action :load_article!, except: %i[analytics index create]
   before_action :set_event, only: %i[update]
+  before_action :set_time, only: %i[update]
   before_action :set_paper_trail_whodunnit
+  before_action :set_category_title_filtered_articles, only: %i[index]
 
   def index
-    category_filtered_articles = current_user.articles.categories_filter(
-      params[:category_ids]).title_search(params[:search_title].downcase
-    )
-    @filtered_articles = category_filtered_articles.status_filter(params[:status])
-    @draft_articles = category_filtered_articles.where(status: :Draft)
-    @published_articles = category_filtered_articles.where(status: :Published)
+    @all_articles = @category_filtered_articles.status_filter(params[:status])
+    @filtered_articles = @all_articles.page(params[:current_page])
+    @draft_articles = @category_filtered_articles.where(status: :Draft)
+    @published_articles = @category_filtered_articles.where(status: :Published)
   end
 
   def show
@@ -19,7 +19,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   end
 
   def create
-    Article.create!(article_params.merge(organization: @_current_organization, user: @_current_user))
+    Article.create!(article_params.merge(organization: current_organization, user: current_user))
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
@@ -31,6 +31,11 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   def destroy
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "article"))
+  end
+
+  def analytics
+    @all_articles = current_user.articles.status_filter(:Published).sorted
+    @articles = @all_articles.page(params[:current_page])
   end
 
   private
@@ -45,9 +50,19 @@ class Api::V1::ArticlesController < Api::V1::BaseController
 
     def set_event
       if params.key?(:restore)
-        @article.paper_trail_event = "Restored"
-      else
-        @article.paper_trail_event = @article.status == "Published" ? "Published" : "Drafted"
+        @article.paper_trail_event = "restore-#{params[:time]}"
       end
+    end
+
+    def set_time
+      if @article.versions.last.event.start_with?("restore")
+        @article.paper_trail_event = "Restored from #{@article.versions.last.event.split('-').last}"
+        @article.versions.last.event = "updated"
+      end
+    end
+
+    def set_category_title_filtered_articles
+      @category_filtered_articles = current_user.articles.categories_filter(
+        params[:category_ids]).title_search(params[:search_title].downcase)
     end
 end
