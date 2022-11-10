@@ -1,20 +1,27 @@
 import React, { useState } from "react";
 
-import { Table as NeetoTable, Alert } from "neetoui";
+import { Table as NeetoTable, Alert, Pagination } from "neetoui";
 
 import { buildColumnData } from "./utils";
 
-const Table = ({ allArticles, destroyArticle, columnVisibility }) => {
+const Table = ({
+  allArticles,
+  destroyArticle,
+  columnVisibility,
+  currentPage,
+  setCurrentPage,
+  totalArticlesCount,
+  pageSize,
+}) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <>
       <NeetoTable
         allowRowClick={false}
         currentPageNumber={currentPage}
-        defaultPageSize={8}
+        defaultPageSize={9}
         handlePageChange={setCurrentPage}
         paginationProps={{ showQuickJumper: true }}
         rowData={allArticles}
@@ -23,6 +30,12 @@ const Table = ({ allArticles, destroyArticle, columnVisibility }) => {
           columnVisibility,
           setIsAlertOpen
         )}
+      />
+      <Pagination
+        count={totalArticlesCount}
+        navigate={setCurrentPage}
+        pageNo={currentPage}
+        pageSize={pageSize}
       />
       <Alert
         isOpen={isAlertOpen}

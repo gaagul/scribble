@@ -1,11 +1,17 @@
 import axios from "axios";
 
-const list = (activeCategoryIds = [], activeStatus = "all", searchTitle = "") =>
+const list = (
+  activeCategoryIds = [],
+  activeStatus = "all",
+  searchTitle = "",
+  currentPage = 1
+) =>
   axios.get("api/v1/articles", {
     params: {
       category_ids: activeCategoryIds,
       status: activeStatus,
       search_title: searchTitle,
+      current_page: currentPage,
     },
   });
 const show = slug => axios.get(`api/v1/articles/${slug}`);

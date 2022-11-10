@@ -2,6 +2,7 @@
 
 class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 50
+  MAX_ARTICLES_COUNT = 9
 
   scope :categories_filter, -> (categories) { where(category_id: categories) unless categories.nil? }
   scope :status_filter, -> (status) { where(status: status) unless status == "all" }

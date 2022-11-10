@@ -10,7 +10,8 @@ class Api::V1::ArticlesController < Api::V1::BaseController
     category_filtered_articles = current_user.articles.categories_filter(
       params[:category_ids]).title_search(params[:search_title].downcase
     )
-    @filtered_articles = category_filtered_articles.status_filter(params[:status])
+    @all_articles = category_filtered_articles.status_filter(params[:status])
+    @filtered_articles = @all_articles.page(params[:current_page]).per(Article::MAX_ARTICLES_COUNT)
     @draft_articles = category_filtered_articles.where(status: :Draft)
     @published_articles = category_filtered_articles.where(status: :Published)
   end
