@@ -31,12 +31,15 @@ const Table = ({
           setIsAlertOpen
         )}
       />
-      <Pagination
-        count={totalArticlesCount}
-        navigate={setCurrentPage}
-        pageNo={currentPage}
-        pageSize={pageSize}
-      />
+      <div className="w-full">
+        <Pagination
+          className="float-right mr-6 mt-4"
+          count={totalArticlesCount}
+          navigate={setCurrentPage}
+          pageNo={currentPage}
+          pageSize={pageSize}
+        />
+      </div>
       <Alert
         isOpen={isAlertOpen}
         message={`Are you sure you want to delete article: ${selectedArticle.title}`}
