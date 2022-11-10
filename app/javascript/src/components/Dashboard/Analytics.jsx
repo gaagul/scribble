@@ -52,6 +52,7 @@ const Analytics = () => {
             rowData={articles.sort((a, b) => b.visits - a.visits)}
           />
           <Pagination
+            className="float-right mr-6 mt-4"
             count={paginationProps.count}
             navigate={setCurrentPage}
             pageNo={currentPage}

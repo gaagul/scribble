@@ -16,6 +16,7 @@ const SideMenuBar = ({
   fetchCategories,
   activeCategoryIds,
   setActiveCategoryIds,
+  setCurrentPage,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [isInputCollapsed, setIsInputCollapsed] = useState(true);
@@ -59,6 +60,7 @@ const SideMenuBar = ({
         label="Draft"
         onClick={() => {
           setActiveStatus("Draft");
+          setCurrentPage(1);
         }}
       />
       <MenuBar.Block
@@ -67,6 +69,7 @@ const SideMenuBar = ({
         label="Published"
         onClick={() => {
           setActiveStatus("Published");
+          setCurrentPage(1);
         }}
       />
       <MenuBar.SubTitle
@@ -152,6 +155,7 @@ const SideMenuBar = ({
               category.id
             );
             setActiveCategoryIds(filteredCategories);
+            setCurrentPage(1);
           }}
         />
       ))}

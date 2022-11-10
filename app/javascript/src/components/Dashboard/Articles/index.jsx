@@ -114,6 +114,7 @@ const Articles = () => {
         setActiveCategoryIds={setActiveCategoryIds}
         setActiveStatus={setActiveStatus}
         setCategorySearchTerm={setCategorySearchTerm}
+        setCurrentPage={setCurrentPage}
       />
       <Container>
         <Header
