@@ -7,8 +7,7 @@ const handleKeyPress = (e, to, from, updateRedirection, setRowId, record) => {
   if (
     e.key === "Enter" &&
     to !== from &&
-    record.to !== to &&
-    record.from !== from
+    (record.to !== to || record.from !== from)
   ) {
     updateRedirection();
   } else if (e.key === "Escape") {
