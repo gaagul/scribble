@@ -34,12 +34,12 @@ const Articles = () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list(
+      } = await articlesApi.list({
         activeCategoryIds,
         activeStatus,
         searchTitle,
-        currentPage
-      );
+        currentPage,
+      });
       setArticles(articles);
       setLoading(false);
       setCount({

@@ -35,11 +35,14 @@ const Form = ({ article, isEdit }) => {
   const handleSubmit = async values => {
     try {
       isEdit
-        ? await articlesApi.update(article.id, {
-            title: values.title,
-            body: values.body,
-            category_id: values.category.value,
-            status: values.status.value,
+        ? await articlesApi.update({
+            id: article.id,
+            payload: {
+              title: values.title,
+              body: values.body,
+              category_id: values.category.value,
+              status: values.status.value,
+            },
           })
         : await articlesApi.create({
             title: values.title,
