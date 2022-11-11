@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const list = (
+const list = ({
   activeCategoryIds = [],
   activeStatus = "all",
   searchTitle = "",
-  currentPage = 1
-) =>
+  currentPage = 1,
+}) =>
   axios.get("api/v1/articles", {
     params: {
       category_ids: activeCategoryIds,
@@ -21,7 +21,7 @@ const create = payload =>
     article: payload,
   });
 
-const update = (id, payload) =>
+const update = ({ id, payload }) =>
   axios.put(`api/v1/articles/${id}`, {
     article: payload,
   });

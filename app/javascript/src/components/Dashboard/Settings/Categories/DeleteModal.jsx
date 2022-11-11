@@ -36,6 +36,33 @@ const DeleteModal = ({
     setNewCategoryId(0);
   };
 
+  if (numberOfCategories === 1 && selectedCategory.title === "General") {
+    return (
+      <Modal isOpen={isDeleting} onClose={handleClose}>
+        <Modal.Header>
+          <Typography id="dialog1Title" style="h2">
+            Delete Category
+          </Typography>
+        </Modal.Header>
+        <Modal.Body>
+          <Callout icon={Warning} type="warning">
+            <Typography style="body2">
+              You cannot delete the General category.
+            </Typography>
+          </Callout>
+        </Modal.Body>
+        <Modal.Footer className="space-x-2">
+          <Button
+            label="Close"
+            size="large"
+            style="secondary"
+            onClick={handleClose}
+          />
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
   return (
     <Modal isOpen={isDeleting} onClose={handleClose}>
       <Modal.Header>
@@ -86,7 +113,8 @@ const DeleteModal = ({
           disabled={
             numberOfCategories > 1 &&
             newCategoryId === 0 &&
-            selectedCategory.count > 0
+            selectedCategory.count > 0 &&
+            selectedCategory.title === "General"
           }
           onClick={() => {
             handleDelete();
