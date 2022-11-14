@@ -7,9 +7,6 @@ import redirectionsApi from "apis/redirections";
 import { buildColumns } from "./utils";
 
 const Table = ({ redirections, fetchRedirections }) => {
-  const LOCALE = {
-    emptyText: "No redirections added yet",
-  };
   const [rowId, setRowId] = useState(0);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedRedirection, setSelectedRedirection] = useState({});
@@ -19,6 +16,10 @@ const Table = ({ redirections, fetchRedirections }) => {
     to: "",
   });
 
+  const LOCALE = {
+    emptyText: "No redirections added yet",
+  };
+
   const updateRedirection = async () => {
     try {
       await redirectionsApi.update({
@@ -26,7 +27,7 @@ const Table = ({ redirections, fetchRedirections }) => {
         payload: editRedirection,
       });
       fetchRedirections();
-      setRowId();
+      setRowId(0);
     } catch (error) {
       logger.error(error);
     }

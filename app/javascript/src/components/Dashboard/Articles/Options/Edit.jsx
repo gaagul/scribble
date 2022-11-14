@@ -16,6 +16,7 @@ const Edit = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState({});
+
   const { id } = useParams();
   const history = useHistory();
 
@@ -142,16 +143,6 @@ const Edit = () => {
                         />
                       </>
                     )}
-                    {/* <Button
-                      style="link"
-                      label={`Article ${
-                        version.status === "Draft" ? "Drafted" : "Published"
-                      }`}
-                      onClick={() => {
-                        setSelectedVersion(version);
-                        setIsModalOpen(true);
-                      }}
-                    /> */}
                   </div>
                 ))
               ) : (

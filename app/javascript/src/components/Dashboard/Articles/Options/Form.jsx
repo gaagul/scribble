@@ -13,9 +13,10 @@ import { ARTICLE_FORM_VALIDATION_SCHEMA } from "./constants";
 const Form = ({ article, isEdit }) => {
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+  const [categories, setCategories] = useState([]);
+
   const history = useHistory();
 
-  const [categories, setCategories] = useState([]);
   const fetchCategories = async () => {
     try {
       const {

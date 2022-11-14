@@ -14,6 +14,7 @@ const Preview = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [categoryId, setCategoryId] = useState(0);
+
   const { slug } = useParams();
 
   const fetchCategories = async () => {
