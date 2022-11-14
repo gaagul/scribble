@@ -36,9 +36,9 @@ const Preview = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    either(isNil, isEmpty)(slug) && !either(isNil, isEmpty)(categories)
-      ? history.push(`public/${categories[0].articles[0].slug}`)
-      : null;
+    either(isNil, isEmpty)(slug) &&
+      !either(isNil, isEmpty)(categories) &&
+      history.push(`public/${categories[0].articles[0].slug}`);
   }, [categories]);
 
   if (loading) {

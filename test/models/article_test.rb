@@ -20,6 +20,24 @@ class ArticleTest < ActiveSupport::TestCase
     assert_not @article.valid?
   end
 
+  def test_article_should_not_be_valid_without_category
+    @article.category = nil
+    assert_not @article.save
+    assert_includes @article.errors_to_sentence, "Category must exist"
+  end
+
+  def test_article_should_not_be_valid_without_organization
+    @article.organization = nil
+    assert_not @article.save
+    assert_includes @article.errors_to_sentence, "Organization must exist"
+  end
+
+  def test_article_should_not_be_valid_without_user
+    @article.user = nil
+    assert_not @article.save
+    assert_includes @article.errors_to_sentence, "User must exist"
+  end
+
   def test_incremental_slug_generation_for_articles_with_duplicate_two_worded_titles
     first_article = Article.create!(
       title: "test article", body: "This is a test article body",

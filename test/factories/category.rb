@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :category do
-    title { Faker::Lorem.sentence[0..14] }
+    title { Faker::Alphanumeric.alphanumeric(number: 10) }
   end
 end

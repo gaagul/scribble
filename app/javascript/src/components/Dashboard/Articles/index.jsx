@@ -12,7 +12,7 @@ import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 
 const Articles = () => {
-  const [articles, setArticles] = useState({});
+  const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategoryIds, setActiveCategoryIds] = useState([]);
@@ -40,7 +40,7 @@ const Articles = () => {
         searchTitle,
         currentPage,
       });
-      setArticles(articles);
+
       setCount({
         draftCount: articles.draft_count,
         publishedCount: articles.published_count,
@@ -48,6 +48,7 @@ const Articles = () => {
         totalArticlesCount: articles.total_count,
         pageSize: articles.page_size,
       });
+      setArticles(articles.all);
       setLoading(false);
     } catch (error) {
       logger.error(error);
@@ -123,7 +124,7 @@ const Articles = () => {
           setColumnVisibility={setColumnVisibility}
           setSearchTitle={setSearchTitle}
         />
-        {either(isNil, isEmpty)(articles.all) ? (
+        {either(isNil, isEmpty)(articles) ? (
           <div className="mx-auto my-56 ">
             <h1 className="text-center text-xl leading-5">
               You have no articles to read
@@ -145,7 +146,7 @@ const Articles = () => {
               }
             />
             <Table
-              allArticles={articles.all}
+              allArticles={articles}
               columnVisibility={columnVisibility}
               currentPage={currentPage}
               destroyArticle={destroyArticle}
