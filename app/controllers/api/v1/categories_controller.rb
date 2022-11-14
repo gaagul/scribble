@@ -4,7 +4,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   before_action :load_category!, only: %i[update destroy]
 
   def index
-    @categories = Category.title_search(params[:search_title]).order(position: :ASC)
+    @categories = Category.title_search(params[:search_title].downcase).order(position: :ASC)
   end
 
   def create

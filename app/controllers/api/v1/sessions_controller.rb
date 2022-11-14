@@ -5,6 +5,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
     unless current_organization.authenticate(login_params[:password])
       respond_with_error(t("session.could_not_auth"), :unauthorized)
     end
+    @current_organization = current_organization
+    @current_user = current_user
   end
 
   private

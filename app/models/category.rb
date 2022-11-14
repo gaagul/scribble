@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
-  CATEGORY_TITLE_REGEX = /\A[a-zA-Z0-9\s]+\z/
+  CATEGORY_TITLE_REGEX = /\A([ A-Za-z0-9_&]*)\z/
   MAX_TITLE_LENGTH = 20
 
   scope :title_search, -> (title) { where("lower(title) like ?", "#{title}%") }

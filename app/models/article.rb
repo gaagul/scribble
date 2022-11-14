@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  ARTICLE_TITLE_REGEX = /\A[a-zA-Z0-9_-\s]+\z/
+  ARTICLE_TITLE_REGEX = /\A[a-zA-Z0-9\s]+\z/
   MAX_TITLE_LENGTH = 50
   MAX_ARTICLES_COUNT = 9
 

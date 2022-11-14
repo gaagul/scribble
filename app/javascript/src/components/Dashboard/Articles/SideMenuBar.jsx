@@ -157,6 +157,8 @@ const SideMenuBar = ({
             );
             setActiveCategoryIds(filteredCategories);
             setCurrentPage(1);
+            setCategorySearchTerm("");
+            setIsSearchCollapsed(true);
           }}
         />
       ))}
