@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-json.extract! @_current_organization,
+json.extract! current_organization,
   :id,
   :title,
   :authentication_token
-json.user @_current_user.name
+json.user current_user.name

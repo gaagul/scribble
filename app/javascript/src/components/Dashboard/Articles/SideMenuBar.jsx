@@ -144,7 +144,7 @@ const SideMenuBar = ({
           />
         </div>
       )}
-      {categories.map(category => (
+      {categories?.map(category => (
         <MenuBar.Block
           active={activeCategoryIds.includes(category.id)}
           count={category.count}

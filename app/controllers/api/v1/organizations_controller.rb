@@ -4,6 +4,7 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   before_action :regenrate_auth_token, only: :update
 
   def index
+    @organization = current_organization
     render
   end
 

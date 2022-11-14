@@ -18,7 +18,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   end
 
   def destroy
-    ReassignToNewCategory.new(@category, params[:new_category_id]).process unless @category.articles.count == 0
+    ReassignToNewCategoryService.new(@category, params[:new_category_id]).process unless @category.articles.count == 0
     @category.destroy!
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
