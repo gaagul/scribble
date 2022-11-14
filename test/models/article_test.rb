@@ -56,7 +56,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_slug_suffix_is_maximum_slug_count_plus_one_if_two_or_more_slugs_already_exist
-    title = "test-article"
+    title = "testarticle"
     body = "This is a test article body"
     first_article = Article.create!(
       title: title, body: body, user: @user,
