@@ -10,7 +10,9 @@ import euiApi from "apis/eui";
 const Article = ({ setCategoryId, setSelectedTitle }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
+
   const { slug } = useParams();
+
   const fetchArticle = async () => {
     try {
       const {

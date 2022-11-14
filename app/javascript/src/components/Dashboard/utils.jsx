@@ -2,10 +2,6 @@ import React from "react";
 
 import { Typography, Tooltip, Table } from "neetoui";
 
-const handleClick = fetchArticles => {
-  fetchArticles();
-};
-
 export const expandableRender = record => (
   <div className="my-2 ml-16 max-w-md">
     <Table
@@ -18,21 +14,20 @@ export const expandableRender = record => (
         },
         {
           title: "Visits",
-          dataIndex: "visits",
+          dataIndex: "count",
           key: "visits",
           width: 10,
         },
       ]}
-      rowData={record.visits.map(([key, val]) => ({
-        key,
-        date: key,
-        visits: val,
+      rowData={record.visits.map((visit, index) => ({
+        ...visit,
+        id: index,
       }))}
     />
   </div>
 );
 
-export const buildColumnData = fetchArticles => [
+export const buildColumnData = () => [
   {
     title: "TITLE",
     dataIndex: "title",
@@ -44,12 +39,7 @@ export const buildColumnData = fetchArticles => [
         followCursor="horizontal"
         position="bottom"
       >
-        <a
-          href={`/public/${record.slug}`}
-          rel="noreferrer"
-          target="_blank"
-          onClick={() => handleClick(fetchArticles)}
-        >
+        <a href={`/public/${record.slug}`} rel="noreferrer" target="_blank">
           <Typography className="truncate w-48 overflow-hidden" style="h5">
             {record.title}
           </Typography>

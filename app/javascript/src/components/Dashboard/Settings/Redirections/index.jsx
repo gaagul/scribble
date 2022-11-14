@@ -134,9 +134,7 @@ const Redirections = () => {
             iconPosition="left"
             label="Add New Redirection"
             style="text"
-            onClick={() => {
-              setAdding(adding => !adding);
-            }}
+            onClick={() => setAdding(adding => !adding)}
           />
         )}
       </div>

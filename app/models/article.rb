@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  ARTICLE_TITLE_REGEX = /[a-zA-Z]/
   MAX_TITLE_LENGTH = 50
   MAX_ARTICLES_COUNT = 9
 
@@ -17,13 +18,13 @@ class Article < ApplicationRecord
 
   enum status: { Draft: 0, Published: 1 }
 
-  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: /([A-z0-9_-]+)/ }
+  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: { with: ARTICLE_TITLE_REGEX }
   validates :slug, uniqueness: true unless -> { slug.nil? }
   validate :slug_not_changed
 
   before_save :set_slug
 
-  has_paper_trail ignore: [:visits]
+  has_paper_trail ignore: [:visits_count]
   paginates_per MAX_ARTICLES_COUNT
 
   private

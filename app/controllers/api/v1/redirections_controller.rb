@@ -29,6 +29,6 @@ class Api::V1::RedirectionsController < Api::V1::BaseController
     end
 
     def load_redirection!
-      @redirection = Redirection.find_by!(id: params[:id])
+      @redirection = Redirection.find(params[:id])
     end
 end

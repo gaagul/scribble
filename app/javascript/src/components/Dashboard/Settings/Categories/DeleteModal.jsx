@@ -113,8 +113,7 @@ const DeleteModal = ({
           disabled={
             numberOfCategories > 1 &&
             newCategoryId === 0 &&
-            selectedCategory.count > 0 &&
-            selectedCategory.title === "General"
+            selectedCategory.count > 0
           }
           onClick={() => {
             handleDelete();

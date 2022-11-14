@@ -13,7 +13,7 @@ import Table from "./Table";
 
 const Articles = () => {
   const [articles, setArticles] = useState({});
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategoryIds, setActiveCategoryIds] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
@@ -41,7 +41,6 @@ const Articles = () => {
         currentPage,
       });
       setArticles(articles);
-      setLoading(false);
       setCount({
         draftCount: articles.draft_count,
         publishedCount: articles.published_count,
@@ -49,18 +48,18 @@ const Articles = () => {
         totalArticlesCount: articles.total_count,
         pageSize: articles.page_size,
       });
+      setLoading(false);
     } catch (error) {
       logger.error(error);
     }
   };
 
-  const fetchCategories = async (categorySearchTerm = "") => {
+  const fetchCategories = async () => {
     try {
       const {
         data: { categories },
       } = await categoriesApi.list(categorySearchTerm);
       setCategories(categories);
-      setLoading(false);
     } catch (error) {
       logger.error(error);
     }

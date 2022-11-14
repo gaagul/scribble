@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteCategoryService
+class ReassignToNewCategoryService
   attr_reader :category, :articles, :all_count, :new_category_id
   def initialize(category, new_category_id)
     @category = category
@@ -9,7 +9,7 @@ class DeleteCategoryService
     @new_category_id = new_category_id.to_i
   end
 
-  def call
+  def process
     delete_category
   end
 

@@ -14,7 +14,7 @@ module Authenticable
       is_valid_token = current_organization && auth_token && ActiveSupport::SecurityUtils.secure_compare(
         current_organization.authentication_token, auth_token)
       unless !current_organization.is_password_enabled? || is_valid_token
-        respond_with_error(t("session.could_not_auth"), :unauthorized)
+        respond_with_error(t("session.could_not_authenticate"), :unauthorized)
       end
     end
 end

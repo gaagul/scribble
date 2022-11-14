@@ -8,12 +8,12 @@ import articlesApi from "apis/articles";
 import { buildColumnData, expandableRender } from "./utils";
 
 const Analytics = () => {
-  const [analytics, setAnalytics] = useState({});
+  const [analytics, setAnalytics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginationProps, setPaginationProps] = useState({});
 
-  const fetchArticles = async () => {
+  const fetchAnalytics = async () => {
     try {
       const {
         data: { analytics },
@@ -30,7 +30,7 @@ const Analytics = () => {
   };
 
   useEffect(() => {
-    fetchArticles();
+    fetchAnalytics();
   }, [currentPage]);
 
   if (loading) {

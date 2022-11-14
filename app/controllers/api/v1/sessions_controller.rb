@@ -3,8 +3,9 @@
 class Api::V1::SessionsController < Api::V1::BaseController
   def create
     unless current_organization.authenticate(login_params[:password])
-      respond_with_error("Incorrect credentials, try again.", :unauthorized)
+      respond_with_error(t("session.incorrect_credentials"), :unauthorized)
     end
+    @user = current_user
   end
 
   private

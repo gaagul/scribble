@@ -5,9 +5,8 @@ import { Input, Button } from "neetoui";
 
 const Add = ({ createCategory, setIsAdding }) => {
   const [category, setCategory] = useState("");
-  const handleSubmit = () => {
-    createCategory(category);
-  };
+
+  const handleSubmit = () => createCategory(category);
 
   const handleClose = () => setIsAdding(false);
 

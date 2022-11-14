@@ -7,7 +7,7 @@ class Api::V1::Eui::CategoriesController < Api::V1::BaseController
     @categories = Category.includes(:articles).where(
       articles: {
         status: :Published,
-        organization: @_current_organization
+        organization: current_organization
       }).order("position")
   end
 end

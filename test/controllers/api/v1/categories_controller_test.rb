@@ -10,7 +10,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_categories
-    get api_v1_categories_path, headers: headers
+    get api_v1_categories_path, params: { search_title: "" }, headers: headers
     assert_response :success
     total_categories_count = Category.count
     response_json = parse_body
