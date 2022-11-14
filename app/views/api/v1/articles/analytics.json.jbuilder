@@ -6,7 +6,12 @@ json.analytics do
       :id,
       :title,
       :slug
-    json.visits article.visits.group_by_day(:created_at, format: "%B %d, %Y").count.to_a
+    json.visits article.visits.group_by_day(:created_at, format: "%B %d, %Y").count do | date, count |
+      unless count.zero?
+        json.date date
+        json.count count
+      end
+    end
     json.date article.updated_at.strftime("%B %d, %Y")
     json.category article.category.title
     json.count article.visits.count

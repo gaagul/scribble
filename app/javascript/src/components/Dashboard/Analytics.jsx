@@ -13,7 +13,7 @@ const Analytics = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [paginationProps, setPaginationProps] = useState({});
 
-  const fetchArticles = async () => {
+  const fetchAnalytics = async () => {
     try {
       const {
         data: { analytics },
@@ -30,7 +30,7 @@ const Analytics = () => {
   };
 
   useEffect(() => {
-    fetchArticles();
+    fetchAnalytics();
   }, [currentPage]);
 
   if (loading) {
