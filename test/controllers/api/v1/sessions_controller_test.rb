@@ -19,6 +19,6 @@ class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
     post api_v1_session_path, params: { login: { password: "invalid password" } }, as: :json, headers: headers
     assert_response :unauthorized
     response_json = parse_body
-    assert_equal response_json["error"], t("session.could_not_auth")
+    assert_equal response_json["error"], t("session.incorrect_credentials")
   end
 end
