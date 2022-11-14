@@ -17,11 +17,12 @@ const SideMenuBar = ({
   activeCategoryIds,
   setActiveCategoryIds,
   setCurrentPage,
+  categorySearchTerm,
+  setCategorySearchTerm,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [isInputCollapsed, setIsInputCollapsed] = useState(true);
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
-  const [categorySearchTerm, setCategorySearchTerm] = useState("");
 
   const createCategory = async () => {
     try {

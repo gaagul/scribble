@@ -4,16 +4,11 @@ class ApplicationController < ActionController::Base
   include ApiResponders
   include ApiRescuable
 
-  before_action :current_organization
-  before_action :current_user
+  def current_user
+    @_current_user ||= User.first
+  end
 
-  private
-
-    def current_user
-      @_current_user ||= User.first
-    end
-
-    def current_organization
-      @_current_organization ||= Organization.first
-    end
+  def current_organization
+    @_current_organization ||= Organization.first
+  end
 end

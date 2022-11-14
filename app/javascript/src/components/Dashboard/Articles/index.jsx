@@ -41,7 +41,6 @@ const Articles = () => {
         currentPage,
       });
       setArticles(articles);
-      setLoading(false);
       setCount({
         draftCount: articles.draft_count,
         publishedCount: articles.published_count,
@@ -54,7 +53,7 @@ const Articles = () => {
     }
   };
 
-  const fetchCategories = async (categorySearchTerm = "") => {
+  const fetchCategories = async () => {
     try {
       const {
         data: { categories },

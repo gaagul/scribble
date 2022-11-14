@@ -9,7 +9,7 @@ class DeleteCategoryService
     @new_category_id = new_category_id.to_i
   end
 
-  def call
+  def process
     delete_category
   end
 

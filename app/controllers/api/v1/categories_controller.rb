@@ -18,7 +18,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   end
 
   def destroy
-    DeleteCategoryService.new(@category, params[:new_category_id]).call unless @category.articles.count == 0
+    ReassignToNewCategory.new(@category, params[:new_category_id]).process unless @category.articles.count == 0
     @category.destroy!
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
@@ -30,6 +30,6 @@ class Api::V1::CategoriesController < Api::V1::BaseController
     end
 
     def load_category!
-      @category = Category.find_by!(id: params[:id])
+      @category = Category.find(params[:id])
     end
 end
