@@ -11,17 +11,16 @@ import { setToLocalStorage } from "utils/storage";
 const GuestLogin = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
-  const [organizationName, setOrganizationName] = useState();
+  const [organizationName, setOrganizationName] = useState("");
 
   const fetchOrganizationName = async () => {
     try {
       setLoading(true);
       const response = await organizationsApi.get();
       setOrganizationName(response.data.organization.title);
+      setLoading(false);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -76,6 +75,11 @@ const GuestLogin = () => {
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === "Enter") {
+              handleSubmit();
+            }
+          }}
         />
         <Button
           label="Continue"

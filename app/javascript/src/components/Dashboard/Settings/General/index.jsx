@@ -81,7 +81,7 @@ const General = () => {
         }}
         onSubmit={handleSubmit}
       >
-        {({ values, resetForm, dirty, isSubmitting }) => (
+        {({ values, resetForm, dirty, isSubmitting, setFieldValue }) => (
           <FormikForm className="max-w-sm">
             <Input required label="Site Name" name="title" />
             <Typography style="nano">
@@ -97,7 +97,7 @@ const General = () => {
             {values.isPasswordProtected && (
               <div className="mt-4 flex items-center space-x-3">
                 <Input
-                  disabled={!editPassword}
+                  autoFocus={editPassword}
                   label="Password"
                   name="password"
                   placeholder="*******"
@@ -109,7 +109,7 @@ const General = () => {
                   size="small"
                   style="link"
                   onClick={() => {
-                    values.password = "";
+                    setFieldValue("password", "");
                     setEditPassword(editPassword => !editPassword);
                   }}
                 />
