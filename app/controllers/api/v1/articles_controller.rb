@@ -19,7 +19,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   end
 
   def create
-    Article.create!(article_params.merge(organization: current_organization, user: current_user))
+    current_user.articles.create!(article_params.merge(organization: current_organization))
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
@@ -41,7 +41,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   private
 
     def load_article!
-      @article = Article.find(params[:id])
+      @article = current_user.articles.find(params[:id])
     end
 
     def article_params

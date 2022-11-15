@@ -10,20 +10,20 @@ class ReassignToNewCategoryService
   end
 
   def process
-    delete_category
+    reassign_category
   end
 
   private
 
-    def delete_category
+    def reassign_category
       if new_category_id != 0
         articles.update_all(category_id: new_category_id)
       else
-        no_new_category_param
+        if_no_new_category_param
       end
     end
 
-    def no_new_category_param
+    def if_no_new_category_param
       unless category.title == "General"
         general_category = Category.create!(title: "General")
         articles.update_all(category_id: general_category.id)
