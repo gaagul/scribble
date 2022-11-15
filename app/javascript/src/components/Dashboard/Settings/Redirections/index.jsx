@@ -9,7 +9,7 @@ import Table from "./Table";
 
 const Redirections = () => {
   const [redirections, setRedirections] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [newRedirection, setNewRedirection] = useState({ from: "", to: "" });
 
