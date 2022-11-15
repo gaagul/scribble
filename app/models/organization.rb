@@ -5,6 +5,7 @@ class Organization < ApplicationRecord
   MAX_NAME_LENGTH = 15
 
   has_many :users, dependent: :delete_all
+  has_many :articles, through: :users
 
   validates :title, presence: true, length: { maximum: MAX_NAME_LENGTH }
   validates :password, length: { minimum: 6 },

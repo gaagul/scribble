@@ -16,7 +16,7 @@ class Api::V1::Eui::ArticlesController < Api::V1::BaseController
   private
 
     def load_article!
-      @article = Article.find_by!(slug: params[:slug])
+      @article = current_organization.articles.find_by!(slug: params[:slug])
     end
 
     def increment_view_count

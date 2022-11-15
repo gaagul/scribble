@@ -19,7 +19,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   end
 
   def create
-    current_user.articles.create!(article_params.merge(organization: current_organization))
+    current_user.articles.create!(article_params)
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
