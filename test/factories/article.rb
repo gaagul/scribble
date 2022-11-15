@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :article do
-    association :organization, Factory: :organization
     association :user, Factory: :user
     association :category, Factory: :category
     title { Faker::Lorem.sentence[0..14] }

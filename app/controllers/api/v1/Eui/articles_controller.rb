@@ -16,7 +16,9 @@ class Api::V1::Eui::ArticlesController < Api::V1::BaseController
   private
 
     def load_article!
-      @article = Article.find_by!(slug: params[:slug])
+      unless (@article = current_organization.articles.find_by(slug: params[:slug]))
+        respond_with_error(t("article.not_found"), :not_found)
+      end
     end
 
     def increment_view_count

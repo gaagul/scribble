@@ -5,7 +5,6 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
 
   def index
     @organization = current_organization
-    render
   end
 
   def update

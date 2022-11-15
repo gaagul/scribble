@@ -8,6 +8,7 @@ en:
   category:
     not_unique: "Category title must be unique"
   article:
+    not_found: "Couldn't find Article"
     slug:
       immutable: "is immutable!"
   redirection:

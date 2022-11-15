@@ -5,9 +5,9 @@ require "test_helper"
 class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @category = create(:category)
-    @user = create(:user)
     @organization = create(:organization)
-    @article = create(:article, category: @category, user: @user, organization: @organization)
+    @user = create(:user, organization: @organization)
+    @article = create(:article, category: @category, user: @user)
   end
 
   def test_should_list_all_articles
@@ -15,7 +15,7 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     total_articles_count = @user.articles.count
     response_json = parse_body
-    assert_equal response_json["articles"]["all"].length, total_articles_count
+    assert_equal total_articles_count, response_json["articles"]["all"].length
    end
 
   def test_should_create_valid_category
@@ -35,20 +35,20 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_article_details
-    @new_article = create(:article, category: @category, user: @user, organization: @organization)
+    @new_article = create(:article, category: @category, user: @user)
     put api_v1_article_path(@article.id),
       params: { article: { title: "Welcome", body: @new_article.body, status: "Draft" } },
       headers: headers
     assert_response :success
     @article.reload
-    assert_equal @article.title, "Welcome"
+    assert_equal "Welcome", @article.title
     assert_equal @article.body, @new_article.body
   end
 
   def test_show_article_using_id
     get api_v1_article_path(@article.id), headers: headers
     response_json = parse_body
-    assert_equal response_json["article"]["id"], @article.id
+    assert_equal @article.id, response_json["article"]["id"]
   end
 
   def test_set_papertrail_event_as_restored_if_restored_params_is_true
@@ -65,9 +65,9 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_analytics_action
-    article1 = create(:article, user: @user, category: @category, status: :Draft, organization: @organization)
-    article2 = create(:article, user: @user, category: @category, status: :Draft, organization: @organization)
-    article3 = create(:article, user: @user, category: @category, status: :Published, organization: @organization)
+    article1 = create(:article, user: @user, category: @category, status: :Draft)
+    article2 = create(:article, user: @user, category: @category, status: :Draft)
+    article3 = create(:article, user: @user, category: @category, status: :Published)
     get analytics_api_v1_articles_path, params: { current_page: 1 }, headers: headers
     assert_response :success
     response_json = parse_body

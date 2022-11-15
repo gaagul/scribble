@@ -12,7 +12,7 @@ class Api::V1::RedirectionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_json = parse_body
     total_redirections_count = Redirection.count
-    assert_equal response_json["redirections"].length, total_redirections_count
+    assert_equal total_redirections_count, response_json["redirections"].length
    end
 
   def test_should_create_valid_redirection
@@ -35,7 +35,7 @@ class Api::V1::RedirectionsControllerTest < ActionDispatch::IntegrationTest
     put api_v1_redirection_path(@redirection.id), params: { to: "welcome", from: "public" }, as: :json, headers: headers
     assert_response :success
     @redirection.reload
-    assert_equal @redirection.to, "welcome"
-    assert_equal @redirection.from, "public"
+    assert_equal "welcome", @redirection.to
+    assert_equal "public", @redirection.from
   end
 end
