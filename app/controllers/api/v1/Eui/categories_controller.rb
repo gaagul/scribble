@@ -8,6 +8,6 @@ class Api::V1::Eui::CategoriesController < Api::V1::BaseController
       articles: {
         status: :Published,
         user_id: current_organization.users.ids
-      }).order("position")
+      }).order("categories.position").order("articles.title")
   end
 end
