@@ -10,10 +10,10 @@ class Article < ApplicationRecord
   scope :title_search, -> (title) { where("lower(title) like ?", "#{title}%") }
   scope :sorted, -> { order("visits_count DESC") }
 
-  has_many :visits, dependent: :destroy
-
   belongs_to :user
   belongs_to :category
+
+  has_many :visits, dependent: :destroy
 
   enum status: { Draft: 0, Published: 1 }
 
