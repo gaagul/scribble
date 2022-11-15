@@ -12,7 +12,6 @@ class Article < ApplicationRecord
 
   has_many :visits, dependent: :destroy
 
-  belongs_to :organization
   belongs_to :user
   belongs_to :category
 

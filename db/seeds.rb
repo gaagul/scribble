@@ -4,7 +4,7 @@ Organization.destroy_all
 Article.destroy_all
 Category.delete_all
 Organization.create(title: "Spinkart", is_password_enabled: "false", password: "welcome")
-User.create(name: "Oliver Smith")
+Organization.first.users.create(name: "Oliver Smith")
 Category.create!(
   [
     { title: "Getting Started" },
@@ -17,7 +17,6 @@ Article.create!(
       title: "Welcome to Scribble",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -29,7 +28,6 @@ Article.create!(
       title: "Welcome to Scribble",
       category_id: 2,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
      incididunt ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -42,7 +40,6 @@ Article.create!(
       title: "Draft Article-1",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
     ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -56,7 +53,6 @@ Article.create!(
       title: "Draft Article-2",
       category_id: 2,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -69,7 +65,6 @@ Article.create!(
       title: "Setting up",
       category_id: 3,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -82,7 +77,6 @@ Article.create!(
       title: "Writing an article",
       category_id: 4,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -96,7 +90,6 @@ Article.create!(
       title: "Redirections",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -110,7 +103,6 @@ Article.create!(
       title: "A1",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -124,7 +116,6 @@ Article.create!(
       title: "A2",
       category_id: 2,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -138,7 +129,6 @@ Article.create!(
       title: "A3",
       category_id: 3,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -152,7 +142,6 @@ Article.create!(
       title: "A4",
       category_id: 4,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -166,7 +155,6 @@ Article.create!(
       title: "A5",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -180,7 +168,7 @@ Article.create!(
        title: "A6",
        category_id: 1,
        user: User.first,
-       organization: Organization.first,
+
        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -194,7 +182,6 @@ Article.create!(
       title: "A7",
       category_id: 2,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -208,7 +195,6 @@ Article.create!(
       title: "A8",
       category_id: 3,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -222,7 +208,6 @@ Article.create!(
       title: "A9",
       category_id: 4,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -236,7 +221,6 @@ Article.create!(
       title: "A10",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -250,7 +234,6 @@ Article.create!(
        title: "A11",
        category_id: 1,
        user: User.first,
-       organization: Organization.first,
        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -264,7 +247,6 @@ Article.create!(
       title: "A12",
       category_id: 2,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -278,7 +260,6 @@ Article.create!(
       title: "A13",
       category_id: 3,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -292,7 +273,6 @@ Article.create!(
       title: "A14",
       category_id: 4,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -306,7 +286,6 @@ Article.create!(
       title: "A15",
       category_id: 1,
       user: User.first,
-      organization: Organization.first,
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
