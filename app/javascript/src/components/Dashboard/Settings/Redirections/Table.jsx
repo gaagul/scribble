@@ -4,6 +4,7 @@ import { Table as NeetoTable, Alert } from "neetoui";
 
 import redirectionsApi from "apis/redirections";
 
+import { LOCALE } from "./constants";
 import { buildColumns } from "./utils";
 
 const Table = ({ redirections, fetchRedirections }) => {
@@ -15,10 +16,6 @@ const Table = ({ redirections, fetchRedirections }) => {
     from: "",
     to: "",
   });
-
-  const LOCALE = {
-    emptyText: "No redirections added yet",
-  };
 
   const updateRedirection = async () => {
     try {

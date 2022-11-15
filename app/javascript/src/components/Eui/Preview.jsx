@@ -25,6 +25,9 @@ const Preview = ({ history }) => {
       } = await euiApi.listCategories();
       setCategories(categories);
       setCategoryId(categories[0].id);
+      if (either(isNil, isEmpty)(slug) && !either(isNil, isEmpty)(categories)) {
+        history.push(`public/${categories[0].articles[0].slug}`);
+      }
       setLoading(false);
     } catch (error) {
       logger.error(error);
@@ -34,12 +37,6 @@ const Preview = ({ history }) => {
   useEffect(() => {
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-    either(isNil, isEmpty)(slug) &&
-      !either(isNil, isEmpty)(categories) &&
-      history.push(`public/${categories[0].articles[0].slug}`);
-  }, [categories]);
 
   if (loading) {
     return (
