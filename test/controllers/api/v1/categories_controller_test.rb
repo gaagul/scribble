@@ -6,7 +6,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @category = create(:category)
     @organization = create(:organization)
-    @user = create(:user)
+    @user = create(:user, organization: @organization)
   end
 
   def test_should_list_all_categories
@@ -14,7 +14,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     total_categories_count = Category.count
     response_json = parse_body
-    assert_equal response_json["categories"].length, total_categories_count
+    assert_equal total_categories_count, response_json["categories"].length
    end
 
   def test_should_create_valid_category
@@ -30,12 +30,12 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
     put api_v1_category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
     assert_response :success
     @category.reload
-    assert_equal @category.title, "Welcome"
+    assert_equal "Welcome", @category.title
   end
 
   def test_change_article_category_to_new_category_if_category_deleted
     @new_category = create(:category)
-    article_1 = create(:article, category: @category, organization: @organization, user: @user)
+    article_1 = create(:article, category: @category, user: @user)
     delete api_v1_category_path(@category.id), params: { new_category_id: @new_category.id }, headers: headers
     assert_response :ok
     article_1.reload
@@ -43,45 +43,45 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_create_a_general_category_when_last_category_with_articles_deleted
-    article = create(:article, category: @category, organization: @organization, user: @user)
+    article = create(:article, category: @category, user: @user)
     delete api_v1_category_path(@category.id), params: { new_category_id: 0 }, headers: headers
     article.reload
-    assert_equal article.category.title, "General"
+    assert_equal "General", article.category.title
   end
 
   def test_should_update_category_details
     put api_v1_category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
     assert_response :success
     @category.reload
-    assert_equal @category.title, "Welcome"
+    assert_equal "Welcome", @category.title
   end
 
   def test_should_update_category_details
     put api_v1_category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
     assert_response :success
     @category.reload
-    assert_equal @category.title, "Welcome"
+    assert_equal "Welcome", @category.title
   end
 
   def test_should_update_category_details
     put api_v1_category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
     assert_response :success
     @category.reload
-    assert_equal @category.title, "Welcome"
+    assert_equal "Welcome", @category.title
   end
 
   def test_should_update_category_details
     put api_v1_category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
     assert_response :success
     @category.reload
-    assert_equal @category.title, "Welcome"
+    assert_equal "Welcome", @category.title
   end
 
   def test_should_update_category_details
     put api_v1_category_path(@category.id), params: { title: "Welcome" }, as: :json, headers: headers
     assert_response :success
     @category.reload
-    assert_equal @category.title, "Welcome"
+    assert_equal "Welcome", @category.title
   end
 
   def test_should_destroy_redirection
@@ -93,7 +93,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_change_article_category_to_new_category_if_category_deleted
     @new_category = create(:category)
-    article_1 = create(:article, category: @category, organization: @organization, user: @user)
+    article_1 = create(:article, category: @category, user: @user)
     delete api_v1_category_path(@category.id), params: { new_category_id: @new_category.id }, headers: headers
     assert_response :ok
     article_1.reload
@@ -101,9 +101,9 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_create_a_general_category_when_last_category_with_articles_deleted
-    article = create(:article, category: @category, organization: @organization, user: @user)
+    article = create(:article, category: @category, user: @user)
     delete api_v1_category_path(@category.id), params: { new_category_id: 0 }, headers: headers
     article.reload
-    assert_equal article.category.title, "General"
+    assert_equal "General", article.category.title
   end
 end

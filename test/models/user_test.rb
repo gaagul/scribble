@@ -4,7 +4,8 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = build(:user)
+    @organization = build(:organization)
+    @user = build(:user, organization: @organization)
   end
 
   def test_user_should_not_be_valid_and_saved_without_name
