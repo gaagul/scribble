@@ -22,7 +22,7 @@ class Api::V1::Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_v1_eui_article_path(@article.id), headers: @organization_header
     response_json = parse_body
     assert_response :not_found
-    assert_equal t("article.not_found"), response_json["error"]
+    assert_equal t("not_found", entity: "Article"), response_json["error"]
   end
 
   def test_should_list_all_published_articles

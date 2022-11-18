@@ -79,7 +79,7 @@ const Form = ({ article, isEdit }) => {
           },
           status: {
             value: article.status,
-            label: article.status,
+            label: article.status === "Published" ? "Publish" : "Draft",
           },
         }}
         onSubmit={handleSubmit}
