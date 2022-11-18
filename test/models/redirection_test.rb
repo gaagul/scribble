@@ -4,7 +4,8 @@ require "test_helper"
 
 class RedirectionTest < ActiveSupport::TestCase
   def setup
-    @redirection = build(:redirection)
+    @organization = build(:organization)
+    @redirection = build(:redirection, organization: @organization)
   end
 
   def test_redirection_to_not_nil
@@ -18,27 +19,32 @@ class RedirectionTest < ActiveSupport::TestCase
   end
 
   def test_from_to_not_same
-    redirection = Redirection.new(from: "public", to: "public")
+    redirection = Redirection.new(from: "public", to: "public", organization: @organization)
     assert_not redirection.valid?
   end
 
   def test_from_unique
-    first_redirection = Redirection.create!(from: "public", to: "welcome")
-    second_redirection = Redirection.create(from: "public", to: "test")
+    first_redirection = Redirection.create!(from: "public", to: "welcome", organization: @organization)
+    second_redirection = Redirection.create(from: "public", to: "test", organization: @organization)
     assert_includes second_redirection.errors.full_messages, "From has already been taken"
   end
 
   def test_does_not_form_a_cycle_while_create
-    first_redirection = Redirection.create!(from: "public", to: "welcome")
-    second_redirection = Redirection.create(from: "welcome", to: "public")
+    first_redirection = Redirection.create!(from: "public", to: "welcome", organization: @organization)
+    second_redirection = Redirection.create(from: "welcome", to: "public", organization: @organization)
     assert_includes second_redirection.errors.full_messages, t("redirection.creates_loop")
   end
 
   def test_does_not_form_a_cycle_while_update
-    first_redirection = Redirection.create!(from: "public", to: "welcome")
-    second_redirection = Redirection.create!(from: "welcome", to: "new")
+    first_redirection = Redirection.create!(from: "public", to: "welcome", organization: @organization)
+    second_redirection = Redirection.create!(from: "welcome", to: "new", organization: @organization)
     second_redirection.to = "public"
     second_redirection.save
     assert_includes second_redirection.errors.full_messages, t("redirection.creates_loop")
+  end
+
+  def test_cannot_create_redirection_without_association
+    redirection = Redirection.new(from: "public", to: "welcome", organization: nil)
+    assert_not redirection.valid?
   end
 end

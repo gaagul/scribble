@@ -4,7 +4,8 @@ require "test_helper"
 
 class Api::V1::RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @redirection = create(:redirection)
+    @organization = create(:organization)
+    @redirection = create(:redirection, organization: @organization)
   end
 
   def test_should_list_all_redirections
@@ -17,7 +18,7 @@ class Api::V1::RedirectionsControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_create_valid_redirection
     post api_v1_redirections_path,
-      params: { redirection: { to: "welcome", from: "public" } },
+      params: { redirection: { to: "welcome", from: "public", organization: @organization } }, as: :json,
       headers: headers
     assert_response :success
     response_json = parse_body
@@ -32,7 +33,8 @@ class Api::V1::RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_redirection_details
-    put api_v1_redirection_path(@redirection.id), params: { to: "welcome", from: "public" }, as: :json, headers: headers
+    put api_v1_redirection_path(@redirection.id),
+      params: { to: "welcome", from: "public", organization: @organization }, as: :json, headers: headers
     assert_response :success
     @redirection.reload
     assert_equal "welcome", @redirection.to
