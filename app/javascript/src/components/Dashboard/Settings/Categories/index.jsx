@@ -55,36 +55,32 @@ const Categories = () => {
   }
 
   return (
-    <div className="mx-auto mt-10 space-y-2">
-      <Typography style="h2">Manage Categories</Typography>
-      <Typography style="body2">
-        Create and configure the categories inside your scribble.
-      </Typography>
-      {isAdding ? (
-        <Add createCategory={createCategory} setIsAdding={setIsAdding} />
-      ) : (
-        <Button
-          icon={Plus}
-          iconPosition="left"
-          label="Add New Category"
-          style="link"
-          onClick={() => setIsAdding(true)}
+    <div className="w-full">
+      <div className="w-1/3 space-y-4 px-4 pt-4">
+        <div className="flex justify-between space-x-1">
+          <Typography style="h2">Manage Categories</Typography>
+          <Button icon={Plus} onClick={() => setIsAdding(true)} />
+        </div>
+        <Add
+          createCategory={createCategory}
+          isAdding={isAdding}
+          setIsAdding={setIsAdding}
         />
-      )}
-      <List
-        categories={categories}
-        fetchCategories={fetchCategories}
-        setCategoryToDelete={setSelectedCategory}
-        setIsDeleting={setIsDeleting}
-        setLoading={setLoading}
-      />
-      <DeleteModal
-        categories={categories}
-        isDeleting={isDeleting}
-        refetchCategories={fetchCategories}
-        selectedCategory={selectedCategory}
-        setIsDeleting={setIsDeleting}
-      />
+        <List
+          categories={categories}
+          fetchCategories={fetchCategories}
+          setCategoryToDelete={setSelectedCategory}
+          setIsDeleting={setIsDeleting}
+          setLoading={setLoading}
+        />
+        <DeleteModal
+          categories={categories}
+          isDeleting={isDeleting}
+          refetchCategories={fetchCategories}
+          selectedCategory={selectedCategory}
+          setIsDeleting={setIsDeleting}
+        />
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { Check, Close, Delete, Edit } from "neetoicons";
-import { Typography, Button, Input } from "neetoui";
+import { Check, Close, MenuVertical } from "neetoicons";
+import { Typography, Button, Input, Dropdown } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
@@ -15,6 +15,8 @@ const List = ({
 }) => {
   const [categoryId, setCategoryId] = useState(0);
   const [categoryTitle, setCategoryTitle] = useState("");
+
+  const { Menu, MenuItem } = Dropdown;
 
   const updateCategory = async () => {
     try {
@@ -86,28 +88,34 @@ const List = ({
                             {title}
                           </Typography>
                         </div>
-                        <div className="flex space-x-2">
-                          <Button
-                            icon={Delete}
-                            style="text"
-                            onClick={() => {
-                              setCategoryToDelete({
-                                id,
-                                title,
-                                count,
-                              });
-                              setIsDeleting(true);
-                            }}
-                          />
-                          <Button
-                            icon={Edit}
-                            style="text"
-                            onClick={() => {
-                              setCategoryId(id);
-                              setCategoryTitle(title);
-                            }}
-                          />
-                        </div>
+                        <Dropdown
+                          buttonStyle="secondary"
+                          icon={() => <MenuVertical size={16} />}
+                        >
+                          <Menu>
+                            <MenuItem.Button
+                              onClick={() => {
+                                setCategoryId(id);
+                                setCategoryTitle(title);
+                              }}
+                            >
+                              Edit
+                            </MenuItem.Button>
+                            <MenuItem.Button
+                              style="danger"
+                              onClick={() => {
+                                setCategoryToDelete({
+                                  id,
+                                  title,
+                                  count,
+                                });
+                                setIsDeleting(true);
+                              }}
+                            >
+                              Delete
+                            </MenuItem.Button>
+                          </Menu>
+                        </Dropdown>
                       </div>
                     )}
                     {categoryId === id && (

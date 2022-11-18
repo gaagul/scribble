@@ -10,6 +10,7 @@ import organizationsApi from "apis/organizations";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
+import "lib/dayjs";
 import { getFromLocalStorage } from "utils/storage";
 
 import Login from "./components/Authentication/Login";
