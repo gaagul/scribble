@@ -3,6 +3,8 @@
 class Redirection < ApplicationRecord
   include ActiveModel::Validations
 
+  belongs_to :organization
+
   validates :from, presence: true, uniqueness: true
   validates :to, presence: true
   validate :to_and_from_validation
