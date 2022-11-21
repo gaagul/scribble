@@ -6,6 +6,7 @@ import { Typography, PageLoader, Button } from "neetoui";
 import categoriesApi from "apis/categories";
 
 import Add from "./Add";
+import ArticleList from "./ArticleList";
 import DeleteModal from "./DeleteModal";
 import List from "./List";
 
@@ -55,8 +56,8 @@ const Categories = () => {
   }
 
   return (
-    <div className="w-full">
-      <div className="w-1/3 space-y-4 px-4 pt-4">
+    <div className="flex w-full">
+      <div className="w-4/12 space-y-8 px-4 pt-8">
         <div className="flex justify-between space-x-1">
           <Typography style="h2">Manage Categories</Typography>
           <Button icon={Plus} onClick={() => setIsAdding(true)} />
@@ -81,6 +82,7 @@ const Categories = () => {
           setIsDeleting={setIsDeleting}
         />
       </div>
+      <ArticleList categories={categories} />
     </div>
   );
 };

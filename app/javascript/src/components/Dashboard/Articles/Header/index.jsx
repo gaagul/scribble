@@ -12,6 +12,7 @@ const DashboardHeader = ({
   setSearchTitle,
   columnVisibility,
   setColumnVisibility,
+  setCurrentPage,
 }) => (
   <Header
     title=""
@@ -31,6 +32,7 @@ const DashboardHeader = ({
     searchProps={{
       placeholder: "Search Article Title",
       onChange: e => {
+        setCurrentPage(1);
         setSearchTitle(e.target.value);
       },
       value: searchTitle,

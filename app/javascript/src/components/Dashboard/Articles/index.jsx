@@ -34,7 +34,7 @@ const Articles = () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list({
+      } = await articlesApi.tableList({
         activeCategoryIds,
         activeStatus,
         searchTitle,
@@ -122,6 +122,7 @@ const Articles = () => {
           columnVisibility={columnVisibility}
           searchTitle={searchTitle}
           setColumnVisibility={setColumnVisibility}
+          setCurrentPage={setCurrentPage}
           setSearchTitle={setSearchTitle}
         />
         {either(isNil, isEmpty)(articles) ? (
