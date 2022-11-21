@@ -1,12 +1,19 @@
 import axios from "axios";
 
-const list = ({
+const list = ({ activeCategoryIds = [] }) =>
+  axios.get("api/v1/articles", {
+    params: {
+      category_ids: activeCategoryIds,
+    },
+  });
+
+const tableList = ({
   activeCategoryIds = [],
   activeStatus = "all",
   searchTitle = "",
   currentPage = 1,
 }) =>
-  axios.get("api/v1/articles", {
+  axios.get("api/v1/articles/table_list", {
     params: {
       category_ids: activeCategoryIds,
       status: activeStatus,
@@ -42,6 +49,7 @@ const articlesApi = {
   update,
   destroy,
   analytics,
+  tableList,
 };
 
 export default articlesApi;

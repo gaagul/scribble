@@ -5,8 +5,9 @@ json.extract! article,
   :title,
   :slug,
   :body,
-  :status
-json.date article.updated_at.strftime("%B %d, %Y")
+  :status,
+  :position
+json.date article.updated_at.in_time_zone("Mumbai").strftime("%B %d, %Y")
 json.time article.updated_at.in_time_zone("Mumbai").strftime("%I:%M %p, %m/%d/%Y")
 json.author article.user.name
 json.category do

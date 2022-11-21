@@ -26,6 +26,8 @@ class Article < ApplicationRecord
   has_paper_trail ignore: [:visits_count]
   paginates_per MAX_ARTICLES_COUNT
 
+  acts_as_list scope: :category
+
   private
 
     def set_slug
