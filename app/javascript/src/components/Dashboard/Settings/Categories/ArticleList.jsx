@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import { Clock } from "neetoicons";
 import {
-  Select,
   PageLoader,
   Typography,
   Checkbox,
   Tag,
   Tooltip,
+  Dropdown,
 } from "neetoui";
 import { Header } from "neetoui/layouts";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -15,52 +15,71 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import articlesApi from "apis/articles";
 
 import {
-  buildNewCategoryOptions,
   formatWithFromNow,
   formatWithDayAndDate,
+  filterArticles,
 } from "./utils";
 
-const ArticleList = ({ selectedCategory, categories }) => {
-  const [loading, setLoading] = useState(false);
+const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
+  const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
-  // const [filteredCategories, setFilteredCategories] = useState(categories);
+  const [selectedArticleIds, setSelectedArticleIds] = useState([]);
+
+  const { Menu, MenuItem } = Dropdown;
 
   const fetchArticles = async () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.list({ activeCategoryIds: [4] });
-      setArticles(articles.all);
+      } = await articlesApi.list({ activeCategoryIds: [selectedCategory?.id] });
+      setArticles(articles);
+      setSelectedArticleIds([]);
       setLoading(false);
     } catch (error) {
       logger.error(error);
     }
   };
 
-  //   const updatePosition = async ({ id, position }) => {
-  //   try {
-  //     setLoading(true);
-  //     await categoriesApi.update({
-  //       id,
-  //       payload: {
-  //         position,
-  //       },
-  //       quiet: true,
-  //     });
-  //     await fetchCategories();
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // };
+  const updatePosition = async ({ id, position }) => {
+    try {
+      setLoading(true);
+      await articlesApi.update({
+        id,
+        payload: {
+          position,
+        },
+        quiet: true,
+      });
+      await fetchArticles();
+      await fetchCategories();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
-  // const handleOnDragEnd = result => {
-  //   if (!result.destination) return;
+  const handleOnDragEnd = result => {
+    if (!result.destination) return;
 
-  //   updatePosition({
-  //     id: result.draggableId,
-  //     position: result.destination.index,
-  //   });
-  // };
+    updatePosition({
+      id: result.draggableId,
+      position: result.destination.index,
+    });
+  };
+
+  const handleCategoryChange = async newCategoryId => {
+    try {
+      setLoading(true);
+      await articlesApi.bulkUpdate({
+        selectedArticleIds,
+        newCategoryId,
+      });
+      await fetchArticles();
+      await fetchCategories();
+      setLoading(false);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   useEffect(() => {
     fetchArticles();
@@ -68,7 +87,7 @@ const ArticleList = ({ selectedCategory, categories }) => {
 
   if (loading) {
     return (
-      <div className="h-full w-full">
+      <div className="w-screen-md h-full">
         <PageLoader />
       </div>
     );
@@ -80,17 +99,26 @@ const ArticleList = ({ selectedCategory, categories }) => {
         className="sticky top-0 z-10"
         title="Layouts"
         actionBlock={
-          <Select
-            isClearable
-            isSearchable
-            className="w-40"
-            name="ValueList"
-            options={buildNewCategoryOptions(categories, { id: 1 })}
-            placeholder="Move To"
-          />
+          <Dropdown disabled={selectedArticleIds.length === 0} label="Move to">
+            <Menu>
+              {categories.map(
+                category =>
+                  category.id !== selectedCategory.id && (
+                    <MenuItem.Button
+                      key={category.id}
+                      onClick={() => {
+                        handleCategoryChange(category.id);
+                      }}
+                    >
+                      {category.title}
+                    </MenuItem.Button>
+                  )
+              )}
+            </Menu>
+          </Dropdown>
         }
       />
-      <DragDropContext>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="articles">
           {provided => (
             <ul
@@ -109,7 +137,14 @@ const ArticleList = ({ selectedCategory, categories }) => {
                       ref={provided.innerRef}
                     >
                       <div className="border flex w-full items-center justify-between rounded-sm border-gray-200 bg-white px-4 py-2 shadow-sm">
-                        <Checkbox />
+                        <Checkbox
+                          checked={selectedArticleIds.includes(id)}
+                          onChange={() => {
+                            setSelectedArticleIds(
+                              filterArticles(selectedArticleIds, id)
+                            );
+                          }}
+                        />
                         <div className="flex flex-col">
                           <Typography
                             className="text-sm font-medium text-gray-900"

@@ -24,6 +24,7 @@ const Categories = () => {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
+      setSelectedCategory(categories[0]);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -70,9 +71,10 @@ const Categories = () => {
         <List
           categories={categories}
           fetchCategories={fetchCategories}
-          setCategoryToDelete={setSelectedCategory}
+          selectedCategory={selectedCategory}
           setIsDeleting={setIsDeleting}
           setLoading={setLoading}
+          setSelectedCategory={setSelectedCategory}
         />
         <DeleteModal
           categories={categories}
@@ -80,9 +82,13 @@ const Categories = () => {
           refetchCategories={fetchCategories}
           selectedCategory={selectedCategory}
           setIsDeleting={setIsDeleting}
+          setLoading={setLoading}
         />
       </div>
-      <ArticleList categories={categories} />
+      <ArticleList
+        categories={categories}
+        selectedCategory={selectedCategory}
+      />
     </div>
   );
 };

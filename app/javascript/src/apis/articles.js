@@ -28,10 +28,20 @@ const create = payload =>
     article: payload,
   });
 
-const update = ({ id, payload }) =>
-  axios.put(`api/v1/articles/${id}`, {
+const update = ({ id, payload, quiet = false }) => {
+  const path = quiet ? `api/v1/articles/${id}?quiet` : `api/v1/articles/${id}`;
+
+  return axios.put(path, {
     article: payload,
   });
+};
+
+const bulkUpdate = ({ selectedArticleIds = [], newCategoryId }) => {
+  axios.post("api/v1/articles/bulk_update", {
+    new_category_id: newCategoryId,
+    article_ids: selectedArticleIds,
+  });
+};
 
 const destroy = id => axios.delete(`api/v1/articles/${id}`);
 
@@ -50,6 +60,7 @@ const articlesApi = {
   destroy,
   analytics,
   tableList,
+  bulkUpdate,
 };
 
 export default articlesApi;

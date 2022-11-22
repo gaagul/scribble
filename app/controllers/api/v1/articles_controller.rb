@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class Api::V1::ArticlesController < Api::V1::BaseController
-  before_action :load_article!, except: %i[analytics index create table_list]
+  before_action :load_article!, except: %i[analytics index create table_list bulk_update]
   before_action :set_event, only: %i[update]
   before_action :set_time, only: %i[update]
   before_action :set_paper_trail_whodunnit
+  before_action :load_articles, only: :bulk_update
   before_action :set_category_and_status_filtered_articles, only: %i[table_list]
 
   def index
@@ -22,7 +23,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
 
   def update
     @article.update!(article_params)
-    respond_with_success(t("successfully_updated", entity: "Article"))
+    respond_with_success(t("successfully_updated", entity: "Article")) unless params.key?(:quiet)
   end
 
   def destroy
@@ -42,14 +43,28 @@ class Api::V1::ArticlesController < Api::V1::BaseController
     @published_articles = @title_filtered_articles.where(status: :Published)
   end
 
+  def bulk_update
+    records_size = @articles.size
+    @articles.where(id: params[:article_ids]).update(category_id: params[:new_category_id])
+    respond_with_success(
+      t(
+        "successfully_updated", count: records_size,
+        entity: records_size > 1 ? "Articles" : "Article"))
+  end
+
   private
 
     def load_article!
       @article = current_user.articles.find(params[:id])
     end
 
+    def load_articles
+      @articles = current_user.articles.where(id: params[:article_ids])
+      respond_with_error(t("not_found", entity: "Articles")) if @articles.empty?
+    end
+
     def article_params
-      params.require(:article).permit(:title, :status, :category_id, :body)
+      params.require(:article).permit(:title, :status, :category_id, :body, :position)
     end
 
     def set_event

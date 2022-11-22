@@ -9,9 +9,10 @@ import categoriesApi from "apis/categories";
 const List = ({
   categories,
   fetchCategories,
-  setCategoryToDelete,
   setIsDeleting,
   setLoading,
+  selectedCategory,
+  setSelectedCategory,
 }) => {
   const [categoryId, setCategoryId] = useState(0);
   const [categoryTitle, setCategoryTitle] = useState("");
@@ -71,21 +72,31 @@ const List = ({
       <Droppable droppableId="categories">
         {provided => (
           <ul {...provided.droppableProps} ref={provided.innerRef}>
-            {categories.map(({ id, title, count, position }) => (
-              <Draggable draggableId={String(id)} index={position} key={id}>
+            {categories.map(category => (
+              <Draggable
+                draggableId={String(category.id)}
+                index={category.position}
+                key={category.id}
+              >
                 {provided => (
                   <li
-                    key={id}
+                    key={category.id}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
+                    className={
+                      category.id === selectedCategory.id
+                        ? "bg-gray-500"
+                        : undefined
+                    }
+                    onClick={() => setSelectedCategory(category)}
                   >
-                    {categoryId !== id && (
+                    {categoryId !== category.id && (
                       <div className="border-t flex items-center justify-between space-x-2 p-3">
                         <div className="flex items-center space-x-2">
                           <i className="ri-drag-move-2-fill" />
                           <Typography size="body2" weight="medium">
-                            {title}
+                            {category.title}
                           </Typography>
                         </div>
                         <Dropdown
@@ -95,8 +106,8 @@ const List = ({
                           <Menu>
                             <MenuItem.Button
                               onClick={() => {
-                                setCategoryId(id);
-                                setCategoryTitle(title);
+                                setCategoryId(category.id);
+                                setCategoryTitle(category.title);
                               }}
                             >
                               Edit
@@ -104,11 +115,7 @@ const List = ({
                             <MenuItem.Button
                               style="danger"
                               onClick={() => {
-                                setCategoryToDelete({
-                                  id,
-                                  title,
-                                  count,
-                                });
+                                setSelectedCategory(category);
                                 setIsDeleting(true);
                               }}
                             >
@@ -118,13 +125,13 @@ const List = ({
                         </Dropdown>
                       </div>
                     )}
-                    {categoryId === id && (
+                    {categoryId === category.id && (
                       <div className="border-t flex p-3">
                         <Input
                           autoFocus
                           value={categoryTitle}
                           onChange={e => setCategoryTitle(e.target.value)}
-                          onKeyDown={e => handleKeyPress(e, title)}
+                          onKeyDown={e => handleKeyPress(e, category.title)}
                         />
                         <Button
                           icon={Check}
