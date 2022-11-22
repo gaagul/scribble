@@ -15,7 +15,7 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     total_articles_count = @user.articles.count
     response_json = parse_body
-    assert_equal total_articles_count, response_json["articles"]["all"].length
+    assert_equal total_articles_count, response_json["articles"].length
    end
 
   def test_should_create_valid_category
