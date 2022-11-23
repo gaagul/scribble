@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Clock } from "neetoicons";
 import {
   PageLoader,
+  Callout,
   Typography,
   Checkbox,
   Tag,
@@ -10,9 +11,11 @@ import {
   Dropdown,
 } from "neetoui";
 import { Header } from "neetoui/layouts";
+import { either, isEmpty, isNil } from "ramda";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/articles";
+import { getFromLocalStorage } from "utils/storage";
 
 import {
   formatWithFromNow,
@@ -24,6 +27,9 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
+  const [showMessage, setShowMessage] = useState(
+    getFromLocalStorage("showMessage")
+  );
 
   const { Menu, MenuItem } = Dropdown;
 
@@ -81,6 +87,11 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
     }
   };
 
+  const handleDontShowMessage = () => {
+    localStorage.setItem("showMessage", false);
+    setShowMessage(false);
+  };
+
   useEffect(() => {
     fetchArticles();
   }, [selectedCategory]);
@@ -118,6 +129,21 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
           </Dropdown>
         }
       />
+      {either(isNil, isEmpty)(showMessage) && (
+        <Callout className="m-2">
+          <Typography style="body3">
+            You can reorder categories or articles by drag and drop here. You
+            can also multiselect articles and move them together to any category
+            you have created.{" "}
+            <span
+              className="cursor-pointer underline"
+              onClick={handleDontShowMessage}
+            >
+              Don't show this info again
+            </span>
+          </Typography>
+        </Callout>
+      )}
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="articles">
           {provided => (
@@ -145,7 +171,7 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
                             );
                           }}
                         />
-                        <div className="flex flex-col">
+                        <div className="flex flex-col space-y-1">
                           <Typography
                             className="text-sm font-medium text-gray-900"
                             style="h3"

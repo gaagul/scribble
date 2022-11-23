@@ -39,8 +39,8 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   def table_list
     @title_filtered_articles = @all_articles.title_search(params[:search_title].downcase)
     @filtered_articles = @title_filtered_articles.page(params[:current_page])
-    @draft_articles = @title_filtered_articles.where(status: :Draft)
-    @published_articles = @title_filtered_articles.where(status: :Published)
+    @draft_articles = @category_filtered_articles.where(status: :Draft)
+    @published_articles = @category_filtered_articles.where(status: :Published)
   end
 
   def bulk_update

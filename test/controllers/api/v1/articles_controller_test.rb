@@ -11,9 +11,9 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_articles
-    get api_v1_articles_path, params: { category_ids: nil, status: "all", search_title: "" }, headers: headers
+    get api_v1_articles_path, params: { category_ids: [@category.id] }, headers: headers
     assert_response :success
-    total_articles_count = @user.articles.count
+    total_articles_count = @category.articles.count
     response_json = parse_body
     assert_equal total_articles_count, response_json["articles"].length
    end
