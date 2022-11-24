@@ -5,7 +5,7 @@ function useRoveFocus(size) {
 
   const handleKeyDown = useCallback(
     e => {
-      if (e.metaKey && e.key === "/") {
+      if ((e.metaKey && e.key === "i") || (e.metaKey && e.key === "I")) {
         e.preventDefault();
         setCurrentFocus(0);
       } else if (currentFocus === 0 && e.keyCode === 38) {

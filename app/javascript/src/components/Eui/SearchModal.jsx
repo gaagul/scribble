@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Search, Close } from "neetoicons";
-import { Modal, Input, Button, Typography, Callout } from "neetoui";
+import { Modal, Input, Button, Typography, Kbd } from "neetoui";
 import { isNil, isEmpty, either } from "ramda";
 
 import euiApi from "apis/eui";
@@ -45,7 +45,9 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
 
   useEffect(() => {
     if (focus === 0) {
-      scrollRef.current.scrollIntoView(true);
+      scrollRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   }, [focus]);
 
@@ -66,6 +68,7 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
             placeholder="Search for articles here"
             prefix={<Search />}
             ref={searchRef}
+            suffix={<Kbd keyName="⌘I" />}
             value={searchTitle}
             onChange={e => setSearchTitle(e.target.value)}
             onKeyDown={e => handleKeyDown(e)}
@@ -73,7 +76,6 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
           <p className="ml-4 mt-1 mr-1">(Esc)</p>
           <Button className="mr-4" icon={Close} onClick={handleClose} />
         </div>
-        <Callout className="ml-6">(cmd + / to focus Input)</Callout>
         <ul className="border-gray-1 my-2 w-full">
           {!either(isNil, isEmpty)(articles) ? (
             articles.map((article, index) => (
@@ -92,6 +94,21 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
             <Typography>No articles </Typography>
           )}
         </ul>
+      </div>
+      <div className="neeto-ui-bg-gray-400 sticky bottom-0 flex space-x-4 p-2">
+        <div className="flex space-x-1">
+          <Kbd keyName="↑" />
+          <Kbd keyName="↓" />
+          <p>to navigate</p>
+        </div>
+        <div className="flex space-x-1">
+          <Kbd keyName="Enter" />
+          <p>to select</p>
+        </div>
+        <div className="flex space-x-1">
+          <Kbd keyName="Esc" />
+          <p>to close</p>
+        </div>
       </div>
     </Modal>
   );
