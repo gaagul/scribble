@@ -16,6 +16,7 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
   const [focus, setFocus] = useRoveFocus(articles.length);
 
   const searchRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const fetchArticles = async () => {
     try {
@@ -42,6 +43,12 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
     fetchArticles();
   }, [searchTitle, showModal]);
 
+  useEffect(() => {
+    if (focus === 0) {
+      scrollRef.current.scrollIntoView(true);
+    }
+  }, [focus]);
+
   return (
     <Modal
       className="max-h-1/2 min-h-1/2 overflow-scroll"
@@ -50,23 +57,23 @@ const SearchModal = ({ showModal, setShowModal, history }) => {
       size="large"
       onClose={handleClose}
     >
-      <div className="sticky top-0 z-50 flex w-full justify-between bg-white py-4 px-4">
-        <Input
-          autoFocus
-          autoComplete="off"
-          className="m-auto w-full"
-          placeholder="Search for articles here"
-          prefix={<Search />}
-          ref={searchRef}
-          value={searchTitle}
-          onChange={e => setSearchTitle(e.target.value)}
-          onKeyDown={e => handleKeyDown(e)}
-        />
-        <p className="ml-4 mt-1 mr-1">(Esc)</p>
-        <Button className="mr-4" icon={Close} onClick={handleClose} />
-      </div>
-      <Callout className="ml-6">(cmd + / to focus Input)</Callout>
-      <div className="overflow-scroll">
+      <div ref={scrollRef}>
+        <div className="sticky top-0 z-50 flex w-full justify-between bg-white py-4 px-4">
+          <Input
+            autoFocus
+            autoComplete="off"
+            className="m-auto w-full"
+            placeholder="Search for articles here"
+            prefix={<Search />}
+            ref={searchRef}
+            value={searchTitle}
+            onChange={e => setSearchTitle(e.target.value)}
+            onKeyDown={e => handleKeyDown(e)}
+          />
+          <p className="ml-4 mt-1 mr-1">(Esc)</p>
+          <Button className="mr-4" icon={Close} onClick={handleClose} />
+        </div>
+        <Callout className="ml-6">(cmd + / to focus Input)</Callout>
         <ul className="border-gray-1 my-2 w-full">
           {!either(isNil, isEmpty)(articles) ? (
             articles.map((article, index) => (
