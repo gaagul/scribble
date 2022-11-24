@@ -109,6 +109,7 @@ const Categories = () => {
       </div>
       <ArticleList
         categories={categories}
+        fetchCategories={fetchCategories}
         selectedCategory={selectedCategory}
       />
     </div>
