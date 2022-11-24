@@ -58,7 +58,6 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
         quiet: true,
       });
       await fetchArticles();
-      await fetchCategories();
     } catch (error) {
       logger.error(error);
     }
