@@ -18,7 +18,7 @@ const List = ({
 }) => {
   const { Menu, MenuItem } = Dropdown;
 
-  const updatePosition = async (id, position) => {
+  const updatePosition = async ({ id, position }) => {
     try {
       setLoading(true);
       await categoriesApi.update({
