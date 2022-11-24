@@ -6,6 +6,7 @@ import { Typography, PageLoader, Button } from "neetoui";
 import categoriesApi from "apis/categories";
 
 import Add from "./Add";
+import ArticleList from "./ArticleList";
 import DeleteModal from "./DeleteModal";
 import List from "./List";
 
@@ -23,6 +24,7 @@ const Categories = () => {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
+      setSelectedCategory(categories[0]);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -55,35 +57,37 @@ const Categories = () => {
   }
 
   return (
-    <div className="mx-auto mt-10 space-y-2">
-      <Typography style="h2">Manage Categories</Typography>
-      <Typography style="body2">
-        Create and configure the categories inside your scribble.
-      </Typography>
-      {isAdding ? (
-        <Add createCategory={createCategory} setIsAdding={setIsAdding} />
-      ) : (
-        <Button
-          icon={Plus}
-          iconPosition="left"
-          label="Add New Category"
-          style="link"
-          onClick={() => setIsAdding(true)}
+    <div className="flex w-full">
+      <div className="w-4/12 space-y-8 px-4 pt-8">
+        <div className="flex justify-between space-x-1">
+          <Typography style="h2">Manage Categories</Typography>
+          <Button icon={Plus} onClick={() => setIsAdding(true)} />
+        </div>
+        <Add
+          createCategory={createCategory}
+          isAdding={isAdding}
+          setIsAdding={setIsAdding}
         />
-      )}
-      <List
+        <List
+          categories={categories}
+          fetchCategories={fetchCategories}
+          selectedCategory={selectedCategory}
+          setIsDeleting={setIsDeleting}
+          setLoading={setLoading}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <DeleteModal
+          categories={categories}
+          isDeleting={isDeleting}
+          refetchCategories={fetchCategories}
+          selectedCategory={selectedCategory}
+          setIsDeleting={setIsDeleting}
+          setLoading={setLoading}
+        />
+      </div>
+      <ArticleList
         categories={categories}
-        fetchCategories={fetchCategories}
-        setCategoryToDelete={setSelectedCategory}
-        setIsDeleting={setIsDeleting}
-        setLoading={setLoading}
-      />
-      <DeleteModal
-        categories={categories}
-        isDeleting={isDeleting}
-        refetchCategories={fetchCategories}
         selectedCategory={selectedCategory}
-        setIsDeleting={setIsDeleting}
       />
     </div>
   );

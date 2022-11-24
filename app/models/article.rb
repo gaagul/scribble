@@ -21,10 +21,13 @@ class Article < ApplicationRecord
   validates :slug, uniqueness: true unless -> { slug.nil? }
   validate :slug_not_changed
 
+  after_update :reset_position
   before_save :set_slug
 
   has_paper_trail ignore: [:visits_count]
   paginates_per MAX_ARTICLES_COUNT
+
+  acts_as_list scope: :category
 
   private
 
@@ -49,6 +52,12 @@ class Article < ApplicationRecord
     def slug_not_changed
       if slug_changed? && self.persisted?
         errors.add(:slug, t("article.slug.immutable"))
+      end
+    end
+
+    def reset_position
+      if self.category_id_changed?
+        self.position = self.category.articles.count > 0 ? self.category.articles.count + 1 : 1
       end
     end
 end

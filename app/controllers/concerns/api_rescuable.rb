@@ -18,7 +18,7 @@ module ApiRescuable
     end
 
     def handle_record_not_found(exception)
-      respond_with_error(exception.message, :not_found)
+      respond_with_error(t("not_found", entity: exception.model), :not_found)
     end
 
     def handle_record_not_unique(exception)

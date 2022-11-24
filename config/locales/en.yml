@@ -2,13 +2,13 @@ en:
   session:
     could_not_authenticate: "Could not authenticate with the provided credentials."
     incorrect_credentials: "Incorrect credentials, try again."
+  not_found: "Couldn't find %{entity}"
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
   successfully_deleted: "%{entity} was successfully deleted!"
   category:
     not_unique: "Category title must be unique"
   article:
-    not_found: "Couldn't find Article"
     slug:
       immutable: "is immutable!"
   redirection:

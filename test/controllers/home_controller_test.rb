@@ -4,7 +4,8 @@ require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @redirection = create(:redirection, from: "welcome", to: "public")
+    @organization = create(:organization)
+    @redirection = create(:redirection, from: "welcome", to: "public", organization: @organization)
   end
 
   def test_should_get_successfully_from_root_url

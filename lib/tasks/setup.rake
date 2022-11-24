@@ -44,7 +44,7 @@ def create_sample_data!
   create_article! title: "A13", category_id: 3, status: "Published"
   create_article! title: "A14", category_id: 4, status: "Published"
   create_article! title: "A15", category_id: 1, status: "Published"
-  Redirection.create!(from: "welcome", to: "public")
+  Redirection.create!(from: "welcome", to: "public", organization: Organization.first)
 end
 
 def create_organization!(options = {})

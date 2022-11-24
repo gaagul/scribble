@@ -84,7 +84,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Welcome", @category.title
   end
 
-  def test_should_destroy_redirection
+  def test_should_destroy_category
     assert_difference "Category.count", -1 do
       delete api_v1_category_path(@category.id), headers: headers
     end

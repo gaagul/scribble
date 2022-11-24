@@ -4,6 +4,7 @@ module.exports = {
       constants: "src/constants",
       apis: "src/apis",
       lib: "src/lib",
+      hooks: "src/hooks",
       common: "src/common",
       utils: "src/utils",
       components: "src/components",
