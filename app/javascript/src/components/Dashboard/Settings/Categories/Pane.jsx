@@ -1,29 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Check, Close } from "neetoicons";
 import { Input, Button, Pane, Typography } from "neetoui";
+import { isNil, isEmpty, either } from "ramda";
 
-const Add = ({ createCategory, setIsAdding, isAdding }) => {
+const Add = ({
+  createCategory,
+  setIsPaneOpen,
+  isPaneOpen,
+  categoryToEdit,
+  setCategoryToEdit,
+  updateCategory,
+}) => {
   const [category, setCategory] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleSubmit = () => createCategory(category);
+  const handleSubmit = () => {
+    if (isEditing) {
+      updateCategory({ id: categoryToEdit.id, title: category });
+    } else {
+      createCategory(category);
+    }
+  };
 
   const handleClose = () => {
     setCategory("");
-    setIsAdding(false);
+    setCategoryToEdit({});
+    setIsPaneOpen(false);
   };
 
   const keyPress = e => {
-    if (e.key === "Enter" || (e.key === "Enter" && e.shiftKey === true)) {
-      handleSubmit();
+    if (e.key === "Enter") {
+      category !== "" && category !== categoryToEdit.title && handleSubmit();
     } else if (e.key === "Escape") {
       handleClose();
     }
   };
 
+  useEffect(() => {
+    if (!either(isEmpty, isNil)(categoryToEdit)) {
+      setCategory(categoryToEdit.title);
+      setIsEditing(true);
+    }
+  }, [categoryToEdit]);
+
   return (
     <div onKeyDown={e => keyPress(e)}>
-      <Pane isOpen={isAdding} onClose={handleClose}>
+      <Pane isOpen={isPaneOpen} onClose={handleClose}>
         <Pane.Header>
           <Typography style="h1">Add Category</Typography>
         </Pane.Header>
@@ -39,11 +62,14 @@ const Add = ({ createCategory, setIsAdding, isAdding }) => {
         </Pane.Body>
         <Pane.Footer className="flex space-x-2">
           <Button
-            disabled={category === ""}
             icon={Check}
             label="Save"
             size="large"
             style="primary"
+            disabled={
+              category === "" ||
+              (isEditing && category === categoryToEdit.title)
+            }
             onClick={handleSubmit}
           />
           <Button
