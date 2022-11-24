@@ -22,7 +22,8 @@ class Api::V1::ArticlesController < Api::V1::BaseController
   end
 
   def update
-    @article.update!(article_params)
+    attributes = params.key?(:restore) ? article_params.merge(status: :Draft) : article_params
+    @article.update!(attributes)
     respond_with_success(t("successfully_updated", entity: "Article")) unless params.key?(:quiet)
   end
 
