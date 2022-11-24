@@ -9,6 +9,7 @@ import {
   Tag,
   Tooltip,
   Dropdown,
+  Button,
 } from "neetoui";
 import { Header } from "neetoui/layouts";
 import { either, isEmpty, isNil } from "ramda";
@@ -144,78 +145,90 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
           </Typography>
         </Callout>
       )}
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="articles">
-          {provided => (
-            <ul
-              {...provided.droppableProps}
-              className="p-2"
-              ref={provided.innerRef}
-            >
-              {articles.map(({ id, title, body, position, status, date }) => (
-                <Draggable draggableId={String(id)} index={position} key={id}>
-                  {provided => (
-                    <li
-                      className="mt-2 max-w-screen-md"
-                      key={id}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                    >
-                      <div className="border flex w-full items-center justify-between rounded-sm border-gray-200 bg-white px-4 py-2 shadow-sm">
-                        <Checkbox
-                          checked={selectedArticleIds.includes(id)}
-                          onChange={() => {
-                            setSelectedArticleIds(
-                              filterArticles(selectedArticleIds, id)
-                            );
-                          }}
-                        />
-                        <div className="flex flex-col space-y-1">
-                          <Typography
-                            className="text-sm font-medium text-gray-900"
-                            style="h3"
-                          >
-                            {title}
-                          </Typography>
-                          <Typography
-                            className="truncate max-w-screen-sm overflow-hidden"
-                            style="body3"
-                          >
-                            {body}
-                          </Typography>
-                          <hr />
-                          <div className="ml-auto mt-4 flex items-center">
-                            <Clock />
-                            <Tooltip
-                              position="top"
-                              content={`${formatWithDayAndDate(
-                                date
-                              )}(${formatWithFromNow(date)})`}
+      {!either(isNil, isEmpty)(articles) ? (
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="articles">
+            {provided => (
+              <ul
+                {...provided.droppableProps}
+                className="p-2"
+                ref={provided.innerRef}
+              >
+                {articles.map(({ id, title, body, position, status, date }) => (
+                  <Draggable draggableId={String(id)} index={position} key={id}>
+                    {provided => (
+                      <li
+                        className="mt-2 max-w-screen-md"
+                        key={id}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                      >
+                        <div className="border flex w-full items-center justify-between rounded-sm border-gray-200 bg-white px-4 py-2 shadow-sm">
+                          <Checkbox
+                            checked={selectedArticleIds.includes(id)}
+                            onChange={() => {
+                              setSelectedArticleIds(
+                                filterArticles(selectedArticleIds, id)
+                              );
+                            }}
+                          />
+                          <div className="flex flex-col space-y-1">
+                            <Typography
+                              className="text-sm font-medium text-gray-900"
+                              style="h3"
                             >
-                              <Typography style="body3">
-                                {formatWithFromNow(date)}
-                              </Typography>
-                            </Tooltip>
-                            <Tag
-                              className="ml-2"
-                              label={status}
-                              style={
-                                status === "Published" ? "success" : "warning"
-                              }
-                            />
+                              {title}
+                            </Typography>
+                            <Typography
+                              className="truncate max-w-screen-sm overflow-hidden"
+                              style="body3"
+                            >
+                              {body}
+                            </Typography>
+                            <hr />
+                            <div className="ml-auto mt-4 flex items-center">
+                              <Clock />
+                              <Tooltip
+                                position="top"
+                                content={`${formatWithDayAndDate(
+                                  date
+                                )}(${formatWithFromNow(date)})`}
+                              >
+                                <Typography style="body3">
+                                  {formatWithFromNow(date)}
+                                </Typography>
+                              </Tooltip>
+                              <Tag
+                                className="ml-2"
+                                label={status}
+                                style={
+                                  status === "Published" ? "success" : "warning"
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-      </DragDropContext>
+                      </li>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
+      ) : (
+        <div className="mt-10 flex flex-col items-center justify-center">
+          <Typography>No Articles in the corresponding category</Typography>
+          <Button
+            className="mt-6 ml-12"
+            disabled={either(isEmpty, isNil)(categories)}
+            label="Add new article"
+            to="/article/create"
+          />
+        </div>
+      )}
     </div>
   );
 };

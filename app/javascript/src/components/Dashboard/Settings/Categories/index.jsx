@@ -5,17 +5,18 @@ import { Typography, PageLoader, Button } from "neetoui";
 
 import categoriesApi from "apis/categories";
 
-import Add from "./Add";
 import ArticleList from "./ArticleList";
 import DeleteModal from "./DeleteModal";
 import List from "./List";
+import Pane from "./Pane";
 
 const Categories = () => {
-  const [isAdding, setIsAdding] = useState(false);
+  const [isPaneOpen, setIsPaneOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState({});
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categoryToEdit, setCategoryToEdit] = useState({});
 
   const fetchCategories = async () => {
     try {
@@ -39,8 +40,24 @@ const Categories = () => {
     } catch (error) {
       logger.error(error);
     } finally {
-      setIsAdding(false);
+      setIsPaneOpen(false);
       fetchCategories();
+    }
+  };
+
+  const updateCategory = async ({ id, title }) => {
+    try {
+      await categoriesApi.update({
+        id,
+        payload: {
+          title,
+        },
+      });
+      setIsPaneOpen(false);
+      setCategoryToEdit({});
+      await fetchCategories();
+    } catch (error) {
+      logger.error(error);
     }
   };
 
@@ -61,18 +78,23 @@ const Categories = () => {
       <div className="w-4/12 space-y-8 px-4 pt-8">
         <div className="flex justify-between space-x-1">
           <Typography style="h2">Manage Categories</Typography>
-          <Button icon={Plus} onClick={() => setIsAdding(true)} />
+          <Button icon={Plus} onClick={() => setIsPaneOpen(true)} />
         </div>
-        <Add
+        <Pane
+          categoryToEdit={categoryToEdit}
           createCategory={createCategory}
-          isAdding={isAdding}
-          setIsAdding={setIsAdding}
+          isPaneOpen={isPaneOpen}
+          setCategoryToEdit={setCategoryToEdit}
+          setIsPaneOpen={setIsPaneOpen}
+          updateCategory={updateCategory}
         />
         <List
           categories={categories}
           fetchCategories={fetchCategories}
           selectedCategory={selectedCategory}
+          setCategoryToEdit={setCategoryToEdit}
           setIsDeleting={setIsDeleting}
+          setIsPaneOpen={setIsPaneOpen}
           setLoading={setLoading}
           setSelectedCategory={setSelectedCategory}
         />
