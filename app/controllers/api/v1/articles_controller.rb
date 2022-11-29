@@ -39,14 +39,18 @@ class Api::V1::ArticlesController < Api::V1::BaseController
 
   def table_list
     @title_filtered_articles = @all_articles.title_search(params[:search_title].downcase)
-    @filtered_articles = @title_filtered_articles.page(params[:current_page])
+    @filtered_articles = @title_filtered_articles.page(params[:current_page]).order(
+      updated_at: :desc).includes(:category)
     @draft_articles = @category_filtered_articles.where(status: :Draft)
     @published_articles = @category_filtered_articles.where(status: :Published)
   end
 
   def bulk_update
     records_size = @articles.size
-    @articles.where(id: params[:article_ids]).update(category_id: params[:new_category_id])
+    @articles.each do |article|
+      article.reload
+      article.update!(category_id: params[:new_category_id])
+    end
     respond_with_success(
       t(
         "successfully_updated", count: records_size,
@@ -60,7 +64,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
     end
 
     def load_articles
-      @articles = current_user.articles.where(id: params[:article_ids])
+      @articles = current_user.articles.where(id: params[:article_ids]).order(position: :ASC)
       respond_with_error(t("not_found", entity: "Articles")) if @articles.empty?
     end
 

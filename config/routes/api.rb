@@ -5,9 +5,11 @@ namespace :api, defaults: { format: :json } do
     resources :categories, except: %i[new edit]
     resources :articles, except: %i[new edit] do
       resources :versions, only: :index, controller: :article_versions
-      get :analytics, on: :collection
-      get :table_list, on: :collection
-      post :bulk_update, on: :collection
+      collection do
+        get :analytics
+        get :table_list
+        post :bulk_update
+      end
     end
     resources :organizations, only: %i[index update]
     resources :redirections, except: %i[new edit]

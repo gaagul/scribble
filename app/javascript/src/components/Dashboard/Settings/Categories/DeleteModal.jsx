@@ -13,14 +13,12 @@ const DeleteModal = ({
   selectedCategory,
   setIsDeleting,
   refetchCategories,
-  setLoading,
 }) => {
   const [newCategoryId, setNewCategoryId] = useState(0);
   const numberOfCategories = categories.length;
 
   const handleDelete = async () => {
     try {
-      setLoading(true);
       setIsDeleting(false);
       await categoriesApi.destroy({
         id: selectedCategory.id,

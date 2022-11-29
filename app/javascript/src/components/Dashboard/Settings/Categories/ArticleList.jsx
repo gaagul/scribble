@@ -24,7 +24,7 @@ import {
   filterArticles,
 } from "./utils";
 
-const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
+const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
@@ -40,7 +40,6 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
         data: { articles },
       } = await articlesApi.list({ activeCategoryIds: [selectedCategory?.id] });
       setArticles(articles);
-      setSelectedArticleIds([]);
       setLoading(false);
     } catch (error) {
       logger.error(error);
@@ -79,9 +78,7 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
         selectedArticleIds,
         newCategoryId,
       });
-      await fetchArticles();
-      await fetchCategories();
-      setLoading(false);
+      refetchCategories();
     } catch (error) {
       logger.error(error);
     }
@@ -153,7 +150,7 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
                 className="p-2"
                 ref={provided.innerRef}
               >
-                {articles.map(({ id, title, body, position, status, date }) => (
+                {articles.map(({ id, title, body, position, status, time }) => (
                   <Draggable draggableId={String(id)} index={position} key={id}>
                     {provided => (
                       <li
@@ -172,7 +169,7 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
                               );
                             }}
                           />
-                          <div className="flex flex-col space-y-1">
+                          <div className="flex w-full flex-col space-y-2 px-4">
                             <Typography
                               className="text-sm font-medium text-gray-900"
                               style="h3"
@@ -191,11 +188,11 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
                               <Tooltip
                                 position="top"
                                 content={`${formatWithDayAndDate(
-                                  date
-                                )}(${formatWithFromNow(date)})`}
+                                  time
+                                )}(${formatWithFromNow(time)})`}
                               >
                                 <Typography style="body3">
-                                  {formatWithFromNow(date)}
+                                  {formatWithFromNow(time)}
                                 </Typography>
                               </Tooltip>
                               <Tag
