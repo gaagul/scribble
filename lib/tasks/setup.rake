@@ -22,28 +22,22 @@ def create_sample_data!
   create_category! title: "Security & Privacy"
   create_category! title: "Misc"
   create_user! name: "Oliver Smith"
-  create_article! title: "Welcome to Scribble", category_id: 1, status: "Published"
-  create_article! title: "Welcome to Scribble draft", category_id: 1, status: "Draft"
-  create_article! title: "Setting Up", category_id: 2, status: "Published"
-  create_article! title: "Setting Up draft", category_id: 2, status: "Draft"
-  create_article! title: "Writing an article", category_id: 3, status: "Published"
-  create_article! title: "Writing an article draft", category_id: 3, status: "Draft"
-  create_article! title: "Redirections", category_id: 4, status: "Published"
-  create_article! title: "A2", category_id: 2, status: "Published"
   create_article! title: "A1", category_id: 1, status: "Published"
-  create_article! title: "A3", category_id: 3, status: "Published"
-  create_article! title: "A4", category_id: 4, status: "Published"
-  create_article! title: "A5", category_id: 1, status: "Published"
+  create_article! title: "A2", category_id: 1, status: "Published"
+  create_article! title: "A3", category_id: 1, status: "Draft"
+  create_article! title: "A4", category_id: 1, status: "Draft"
+  create_article! title: "A5", category_id: 2, status: "Published"
   create_article! title: "A6", category_id: 2, status: "Published"
-  create_article! title: "A7", category_id: 1, status: "Published"
-  create_article! title: "A8", category_id: 3, status: "Published"
-  create_article! title: "A9", category_id: 4, status: "Published"
-  create_article! title: "A10", category_id: 1, status: "Published"
-  create_article! title: "A11", category_id: 2, status: "Published"
-  create_article! title: "A12", category_id: 1, status: "Published"
-  create_article! title: "A13", category_id: 3, status: "Published"
+  create_article! title: "A7", category_id: 2, status: "Draft"
+  create_article! title: "A8", category_id: 2, status: "Draft"
+  create_article! title: "A9", category_id: 3, status: "Published"
+  create_article! title: "A10", category_id: 3, status: "Published"
+  create_article! title: "A11", category_id: 3, status: "Draft"
+  create_article! title: "A12", category_id: 3, status: "Draft"
+  create_article! title: "A13", category_id: 4, status: "Published"
   create_article! title: "A14", category_id: 4, status: "Published"
-  create_article! title: "A15", category_id: 1, status: "Published"
+  create_article! title: "A15", category_id: 4, status: "Draft"
+  create_article! title: "A16", category_id: 4, status: "Draft"
   Redirection.create!(from: "welcome", to: "public", organization: Organization.first)
 end
 
@@ -65,12 +59,7 @@ end
 def create_article!(options = {})
   article_attributes = {
     user: User.first,
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-    deserunt mollit anim id est laborum."
+    body: Faker::TvShows::FamilyGuy.quote
   }
   attributes = article_attributes.merge options
   Article.create! attributes

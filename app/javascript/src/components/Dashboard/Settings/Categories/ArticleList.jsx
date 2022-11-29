@@ -169,7 +169,7 @@ const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
                               );
                             }}
                           />
-                          <div className="flex flex-col space-y-1">
+                          <div className="flex w-full flex-col space-y-2 px-4">
                             <Typography
                               className="text-sm font-medium text-gray-900"
                               style="h3"
