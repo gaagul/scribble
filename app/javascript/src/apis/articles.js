@@ -36,12 +36,11 @@ const update = ({ id, payload, quiet = false }) => {
   });
 };
 
-const bulkUpdate = ({ selectedArticleIds = [], newCategoryId }) => {
+const bulkUpdate = ({ selectedArticleIds = [], newCategoryId }) =>
   axios.post("api/v1/articles/bulk_update", {
     new_category_id: newCategoryId,
     article_ids: selectedArticleIds,
   });
-};
 
 const destroy = id => axios.delete(`api/v1/articles/${id}`);
 

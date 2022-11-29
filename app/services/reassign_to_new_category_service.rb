@@ -2,9 +2,10 @@
 
 class ReassignToNewCategoryService
   attr_reader :category, :articles, :all_count, :new_category_id, :article_ids
+  attr_writer :new_category_id
   def initialize(category, new_category_id)
     @category = category
-    @article_ids = @category.articles.pluck(:id)
+    @articles = @category.articles
     @all_count = Category.all.count
     @new_category_id = new_category_id.to_i
   end
@@ -17,7 +18,7 @@ class ReassignToNewCategoryService
 
     def reassign_category
       if new_category_id != 0
-        category.articles.where(id: article_ids).update(category_id: new_category_id)
+        move_articles_to_new_category
       else
         if_no_new_category_param
       end
@@ -25,8 +26,15 @@ class ReassignToNewCategoryService
 
     def if_no_new_category_param
       unless category.title == "General"
-        general_category = Category.create!(title: "General")
-        category.articles.where(id: article_ids).update(category_id: general_category.id)
+        new_category_id = Category.create!(title: "General").id
+        move_articles_to_new_category
+      end
+    end
+
+    def move_articles_to_new_category
+      @articles.each do |article|
+        article.reload
+        article.update!(category_id: new_category_id)
       end
     end
 end

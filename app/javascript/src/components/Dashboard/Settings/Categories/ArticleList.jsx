@@ -24,7 +24,7 @@ import {
   filterArticles,
 } from "./utils";
 
-const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
+const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticleIds, setSelectedArticleIds] = useState([]);
@@ -40,7 +40,6 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
         data: { articles },
       } = await articlesApi.list({ activeCategoryIds: [selectedCategory?.id] });
       setArticles(articles);
-      setSelectedArticleIds([]);
       setLoading(false);
     } catch (error) {
       logger.error(error);
@@ -79,9 +78,7 @@ const ArticleList = ({ selectedCategory, categories, fetchCategories }) => {
         selectedArticleIds,
         newCategoryId,
       });
-      await fetchArticles();
-      await fetchCategories();
-      setLoading(false);
+      refetchCategories();
     } catch (error) {
       logger.error(error);
     }

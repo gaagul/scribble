@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_21_063055) do
+ActiveRecord::Schema.define(version: 2022_11_28_064743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2022_11_21_063055) do
     t.integer "visits_count", default: 0
     t.integer "position"
     t.index ["category_id"], name: "index_articles_on_category_id"
+    t.index ["position"], name: "index_articles_on_position"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
