@@ -150,7 +150,7 @@ const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
                 className="p-2"
                 ref={provided.innerRef}
               >
-                {articles.map(({ id, title, body, position, status, date }) => (
+                {articles.map(({ id, title, body, position, status, time }) => (
                   <Draggable draggableId={String(id)} index={position} key={id}>
                     {provided => (
                       <li
@@ -188,11 +188,11 @@ const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
                               <Tooltip
                                 position="top"
                                 content={`${formatWithDayAndDate(
-                                  date
-                                )}(${formatWithFromNow(date)})`}
+                                  time
+                                )}(${formatWithFromNow(time)})`}
                               >
                                 <Typography style="body3">
-                                  {formatWithFromNow(date)}
+                                  {formatWithFromNow(time)}
                                 </Typography>
                               </Tooltip>
                               <Tag
