@@ -73,4 +73,30 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = parse_body
     assert_equal @user.articles.where(status: :Published).count, response_json["analytics"]["visits"].length
   end
+
+  def test_table_list_action
+    article1 = create(:article, user: @user, category: @category, status: :Draft)
+    article2 = create(:article, user: @user, category: @category, status: :Draft)
+    article3 = create(:article, user: @user, category: @category, status: :Published)
+    get table_list_api_v1_articles_path, params: { current_page: 1, search_title: "", status: "all" }, headers: headers
+    assert_response :success
+    response_json = parse_body
+    assert_equal @user.articles.count, response_json["articles"]["all"].length
+    assert_equal @user.articles.where(status: :Draft).count, response_json["articles"]["draft_count"]
+    assert_equal @user.articles.where(status: :Published).count, response_json["articles"]["published_count"]
+    assert_equal @user.articles.count, response_json["articles"]["total_count"]
+  end
+
+  def test_bulk_update
+    article1 = create(:article, user: @user, category: @category, status: :Draft)
+    article2 = create(:article, user: @user, category: @category, status: :Draft)
+    article3 = create(:article, user: @user, category: @category, status: :Published)
+    new_category = create(:category)
+    post bulk_update_api_v1_articles_path,
+      params: { article_ids: [article1.id, article2.id], new_category_id: new_category.id },
+      headers: headers
+    assert_response :success
+    assert_equal new_category.id, article1.reload.category_id
+    assert_equal new_category.id, article2.reload.category_id
+  end
 end

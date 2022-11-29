@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ReassignToNewCategoryService
-  attr_reader :category, :articles, :all_count, :new_category_id, :article_ids
-  attr_writer :new_category_id
+  attr_reader :category, :articles, :all_count, :article_ids
+  attr_accessor :new_category_id
   def initialize(category, new_category_id)
     @category = category
     @articles = @category.articles
@@ -32,7 +32,7 @@ class ReassignToNewCategoryService
     end
 
     def move_articles_to_new_category
-      @articles.each do |article|
+      articles.each do |article|
         article.reload
         article.update!(category_id: new_category_id)
       end
