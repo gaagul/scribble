@@ -5,6 +5,7 @@ class Organization < ApplicationRecord
   MAX_NAME_LENGTH = 15
 
   has_many :users, dependent: :delete_all
+  has_many :categories, dependent: :delete_all
   has_many :articles, through: :users
   has_many :redirections, dependent: :delete_all
 

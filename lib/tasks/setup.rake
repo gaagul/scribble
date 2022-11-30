@@ -53,7 +53,8 @@ def create_user!(options = {})
 end
 
 def create_category!(options = {})
-  Category.create! options
+  attributes = { organization: Organization.first }.merge options
+  Category.create! attributes
 end
 
 def create_article!(options = {})

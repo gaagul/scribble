@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Warning } from "neetoicons";
-import { Modal, Typography, Button, Select, Callout } from "neetoui";
+import { Modal, Typography, Button, Select, Callout, Tooltip } from "neetoui";
 
 import categoriesApi from "apis/categories";
 
@@ -107,18 +107,32 @@ const DeleteModal = ({
           </Callout>
         )}
       </Modal.Body>
-      <Modal.Footer className="space-x-2">
-        <Button
-          label="Continue"
+      <Modal.Footer className="flex space-x-2">
+        <Tooltip
+          content="Select a category to Enable this button"
+          position="bottom"
           disabled={
-            numberOfCategories > 1 &&
-            newCategoryId === 0 &&
-            selectedCategory.count > 0
+            !(
+              numberOfCategories > 1 &&
+              newCategoryId === 0 &&
+              selectedCategory.count > 0
+            )
           }
-          onClick={() => {
-            handleDelete();
-          }}
-        />
+        >
+          <div>
+            <Button
+              label="Continue"
+              disabled={
+                numberOfCategories > 1 &&
+                newCategoryId === 0 &&
+                selectedCategory.count > 0
+              }
+              onClick={() => {
+                handleDelete();
+              }}
+            />
+          </div>
+        </Tooltip>
         <Button label="Cancel" style="text" onClick={handleClose} />
       </Modal.Footer>
     </Modal>

@@ -6,6 +6,8 @@ class Category < ApplicationRecord
 
   scope :title_search, -> (title) { where("lower(title) like ?", "#{title}%") }
 
+  belongs_to :organization
+
   has_many :articles, dependent: :delete_all
 
   validates :title, presence: true, uniqueness: true, length: { maximum: MAX_TITLE_LENGTH },

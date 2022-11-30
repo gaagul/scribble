@@ -4,11 +4,11 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   before_action :load_category!, only: %i[update destroy]
 
   def index
-    @categories = Category.title_search(params[:search_title].downcase).order(position: :ASC)
+    @categories = current_organization.categories.title_search(params[:search_title].downcase).order(position: :ASC)
   end
 
   def create
-    Category.create!(category_params)
+    current_organization.categories.create!(category_params)
     respond_with_success(t("successfully_created", entity: "Category"))
   end
 
@@ -18,7 +18,9 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   end
 
   def destroy
-    ReassignToNewCategoryService.new(@category, params[:new_category_id]).process unless @category.articles.count == 0
+    ReassignToNewCategoryService.new(
+      @category, params[:new_category_id],
+      current_organization).process unless @category.articles.count == 0
     @category.destroy!
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
@@ -30,6 +32,6 @@ class Api::V1::CategoriesController < Api::V1::BaseController
     end
 
     def load_category!
-      @category = Category.find(params[:id])
+      @category = current_organization.categories.find(params[:id])
     end
 end

@@ -4,8 +4,8 @@ require "test_helper"
 
 class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @category = create(:category)
     @organization = create(:organization)
+    @category = create(:category, organization: @organization)
     @user = create(:user, organization: @organization)
   end
 
@@ -92,7 +92,7 @@ class Api::V1::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_change_article_category_to_new_category_if_category_deleted
-    @new_category = create(:category)
+    @new_category = create(:category, organization: @organization)
     article_1 = create(:article, category: @category, user: @user)
     delete api_v1_category_path(@category.id), params: { new_category_id: @new_category.id }, headers: headers
     assert_response :ok

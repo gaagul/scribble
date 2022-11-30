@@ -6,7 +6,7 @@ class Api::V1::Eui::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
-    @category = create(:category)
+    @category = create(:category, organization: @organization)
     @article = create(:article, user: @user, category: @category, status: "Published")
     @organization_header = headers(@organization)
   end
