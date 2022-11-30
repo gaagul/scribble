@@ -4,8 +4,8 @@ require "test_helper"
 
 class ArticleTest < ActiveSupport::TestCase
   def setup
-    @category = build(:category)
     @organization = build(:organization)
+    @category = build(:category, organization: @organization)
     @user = build(:user, organization: @organization)
     @article = build(:article, title: "new", category: @category, user: @user)
   end
@@ -113,7 +113,7 @@ class ArticleTest < ActiveSupport::TestCase
 
   def test_testing_category_filter_scope
     body = "This is a test article body"
-    @category_2 = build(:category)
+    @category_2 = build(:category, organization: @organization)
     first_article = Article.create!(
       title: "A1", body: body, user: @user,
       category: @category_2, status: "Published")
@@ -131,7 +131,7 @@ class ArticleTest < ActiveSupport::TestCase
 
   def test_status_filter_scope
     body = "This is a test article body"
-    @category_2 = build(:category)
+    @category_2 = build(:category, organization: @organization)
     first_article = Article.create!(
       title: "A1", body: body, user: @user,
       category: @category_2, status: "Published")
@@ -149,7 +149,7 @@ class ArticleTest < ActiveSupport::TestCase
 
   def test_title_search_filter_scope
     body = "This is a test article body"
-    @category_2 = build(:category)
+    @category_2 = build(:category, organization: @organization)
     first_article = Article.create!(
       title: "t", body: body, user: @user,
       category: @category_2, status: "Published")

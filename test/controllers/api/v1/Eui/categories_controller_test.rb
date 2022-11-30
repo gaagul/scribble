@@ -6,8 +6,8 @@ class Api::V1::Eui::CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
-    @category = create(:category)
-    @new_category = create(:category)
+    @category = create(:category, organization: @organization)
+    @new_category = create(:category, organization: @organization)
     create(:article, user: @user, category: @category)
     create(:article, user: @user, category: @category)
     create(:article, user: @user, category: @category, status: "Draft")

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_28_064743) do
+ActiveRecord::Schema.define(version: 2022_11_30_091206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 2022_11_28_064743) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position"
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_categories_on_organization_id"
     t.index ["title"], name: "index_categories_on_title", unique: true
   end
 
@@ -88,6 +90,7 @@ ActiveRecord::Schema.define(version: 2022_11_28_064743) do
 
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "users"
+  add_foreign_key "categories", "organizations"
   add_foreign_key "redirections", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "articles"

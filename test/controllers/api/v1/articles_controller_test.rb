@@ -4,8 +4,8 @@ require "test_helper"
 
 class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @category = create(:category)
     @organization = create(:organization)
+    @category = create(:category, organization: @organization)
     @user = create(:user, organization: @organization)
     @article = create(:article, category: @category, user: @user)
   end
@@ -91,7 +91,7 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     article1 = create(:article, user: @user, category: @category, status: :Draft)
     article2 = create(:article, user: @user, category: @category, status: :Draft)
     article3 = create(:article, user: @user, category: @category, status: :Published)
-    new_category = create(:category)
+    new_category = create(:category, organization: @organization)
     post bulk_update_api_v1_articles_path,
       params: { article_ids: [article1.id, article2.id], new_category_id: new_category.id },
       headers: headers

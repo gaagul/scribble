@@ -8,8 +8,8 @@ import {
   Checkbox,
   Tag,
   Tooltip,
-  Dropdown,
   Button,
+  Select,
 } from "neetoui";
 import { Header } from "neetoui/layouts";
 import { either, isEmpty, isNil } from "ramda";
@@ -31,8 +31,6 @@ const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
   const [showMessage, setShowMessage] = useState(
     getFromLocalStorage("showMessage")
   );
-
-  const { Menu, MenuItem } = Dropdown;
 
   const fetchArticles = async () => {
     try {
@@ -107,23 +105,28 @@ const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
         className="sticky top-0 z-10"
         title="Layouts"
         actionBlock={
-          <Dropdown disabled={selectedArticleIds.length === 0} label="Move to">
-            <Menu>
-              {categories.map(
-                category =>
-                  category.id !== selectedCategory.id && (
-                    <MenuItem.Button
-                      key={category.id}
-                      onClick={() => {
-                        handleCategoryChange(category.id);
-                      }}
-                    >
-                      {category.title}
-                    </MenuItem.Button>
-                  )
-              )}
-            </Menu>
-          </Dropdown>
+          <Tooltip
+            content="Select atleast one article before you choose a new category"
+            disabled={selectedArticleIds.length > 0}
+            position="bottom"
+          >
+            <div>
+              <Select
+                isSearchable
+                className="w-40"
+                isDisabled={selectedArticleIds.length === 0}
+                placeholder="Move to"
+                size="small"
+                options={categories
+                  .filter(category => category.id !== selectedCategory.id)
+                  .map(category => ({
+                    label: category.title,
+                    value: category.id,
+                  }))}
+                onChange={category => handleCategoryChange(category.value)}
+              />
+            </div>
+          </Tooltip>
         }
       />
       {either(isNil, isEmpty)(showMessage) && (

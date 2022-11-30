@@ -24,7 +24,7 @@ class Article < ApplicationRecord
   after_update :reset_position
   before_save :set_slug
 
-  has_paper_trail ignore: [:visits_count]
+  has_paper_trail ignore: [:position]
   paginates_per MAX_ARTICLES_COUNT
 
   acts_as_list scope: :category
@@ -56,8 +56,6 @@ class Article < ApplicationRecord
     end
 
     def reset_position
-      if self.category_id_changed?
-        self.position = self.category.articles.count > 0 ? self.category.articles.count + 1 : 1
-      end
+      self.position = self.category.articles.count + 1 if self.category_id_changed?
     end
 end

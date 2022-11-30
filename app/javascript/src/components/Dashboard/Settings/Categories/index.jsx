@@ -78,7 +78,11 @@ const Categories = () => {
       <div className="w-4/12 space-y-8 px-4 pt-8">
         <div className="flex justify-between space-x-1">
           <Typography style="h2">Manage Categories</Typography>
-          <Button icon={Plus} onClick={() => setIsPaneOpen(true)} />
+          <Button
+            icon={Plus}
+            tooltipProps={{ content: "Add a new category", position: "bottom" }}
+            onClick={() => setIsPaneOpen(true)}
+          />
         </div>
         <Pane
           categoryToEdit={categoryToEdit}

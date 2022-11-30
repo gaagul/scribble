@@ -4,8 +4,8 @@ require "test_helper"
 
 class Api::V1::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @category = create(:category)
     @organization = create(:organization)
+    @category = create(:category, organization: @organization)
     @user = create(:user, organization: @organization)
   end
 
