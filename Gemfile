@@ -9,6 +9,7 @@ gem "groupdate"
 gem "kaminari"
 gem "paper_trail"
 gem "react-rails"
+gem "sidekiq-cron"
 gem "simplecov", require: false, group: :test
 gem "uglifier"
 

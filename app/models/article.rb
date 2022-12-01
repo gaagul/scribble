@@ -13,6 +13,7 @@ class Article < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  has_many :schedules, dependent: :destroy
   has_many :visits, dependent: :destroy
 
   enum status: { Draft: 0, Published: 1 }
