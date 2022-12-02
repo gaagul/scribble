@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
-class SchedulesController < ApplicationController
-  before_action :load_article!, only: %i[create update]
+class Api::V1::SchedulesController < Api::V1::BaseController
+  before_action :load_article!, only: %i[create update index destroy]
   before_action :load_schedule!, only: :destroy
+
+  def index
+    @schedules = @article.schedules
+  end
 
   def create
     @article.schedules.create!(schedule_params)
+    respond_with_success(t("successfully_created", entity: "Schedule"))
   end
 
   def destroy
     @schedule.destroy!
+    respond_with_success(t("successfully_deleted", entity: "schedule"))
   end
 
   private
