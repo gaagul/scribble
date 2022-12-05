@@ -1,0 +1,20 @@
+default: &default
+  schedule_worker:
+    cron: "*/30 * * * * *"
+    class: "ScheduleWorker"
+    queue: "default"
+
+development:
+  schedule_worker:
+    cron: "*/30 * * * * *"
+    class: "ScheduleWorker"
+    queue: "default"
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

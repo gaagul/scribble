@@ -119,7 +119,7 @@ const ScheduleList = ({ articleId }) => {
             <Typography>Date & Time</Typography>
             <DatePicker
               showTime
-              disabledDate={current => current && current < new Date()}
+              disabledDate={current => current < new Date()}
               getPopupContainer={triggerNode => triggerNode.parentNode}
               value={schedule}
               onChange={setSchedule}
