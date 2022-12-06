@@ -110,11 +110,6 @@ const ScheduleList = ({ articleId }) => {
           <Typography style="h3">Schedule</Typography>
         </Pane.Header>
         <Pane.Body className="flex flex-col space-y-6">
-          <Callout className="w-full">
-            <Typography style="body3">
-              Only selected hour will be considered for scheduling
-            </Typography>
-          </Callout>
           <div className="w-full">
             <Typography>Date & Time</Typography>
             <DatePicker
@@ -128,12 +123,14 @@ const ScheduleList = ({ articleId }) => {
         </Pane.Body>
         <Pane.Footer className="flex space-x-4">
           <Button
+            disabled={schedules.at(-1).new_status === "Published"}
             icon={Clock}
             label="Publish Later"
             size="large"
             onClick={() => handleSchedule("Published")}
           />
           <Button
+            disabled={schedules.at(-1).new_status === "Draft"}
             icon={Clock}
             label="Unpublish Later"
             size="large"
