@@ -24,6 +24,7 @@ class Article < ApplicationRecord
 
   after_update :reset_position
   before_save :set_slug
+  before_save :destroy_schedule
 
   has_paper_trail ignore: [:position]
   paginates_per MAX_ARTICLES_COUNT
@@ -58,5 +59,10 @@ class Article < ApplicationRecord
 
     def reset_position
       self.position = self.category.articles.count + 1 if self.category_id_changed?
+    end
+
+    def destroy_schedule
+      first_schedule = self.schedules.order(:scheduled_at).first
+      first_schedule.destroy if self.status_changed? && first_schedule.new_status == self.status
     end
 end

@@ -14,3 +14,9 @@ en:
   redirection:
     creates_loop: "Redirection creates a loop, Hence rejected!"
     same_path: "TO and FROM paths must be different."
+  schedule:
+    invalid_time: "Invalid time, please try again."
+    already_exists: "Schedule already exists for this article. Try changing the date or time."
+    invalid: "Invalid schedule"
+    same_status: "Status must be different from schedule %{entity}"
+    same_state: "Initial schedule status must be different from current status of Article"
