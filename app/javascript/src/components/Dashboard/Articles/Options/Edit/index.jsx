@@ -74,7 +74,7 @@ const Edit = () => {
         <div className="flex h-full max-h-screen w-full justify-between">
           <div className="h-full w-8/12">
             <Form isEdit article={article} />
-            <ScheduleList articleId={article.id} />
+            <ScheduleList article={article} />
           </div>
           <VersionList
             article={article}

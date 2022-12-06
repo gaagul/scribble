@@ -17,7 +17,7 @@ import schedulesApi from "apis/schedules";
 
 import { buildColumnData } from "./utils";
 
-const ScheduleList = ({ articleId }) => {
+const ScheduleList = ({ article }) => {
   const [loading, setLoading] = useState(true);
   const [isPaneOpen, setIsPaneOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -31,7 +31,7 @@ const ScheduleList = ({ articleId }) => {
     try {
       const {
         data: { schedules },
-      } = await schedulesApi.list(articleId);
+      } = await schedulesApi.list(article.id);
       setSchedules(schedules);
       setLoading(false);
     } catch (error) {
@@ -43,7 +43,7 @@ const ScheduleList = ({ articleId }) => {
     try {
       setLoading(true);
       await schedulesApi.create({
-        article_id: articleId,
+        article_id: article.id,
         new_status: newStatus,
         scheduled_at: schedule,
       });
@@ -56,11 +56,11 @@ const ScheduleList = ({ articleId }) => {
     }
   };
 
-  const handleDelete = async ({ articleId, scheduleId }) => {
+  const handleDelete = async ({ article, scheduleId }) => {
     try {
       setLoading(true);
       await schedulesApi.destroy({
-        article_id: articleId,
+        article_id: article.id,
         schedule_id: scheduleId,
       });
       await fetchSchedules();
@@ -123,17 +123,24 @@ const ScheduleList = ({ articleId }) => {
         </Pane.Body>
         <Pane.Footer className="flex space-x-4">
           <Button
-            disabled={schedules.at(-1).new_status === "Published"}
             icon={Clock}
             label="Publish Later"
             size="large"
+            disabled={
+              (schedules.at(-1) &&
+                schedules.at(-1).new_status === "Published") ||
+              (isEmpty(schedules) && article.status === "Published")
+            }
             onClick={() => handleSchedule("Published")}
           />
           <Button
-            disabled={schedules.at(-1).new_status === "Draft"}
             icon={Clock}
             label="Unpublish Later"
             size="large"
+            disabled={
+              (schedules.at(-1) && schedules.at(-1).new_status === "Draft") ||
+              (isEmpty(schedules) && article.status === "Draft")
+            }
             onClick={() => handleSchedule("Draft")}
           />
         </Pane.Footer>
@@ -148,7 +155,7 @@ const ScheduleList = ({ articleId }) => {
         onClose={() => setIsAlertOpen(false)}
         onSubmit={() => {
           handleDelete({
-            articleId,
+            article,
             scheduleId: selectedSchedule.id,
           });
           setIsAlertOpen(false);
