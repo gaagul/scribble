@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_30_091206) do
+ActiveRecord::Schema.define(version: 2022_12_01_061446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,15 @@ ActiveRecord::Schema.define(version: 2022_11_30_091206) do
     t.index ["organization_id"], name: "index_redirections_on_organization_id"
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.integer "new_status", null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_id"], name: "index_schedules_on_article_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -92,6 +101,7 @@ ActiveRecord::Schema.define(version: 2022_11_30_091206) do
   add_foreign_key "articles", "users"
   add_foreign_key "categories", "organizations"
   add_foreign_key "redirections", "organizations"
+  add_foreign_key "schedules", "articles"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "articles"
 end

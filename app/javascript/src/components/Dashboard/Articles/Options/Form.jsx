@@ -65,7 +65,7 @@ const Form = ({ article, isEdit }) => {
   }
 
   return (
-    <div className="mt-10 h-full w-full">
+    <div className="mt-10 w-full">
       <Formik
         validateOnBlur={submitted}
         validateOnChange={submitted}

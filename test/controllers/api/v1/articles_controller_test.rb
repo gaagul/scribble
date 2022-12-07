@@ -16,9 +16,9 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     total_articles_count = @category.articles.count
     response_json = parse_body
     assert_equal total_articles_count, response_json["articles"].length
-   end
+  end
 
-  def test_should_create_valid_category
+  def test_should_create_valid_article
     post api_v1_articles_path,
       params: { article: { title: "Test", status: "Published", category_id: @category.id } },
       headers: headers
@@ -27,7 +27,7 @@ class Api::V1::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal t("successfully_created", entity: "Article"), response_json["notice"]
   end
 
-  def test_should_destroy_redirection
+  def test_should_destroy_article
     assert_difference "Article.count", -1 do
       delete api_v1_article_path(@article.id), headers: headers
     end

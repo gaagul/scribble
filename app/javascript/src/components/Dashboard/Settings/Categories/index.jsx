@@ -75,8 +75,8 @@ const Categories = () => {
 
   return (
     <div className="flex w-full">
-      <div className="w-4/12 space-y-8 px-4 pt-8">
-        <div className="flex justify-between space-x-1">
+      <div className="max-h-screen w-4/12 space-y-8 overflow-scroll">
+        <div className="sticky top-0 z-10 flex justify-between space-x-1 bg-white px-4 pt-8 pb-4">
           <Typography style="h2">Manage Categories</Typography>
           <Button
             icon={Plus}
@@ -84,14 +84,6 @@ const Categories = () => {
             onClick={() => setIsPaneOpen(true)}
           />
         </div>
-        <Pane
-          categoryToEdit={categoryToEdit}
-          createCategory={createCategory}
-          isPaneOpen={isPaneOpen}
-          setCategoryToEdit={setCategoryToEdit}
-          setIsPaneOpen={setIsPaneOpen}
-          updateCategory={updateCategory}
-        />
         <List
           categories={categories}
           fetchCategories={fetchCategories}
@@ -101,6 +93,14 @@ const Categories = () => {
           setIsPaneOpen={setIsPaneOpen}
           setLoading={setLoading}
           setSelectedCategory={setSelectedCategory}
+        />
+        <Pane
+          categoryToEdit={categoryToEdit}
+          createCategory={createCategory}
+          isPaneOpen={isPaneOpen}
+          setCategoryToEdit={setCategoryToEdit}
+          setIsPaneOpen={setIsPaneOpen}
+          updateCategory={updateCategory}
         />
         <DeleteModal
           categories={categories}

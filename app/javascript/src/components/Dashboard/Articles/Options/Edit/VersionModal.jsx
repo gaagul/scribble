@@ -70,7 +70,12 @@ const VersionModal = ({
           }
           onClick={handleRestore}
         />
-        <Button className="ml-3" label="Cancel" style="secondary" />
+        <Button
+          className="ml-3"
+          label="Cancel"
+          style="secondary"
+          onClick={handleClose}
+        />
       </Modal.Body>
     </Modal>
   );

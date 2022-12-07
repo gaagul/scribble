@@ -103,7 +103,7 @@ const ArticleList = ({ selectedCategory, categories, refetchCategories }) => {
     <div className="max-h-screen w-8/12 overflow-scroll px-2">
       <Header
         className="sticky top-0 z-10"
-        title="Layouts"
+        title="Manage Articles"
         actionBlock={
           <Tooltip
             content="Select atleast one article before you choose a new category"
