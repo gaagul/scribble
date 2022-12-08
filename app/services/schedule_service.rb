@@ -19,7 +19,7 @@ class ScheduleService
 
     def schedule_articles
       @article_schedules.each do |schedule|
-        ArticleScheduleWorker.perform_async(schedule.as_json)
+        ArticleScheduleWorker.perform_async(schedule.id)
       end
     end
 end
