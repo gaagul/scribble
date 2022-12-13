@@ -8,7 +8,8 @@ const VersionModal = ({
   isModalOpen,
   setIsModalOpen,
   selectedVersion,
-  fetchData,
+  refetchVersions,
+  refetchArticle,
 }) => {
   const handleClose = () => setIsModalOpen(false);
   const handleRestore = async () => {
@@ -27,7 +28,8 @@ const VersionModal = ({
     } catch (error) {
       logger.error(error);
     } finally {
-      fetchData();
+      refetchArticle();
+      refetchVersions();
     }
   };
 

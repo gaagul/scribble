@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PageLoader } from "neetoui";
 import { either, isEmpty, isNil } from "ramda";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -15,6 +16,8 @@ import { getFromLocalStorage } from "utils/storage";
 
 import Login from "./components/Authentication/Login";
 import Eui from "./components/Eui";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -51,23 +54,25 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <ToastContainer />
-      <Switch>
-        <Route exact component={Login} path="/login" />
-        {isPasswordEnabled ? (
-          <PrivateRoute
-            component={Eui}
-            condition={isLoggedIn}
-            path="/public"
-            redirectRoute="/login"
-          />
-        ) : (
-          <Route component={Eui} path="/public" />
-        )}
-        <Route component={Dashboard} path="/" />
-      </Switch>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <ToastContainer />
+        <Switch>
+          <Route exact component={Login} path="/login" />
+          {isPasswordEnabled ? (
+            <PrivateRoute
+              component={Eui}
+              condition={isLoggedIn}
+              path="/public"
+              redirectRoute="/login"
+            />
+          ) : (
+            <Route component={Eui} path="/public" />
+          )}
+          <Route component={Dashboard} path="/" />
+        </Switch>
+      </Router>
+    </QueryClientProvider>
   );
 };
 

@@ -8,7 +8,7 @@ class Category < ApplicationRecord
 
   belongs_to :organization
 
-  has_many :articles, dependent: :delete_all
+  has_many :articles
 
   validates :title, presence: true, uniqueness: true, length: { maximum: MAX_TITLE_LENGTH },
     format: { with: CATEGORY_TITLE_REGEX }

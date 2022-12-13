@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+import { useQueries } from "@tanstack/react-query";
 import { PageLoader } from "neetoui";
 import { isNil, isEmpty, either } from "ramda";
 import { useHistory, useParams } from "react-router-dom";
@@ -16,51 +17,35 @@ import Form from "../Form";
 const Edit = () => {
   const [article, setArticle] = useState({});
   const [versions, setVersions] = useState({});
-  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState({});
 
   const { id } = useParams();
   const history = useHistory();
 
-  const fetchArticle = async () => {
-    try {
-      const {
-        data: { article },
-      } = await articlesApi.show(id);
-      setArticle(article);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+  const onError = error => logger.error(error);
 
-  const fetchArticleVersions = async () => {
-    try {
-      const {
-        data: { versions },
-      } = await versionsApi.list(id);
-      setVersions(versions);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+  const [
+    { isFetching: articlesFetching, refetch: refetchArticle },
+    { isFetching: versionsFetching, refetch: refetchVersions },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ["article"],
+        queryFn: () => articlesApi.show(id),
+        onSuccess: ({ data: { article } }) => setArticle(article),
+        onError,
+      },
+      {
+        queryKey: ["versions"],
+        queryFn: () => versionsApi.list(id),
+        onSuccess: ({ data: { versions } }) => setVersions(versions),
+        onError,
+      },
+    ],
+  });
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      await Promise.all([fetchArticle(), fetchArticleVersions()]);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (loading) {
+  if (articlesFetching || versionsFetching) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />
@@ -83,8 +68,9 @@ const Edit = () => {
             versions={versions}
           />
           <VersionModal
-            fetchData={fetchData}
             isModalOpen={isModalOpen}
+            refetchArticle={refetchArticle}
+            refetchVersions={refetchVersions}
             selectedVersion={selectedVersion}
             setIsModalOpen={setIsModalOpen}
           />

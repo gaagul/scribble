@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { Typography, Input, PageLoader, Button } from "@bigbinary/neetoui";
+import { useQuery } from "@tanstack/react-query";
 import { Check, Close, Plus } from "neetoicons";
+import { Typography, Input, PageLoader, Button } from "neetoui";
 
 import redirectionsApi from "apis/redirections";
 
@@ -9,27 +10,22 @@ import Table from "./Table";
 
 const Redirections = () => {
   const [redirections, setRedirections] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [newRedirection, setNewRedirection] = useState({ from: "", to: "" });
 
-  const fetchRedirections = async () => {
-    try {
-      const {
-        data: { redirections },
-      } = await redirectionsApi.list();
+  const { isLoading, refetch: refetchRedirections } = useQuery({
+    queryKey: ["redirections"],
+    queryFn: () => redirectionsApi.list(),
+    onSuccess: ({ data: { redirections } }) => {
       setRedirections(redirections);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    onError: error => logger.error(error),
+  });
 
   const createRedirection = async () => {
     try {
       await redirectionsApi.create(newRedirection);
-      fetchRedirections();
+      refetchRedirections();
     } catch (error) {
       logger.error(error);
     } finally {
@@ -60,11 +56,7 @@ const Redirections = () => {
     setNewRedirection({ from: "", to: "" });
   };
 
-  useEffect(() => {
-    fetchRedirections();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />
@@ -82,7 +74,7 @@ const Redirections = () => {
       </Typography>
       <div className="bg-blue-200 p-3">
         <Table
-          fetchRedirections={fetchRedirections}
+          fetchRedirections={refetchRedirections}
           redirections={redirections}
         />
         {adding && (

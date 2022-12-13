@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   belongs_to :organization
 
-  has_many :articles, dependent: :delete_all
+  has_many :articles, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }
 end

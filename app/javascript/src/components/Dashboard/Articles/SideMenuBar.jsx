@@ -27,7 +27,7 @@ const SideMenuBar = ({
   const createCategory = async () => {
     try {
       await categoriesApi.create({ title: newCategoryTitle });
-      await fetchCategories();
+      fetchCategories();
     } catch (error) {
       logger.error(error);
     } finally {
