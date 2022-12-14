@@ -20,12 +20,8 @@ const Form = ({ article, isEdit }) => {
   const { isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: () => categoriesApi.list(),
-    onSuccess: ({ data: { categories } }) => {
-      setCategories(categories);
-    },
-    onError: error => {
-      logger.error(error);
-    },
+    onSuccess: ({ data: { categories } }) => setCategories(categories),
+    onError: error => logger.error(error),
   });
 
   const handleSubmit = async values => {
