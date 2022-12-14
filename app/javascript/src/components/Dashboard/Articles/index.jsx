@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import { PageLoader, Typography, Button } from "neetoui";
 import { Container, SubHeader } from "neetoui/layouts";
-import { isNil, isEmpty, either } from "ramda";
+import { isNil, isEmpty, either, all } from "ramda";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -14,7 +15,6 @@ import Table from "./Table";
 const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [activeCategoryIds, setActiveCategoryIds] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
   const [searchTitle, setSearchTitle] = useState("");
@@ -30,17 +30,32 @@ const Articles = () => {
     action: true,
   });
 
-  const fetchArticles = async () => {
-    try {
-      const {
-        data: { articles },
-      } = await articlesApi.tableList({
+  const { isLoading: categoriesLoading, refetch: refetchCategories } = useQuery(
+    {
+      queryKey: ["categories", categorySearchTerm],
+      queryFn: () => categoriesApi.list(categorySearchTerm),
+      onSuccess: ({ data: { categories } }) => setCategories(categories),
+      onError: error => logger.error(error),
+    }
+  );
+
+  const { isLoading: articlesLoading, refetch: refetchArticles } = useQuery({
+    queryKey: [
+      "articles",
+      currentPage,
+      activeCategoryIds,
+      activeStatus,
+      searchTitle,
+    ],
+    queryFn: () =>
+      articlesApi.tableList({
         activeCategoryIds,
         activeStatus,
         searchTitle,
         currentPage,
-      });
-
+      }),
+    onSuccess: ({ data: { articles } }) => {
+      setArticles(articles.all);
       setCount({
         draftCount: articles.draft_count,
         publishedCount: articles.published_count,
@@ -48,53 +63,24 @@ const Articles = () => {
         totalArticlesCount: articles.total_count,
         pageSize: articles.page_size,
       });
-      setArticles(articles.all);
-      setLoading(false);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await categoriesApi.list(categorySearchTerm);
-      setCategories(categories);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  const fetchArticlesAndCategories = async () => {
-    try {
-      setLoading(true);
-      await Promise.all([fetchArticles(), fetchCategories()]);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    onError: error => logger.error(error),
+  });
 
   const destroyArticle = async slug => {
     try {
       await articlesApi.destroy(slug);
-      fetchArticlesAndCategories();
+      refetchArticles();
+      refetchCategories();
     } catch (error) {
       logger.error(error);
     }
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, [categorySearchTerm]);
-
-  useEffect(() => {
-    fetchArticles();
-  }, [activeCategoryIds, activeStatus, searchTitle, currentPage]);
-
-  if (loading) {
+  if (
+    all(either(isNil, isEmpty), [articles, categories]) &&
+    (articlesLoading || categoriesLoading)
+  ) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />
@@ -110,7 +96,7 @@ const Articles = () => {
         categories={categories}
         categorySearchTerm={categorySearchTerm}
         count={count}
-        fetchCategories={fetchCategories}
+        fetchCategories={refetchCategories}
         setActiveCategoryIds={setActiveCategoryIds}
         setActiveStatus={setActiveStatus}
         setCategorySearchTerm={setCategorySearchTerm}

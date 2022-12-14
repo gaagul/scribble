@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import { Formik, Form as FormikForm } from "formik";
 import { PageLoader, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
@@ -11,52 +12,45 @@ import categoriesApi from "apis/categories";
 import { ARTICLE_FORM_VALIDATION_SCHEMA } from "./constants";
 
 const Form = ({ article, isEdit }) => {
-  const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const history = useHistory();
 
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await categoriesApi.list();
-      setCategories(categories);
-      setLoading(false);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const { isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => categoriesApi.list(),
+    onSuccess: ({ data: { categories } }) => setCategories(categories),
+    onError: error => logger.error(error),
+  });
 
   const handleSubmit = async values => {
     try {
-      isEdit
-        ? await articlesApi.update({
-            id: article.id,
-            payload: {
-              title: values.title,
-              body: values.body,
-              category_id: values.category.value,
-              status: values.status.value,
-            },
-          })
-        : await articlesApi.create({
+      if (isEdit) {
+        await articlesApi.update({
+          id: article.id,
+          payload: {
             title: values.title,
             body: values.body,
             category_id: values.category.value,
             status: values.status.value,
-          });
+          },
+        });
+      } else {
+        await articlesApi.create({
+          title: values.title,
+          body: values.body,
+          category_id: values.category.value,
+          status: values.status.value,
+        });
+      }
       history.push("/");
     } catch (err) {
       logger.error(err);
     }
   };
-  if (loading) {
+
+  if (isLoading) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />

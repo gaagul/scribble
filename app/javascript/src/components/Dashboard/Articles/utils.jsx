@@ -2,13 +2,16 @@ import React from "react";
 
 import { Delete, Edit } from "neetoicons";
 import { Button, Typography, Tooltip } from "neetoui";
+import { filter } from "ramda";
+
+const isVisible = column => column.visibility;
 
 export const buildColumnData = (
   setSelectedArticle,
   columnVisibility,
   setIsAlertOpen
 ) =>
-  [
+  filter(isVisible, [
     {
       title: "TITLE",
       dataIndex: "title",
@@ -86,7 +89,7 @@ export const buildColumnData = (
         </div>
       ),
     },
-  ].filter(item => item.visibility);
+  ]);
 
 export const filterCategories = (selectedCategories, newCategory) => {
   const index = selectedCategories.indexOf(newCategory);

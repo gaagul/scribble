@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import { Clock } from "neetoicons";
 import {
   Callout,
@@ -18,7 +19,6 @@ import schedulesApi from "apis/schedules";
 import { buildColumnData } from "./utils";
 
 const ScheduleList = ({ article }) => {
-  const [loading, setLoading] = useState(true);
   const [isPaneOpen, setIsPaneOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState({});
@@ -27,55 +27,41 @@ const ScheduleList = ({ article }) => {
     { id: 1, new_status: "Publish", scheduled_at: "today" },
   ]);
 
-  const fetchSchedules = async () => {
-    try {
-      const {
-        data: { schedules },
-      } = await schedulesApi.list(article.id);
-      setSchedules(schedules);
-      setLoading(false);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+  const { isFetching, refetch: refetchSchedules } = useQuery({
+    queryKey: ["schedules", article.id],
+    queryFn: () => schedulesApi.list(article.id),
+    onSuccess: ({ data: { schedules } }) => setSchedules(schedules),
+    onError: error => logger.error(error),
+  });
 
   const handleSchedule = async newStatus => {
     try {
-      setLoading(true);
       await schedulesApi.create({
         article_id: article.id,
         new_status: newStatus,
         scheduled_at: schedule,
       });
-      await fetchSchedules();
+      refetchSchedules();
     } catch (error) {
       logger.error(error);
     } finally {
       setIsPaneOpen(false);
-      setLoading(false);
     }
   };
 
   const handleDelete = async ({ article, scheduleId }) => {
     try {
-      setLoading(true);
       await schedulesApi.destroy({
         article_id: article.id,
         schedule_id: scheduleId,
       });
-      await fetchSchedules();
+      refetchSchedules();
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-full w-full">
         <PageLoader />

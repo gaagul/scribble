@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import { PageLoader, Typography, Label, Tag } from "neetoui";
 import { Container } from "neetoui/layouts";
 import { isNil, isEmpty, either } from "ramda";
@@ -8,31 +9,23 @@ import { useParams } from "react-router-dom";
 import euiApi from "apis/eui";
 
 const Article = ({ setCategoryId, setSelectedTitle }) => {
-  const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
 
   const { slug } = useParams();
 
-  const fetchArticle = async () => {
-    try {
-      const {
-        data: { article },
-      } = await euiApi.show(slug);
+  const { isFetching } = useQuery({
+    queryKey: ["article", slug],
+    queryFn: () => euiApi.show(slug),
+    onSuccess: ({ data: { article } }) => {
       setArticle(article);
       setSelectedTitle(article.title);
       setCategoryId(article.category_id);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    onError: error => logger.error(error),
+    staleTime: Infinity,
+  });
 
-  useMemo(() => {
-    fetchArticle();
-  }, [slug]);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />

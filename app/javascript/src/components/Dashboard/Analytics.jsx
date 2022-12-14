@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import { PageLoader, Table, Pagination } from "neetoui";
 import { isEmpty, isNil, either } from "ramda";
 
@@ -9,31 +10,23 @@ import { buildColumnData, expandableRender } from "./utils";
 
 const Analytics = () => {
   const [analytics, setAnalytics] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginationProps, setPaginationProps] = useState({});
 
-  const fetchAnalytics = async () => {
-    try {
-      const {
-        data: { analytics },
-      } = await articlesApi.analytics(currentPage);
+  const { isLoading } = useQuery({
+    queryKey: ["analytics", currentPage],
+    queryFn: () => articlesApi.analytics(currentPage),
+    onSuccess: ({ data: { analytics } }) => {
       setAnalytics(analytics.visits);
       setPaginationProps({
         count: analytics.count,
         pageSize: analytics.page_size,
       });
-      setLoading(false);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+    },
+    onError: error => logger.error(error),
+  });
 
-  useEffect(() => {
-    fetchAnalytics();
-  }, [currentPage]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import { Typography, Accordion, PageLoader } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 import { either, isEmpty, isNil } from "ramda";
@@ -11,34 +12,26 @@ import Article from "./Article";
 
 const Preview = ({ history }) => {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [categoryId, setCategoryId] = useState(0);
 
   const { slug } = useParams();
 
-  const fetchCategories = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { categories },
-      } = await euiApi.listCategories();
+  const { isFetching } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => euiApi.listCategories(),
+    onSuccess: ({ data: { categories } }) => {
       setCategories(categories);
       setCategoryId(categories[0].id);
       if (either(isNil, isEmpty)(slug) && !either(isNil, isEmpty)(categories)) {
         history.push(`public/${categories[0].articles[0].slug}`);
       }
-      setLoading(false);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+    },
+    onError: error => logger.error(error),
+    staleTime: Infinity,
+  });
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="h-screen w-screen">
         <PageLoader />
