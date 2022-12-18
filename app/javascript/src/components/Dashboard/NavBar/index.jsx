@@ -1,7 +1,7 @@
 import React from "react";
 
-import { ExternalLink } from "@bigbinary/neeto-icons";
-import { Button } from "@bigbinary/neetoui";
+import { ExternalLink } from "neetoicons";
+import { Button } from "neetoui";
 import { Link } from "react-router-dom";
 
 import NavItem from "./NavItem";
@@ -21,6 +21,7 @@ const NavBar = () => (
             <NavItem name="Articles" path="/articles" />
             <NavItem name="Settings" path="/settings" />
             <NavItem name="Analytics" path="/analytics" />
+            <NavItem name="Download Report" path="/articles/report" />
           </div>
         </div>
         <div className="flex items-center justify-end">

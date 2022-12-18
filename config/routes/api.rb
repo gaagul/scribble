@@ -7,6 +7,9 @@ namespace :api, defaults: { format: :json } do
       resources :versions, only: :index, controller: :article_versions
       resources :schedules, only: %i[index create destroy]
       collection do
+        resource :report, only: %i[create], module: :articles do
+          get :download, on: :collection
+        end
         get :analytics
         get :table_list
         post :bulk_update

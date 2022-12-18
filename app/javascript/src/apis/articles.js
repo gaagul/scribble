@@ -51,6 +51,11 @@ const analytics = currentPage =>
     },
   });
 
+const generatePdf = () => axios.post("api/v1/articles/report", {});
+
+const download = () =>
+  axios.get("api/v1/articles/report/download", { responseType: "blob" });
+
 const articlesApi = {
   list,
   show,
@@ -60,6 +65,8 @@ const articlesApi = {
   analytics,
   tableList,
   bulkUpdate,
+  generatePdf,
+  download,
 };
 
 export default articlesApi;
