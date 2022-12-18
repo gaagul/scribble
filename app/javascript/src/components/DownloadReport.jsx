@@ -28,7 +28,7 @@ const DownloadReport = () => {
     setIsLoading(true);
     try {
       const { data } = await articlesApi.download();
-      FileSaver.saveAs(data, "granite_task_report.pdf");
+      FileSaver.saveAs(data, "scribble_articles_report.pdf");
     } catch (error) {
       logger.error(error);
     } finally {
