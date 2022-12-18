@@ -1,13 +1,16 @@
+import { getFromLocalStorage } from "utils/storage";
+
 export const subscribeToReportDownloadChannel = ({
   consumer,
   setMessage,
   setProgress,
   generatePdf,
 }) => {
+  const userId = getFromLocalStorage("authUser");
   const reportDownloadSubscription = consumer.subscriptions.create(
     {
       channel: "ReportDownloadChannel",
-      pubsub_token: 1,
+      pubsub_token: userId,
     },
     {
       connected() {
