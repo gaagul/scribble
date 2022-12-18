@@ -1,0 +1,23 @@
+<div class="mb-4 font-bold">ARTICLES REPORT</div>
+<div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
+  <table class="table">
+    <thead>
+        <tr>
+            <th>TITLE</th>
+            <th>CATEGORY</th>
+            <th>UPDATED AT</th>
+            <th>VISITS</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @articles.each do |article| %>
+        <tr>
+            <td><%= article.title %></td>
+            <td><%= article.category.title %></td>
+            <td><%= article.updated_at.in_time_zone("Mumbai").strftime("%B %d, %Y") %></td>
+            <td><%= article.visits_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

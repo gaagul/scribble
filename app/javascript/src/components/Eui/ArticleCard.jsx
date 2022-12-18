@@ -39,7 +39,7 @@ const ArticleCard = ({
         className={`relative m-2 flex rounded-xl border-2 border-solid border-gray-300 p-2 hover:bg-indigo-400 hover:text-white ${
           focus === index && "bg-indigo-700 text-white"
         }`}
-        onKeyPress={handleSelect}
+        onKeyDown={handleSelect}
         onClick={() => {
           history.push(`/public/${article.slug}`);
           handleClose();

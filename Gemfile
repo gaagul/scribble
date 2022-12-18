@@ -30,6 +30,14 @@ gem "jbuilder", "~> 2.7"
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 gem "bcrypt", "~> 3.1.7"
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
+# Required by Active Storage to use the GCS
+gem "google-cloud-storage"
+# To load the environment variables
+gem "dotenv-rails"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

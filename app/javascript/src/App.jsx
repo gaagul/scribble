@@ -11,6 +11,7 @@ import organizationsApi from "apis/organizations";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
+import DownloadReport from "components/DownloadReport";
 import "lib/dayjs";
 import { getFromLocalStorage } from "utils/storage";
 
@@ -69,6 +70,7 @@ const App = () => {
           ) : (
             <Route component={Eui} path="/public" />
           )}
+          <Route component={DownloadReport} path="/articles/report" />;
           <Route component={Dashboard} path="/" />
         </Switch>
       </Router>

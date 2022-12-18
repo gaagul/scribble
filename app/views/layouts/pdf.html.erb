@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <style>
+    .table {
+      border: solid 1px #DDEEEE;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    .table thead th {
+      background-color: #DDEFEF;
+      border: solid 1px #DDEEEE;
+      color: #336B6B;
+      padding: 10px;
+      text-align: left;
+      text-shadow: 1px 1px 1px #fff;
+    }
+    .table tbody td {
+      border: solid 1px #DDEEEE;
+      color: #333;
+      padding: 10px;
+      text-shadow: 1px 1px 1px #fff;
+    }
+  </style>
+  <body onload="number_pages">
+    <div id="header"></div>
+    <div id="content"><%= yield %></div>
+  </body>
+</html>

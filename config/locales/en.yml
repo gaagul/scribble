@@ -1,4 +1,5 @@
 en:
+  in_progress: "%{action} in Progress"
   session:
     could_not_authenticate: "Could not authenticate with the provided credentials."
     incorrect_credentials: "Incorrect credentials, try again."
@@ -20,3 +21,8 @@ en:
     invalid: "Invalid schedule"
     same_status: "Status must be different from schedule %{entity}"
     same_state: "Initial schedule status must be different from current status of Article"
+  report:
+    render: "Rendering the report"
+    generate: "Generating the PDF report"
+    upload: "Uploading to server"
+    attach: "Attaching the report to the user"
