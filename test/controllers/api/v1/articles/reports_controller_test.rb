@@ -8,12 +8,6 @@
      @user = create(:user, organization: @organization)
    end
 
-   def test_should_successfully_create_report
-     post api_v1_report_path, headers: headers
-     assert_response :success
-     assert @user.report.attached?
-   end
-
    def test_should_be_able_to_download_report
      post api_v1_report_path, headers: headers
      get download_api_v1_report_path, headers: headers
