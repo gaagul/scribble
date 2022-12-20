@@ -3,26 +3,27 @@
   <table class="table">
     <thead>
         <tr>
-            <th>TITLE</th>
-            <th>CATEGORY</th>
-            <th>UPDATED AT</th>
-            <th>VISITS</th>
+          <th>TITLE</th>
+          <th>CATEGORY</th>
+          <th>UPDATED AT</th>
+          <th>VISITS</th>
         </tr>
     </thead>
     <tbody>
       <% @articles.each do |article| %>
         <tr>
-            <td><%= article.title %></td>
-            <td><%= article.category.title %></td>
-            <td><%= article.updated_at.in_time_zone("Mumbai").strftime("%B %d, %Y") %></td>
-            <td><%= article.visits_count %></td>
+          <td><%= article.title %></td>
+          <td><%= article.category.title %></td>
+          <td><%= article.updated_at.in_time_zone("Mumbai").strftime("%B %d, %Y") %></td>
+          <td><%= article.visits_count %></td>
         </tr>
         <% if article.visits_count > 0 %>
           <tr class="w-full">
             <td>
+              <div>DETAILED REPORT OF : <%= article.title %></div>
               <table>
                 <thead>
-                 <tr>
+                  <tr>
                     <th>DATE</th>
                     <th>VISITS</th>
                   </tr>
