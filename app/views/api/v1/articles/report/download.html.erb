@@ -17,6 +17,30 @@
             <td><%= article.updated_at.in_time_zone("Mumbai").strftime("%B %d, %Y") %></td>
             <td><%= article.visits_count %></td>
         </tr>
+        <% if article.visits_count > 0 %>
+          <tr class="w-full">
+            <td>
+              <table>
+                <thead>
+                 <tr>
+                    <th>DATE</th>
+                    <th>VISITS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% article.visits.group_by_day(:created_at, format: "%B %d, %Y").count.each do | date, count | %>
+                  <% unless count.zero? %>
+                    <tr>
+                      <td><%= date %></td>
+                      <td><%= count %></td>
+                    </tr>
+                  <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
