@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import FileSaver from "file-saver";
 import { Button } from "neetoui";
 import { Container } from "neetoui/layouts";
@@ -10,31 +11,26 @@ import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel
 import ProgressBar from "components/Common/ProgressBar";
 
 const DownloadReport = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
 
   const consumer = createConsumer();
 
-  const generatePdf = async () => {
-    try {
-      await articlesApi.generatePdf();
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+  const { refetch: generatePdf } = useQuery({
+    queryKey: "generatePdf",
+    queryFn: () => articlesApi.generatePdf(),
+    enabled: false,
+    onError: error => logger.error(error),
+  });
 
-  const downloadPdf = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await articlesApi.download();
-      FileSaver.saveAs(data, "scribble_articles_report.pdf");
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { isLoading, refetch: downloadPdf } = useQuery({
+    queryKey: "downloadPdf",
+    queryFn: () => articlesApi.download(),
+    onSuccess: ({ data }) =>
+      FileSaver.saveAs(data, "scribble_articles_report.pdf"),
+    enabled: false,
+    onError: error => logger.error(error),
+  });
 
   useEffect(() => {
     subscribeToReportDownloadChannel({
@@ -51,7 +47,6 @@ const DownloadReport = () => {
 
   useEffect(() => {
     if (progress === 100) {
-      setIsLoading(false);
       setMessage("Report is ready to be downloaded");
     }
   }, [progress]);
@@ -61,7 +56,11 @@ const DownloadReport = () => {
       <div className="mx-auto mt-48 w-3/6 space-y-6 rounded-md border-2 p-4 text-center">
         <h1>{message}</h1>
         <ProgressBar progress={progress} />
-        <Button label="Download" loading={isLoading} onClick={downloadPdf} />
+        <Button
+          label="Download"
+          loading={isLoading && progress !== 100}
+          onClick={downloadPdf}
+        />
       </div>
     </Container>
   );
